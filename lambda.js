@@ -42,11 +42,11 @@ const cli = repl.start({
   writer: write
 });
 
-delete cli.commands.break;
-delete cli.commands.clear;
-delete cli.commands.editor;
-delete cli.commands.load;
-delete cli.commands.save;
+//delete cli.commands.break;
+//delete cli.commands.clear;
+//delete cli.commands.editor;
+//delete cli.commands.load;
+//delete cli.commands.save;
 
 cli.defineCommand(
   'version', {
