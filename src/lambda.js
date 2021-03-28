@@ -20,7 +20,10 @@ const answer = (command, context, file, callback) => {
       });
       res.on('end', () => {
         try {
-          callback(null, wellformed.wellformed(JSON.parse(body)));
+          const zobject = JSON.parse(body);
+          const check = wellformed.wellformed( zobject );
+          const result = check.length === 0 ? zobject : check;
+          callback(null, result);
         } catch(e) {
           console.log('Error');
           console.log(e);
@@ -79,27 +82,3 @@ cli.defineCommand(
     }
   }
 );
-
-// TODO: autocomplete
-// TODO: result preview
-
-// TODO: documentation
-
-// TODO: check abstract text capabilities and learn
-
-// TODO: history
-
-// TODO: command line interface, not just interactive
-
-// TODO: labelize
-// TODO: canonicalize
-// TODO: normalize
-// TODO: validate
-
-// TODO: defineCommand language
-// TODO: defineCommand timer
-// TODO: defineCommand parser
-// TODO: defineCommand writer
-// TODO: defineCommand reload labelmap
-// TODO: defineCommand set evaluator
-// TODO: set where to load the data from
