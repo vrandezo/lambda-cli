@@ -1,42 +1,13 @@
 const repl = require('repl');
-const https = require('https');
 const util = require('util');
 
+const answer = require('./answer.js');
 const wellformed = require('./wellformed.js');
 
 const version = 'lambda v0.1';
 
-const answer = (command, context, file, callback) => {
-  const path = '/wiki/ZObject:' + command.trim() + '?action=raw';
-  https.get({
-    hostname: 'notwikilambda.toolforge.org',
-    path: path,
-    headers: { 'User-Agent': 'lambda-cli/0.1' }
-  }, res => {
-    if (res.statusCode == 200) {
-      var body = '';
-      res.on('data', chunk => {
-        body += chunk;
-      });
-      res.on('end', () => {
-        try {
-          const zobject = JSON.parse(body);
-          const check = wellformed.wellformed( zobject );
-          const result = check.length === 0 ? zobject : check;
-          callback(null, result);
-        } catch(e) {
-          console.log('Error');
-          console.log(e);
-          console.log(body);
-          cli.displayPrompt();
-        }
-      });
-    } else {
-      console.log('Error');
-      console.log(`HTTP ${res.statusCode}`);
-      cli.displayPrompt();
-    }
-  });
+const evaluate = (command, context, file, callback) => {
+  answer.answer(command, (result) => { callback(null, result); });
 }
 
 const write = (input) => {
@@ -46,7 +17,7 @@ const write = (input) => {
 console.log(version);
 const cli = repl.start({
   prompt: '> ',
-  eval: answer,
+  eval: evaluate,
   writer: write
 });
 
