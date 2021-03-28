@@ -2,6 +2,10 @@ const repl = require('repl');
 const https = require('https');
 const util = require('util');
 
+const wellformed = require('./wellformed.js');
+
+const version = 'lambda v0.1';
+
 const answer = (command, context, file, callback) => {
   const path = '/wiki/ZObject:' + command.trim() + '?action=raw';
   https.get({
@@ -16,7 +20,7 @@ const answer = (command, context, file, callback) => {
       });
       res.on('end', () => {
         try {
-          callback(null, JSON.parse(body));
+          callback(null, wellformed.wellformed(JSON.parse(body)));
         } catch(e) {
           console.log('Error');
           console.log(e);
@@ -36,6 +40,7 @@ const write = (input) => {
   return util.inspect(input, false, Infinity, true);
 }
 
+console.log(version);
 const cli = repl.start({
   prompt: '> ',
   eval: answer,
@@ -53,7 +58,23 @@ cli.defineCommand(
     help: 'Version number of the lambda CLI',
     action() {
       this.clearBufferedCommand();
-      console.log('lambda v0.1');
+      console.log(version);
+      this.displayPrompt();
+    }
+  }
+);
+
+cli.defineCommand(
+  'wellformed', {
+    help: 'Tests a ZObject for wellformedness',
+    action() {
+      this.clearBufferedCommand();
+      const result = wellformed.wellformed({});
+      if (result.length == 0) {
+        console.log('OK');
+      } else {
+        console.log(result);
+      }
       this.displayPrompt();
     }
   }
