@@ -2,7 +2,6 @@ const repl = require('repl');
 const util = require('util');
 
 const answer = require('./answer.js');
-const wellformed = require('./wellformed.js');
 
 const version = 'lambda v0.1';
 
@@ -33,22 +32,6 @@ cli.defineCommand(
     action() {
       this.clearBufferedCommand();
       console.log(version);
-      this.displayPrompt();
-    }
-  }
-);
-
-cli.defineCommand(
-  'wellformed', {
-    help: 'Tests a ZObject for wellformedness',
-    action() {
-      this.clearBufferedCommand();
-      const result = wellformed.wellformed({});
-      if (result.length == 0) {
-        console.log('OK');
-      } else {
-        console.log(result);
-      }
       this.displayPrompt();
     }
   }

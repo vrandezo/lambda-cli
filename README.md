@@ -4,7 +4,10 @@ A command line interface to Wikifunctions (or any other WikiLambda
 installation).
 
 It currently, given a ZID, loads the ZObject with the given ZID from
-notwikilambda, performs a wellformedness check, and displays the ZObject
+notwikilambda, performs an incomplete wellformedness check, and displays the
+ZObject.
+
+// TODO: read ZObjects from Command line
 
 // TODO: autocomplete
 // TODO: result preview
