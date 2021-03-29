@@ -7,11 +7,11 @@ It currently, given a ZID, loads that ZObject from notwikilambda and displays
 it with all ZIDs and key IDs replaced by English labels.
 
 ## Next TODOs
-- labelize
 - first version of a cache
 - first version of configs
 - first version of interactive and CLI
 - allow entering JSON directly
+- tests
 
 - move the full README to a TODO or README_MVP.md
 

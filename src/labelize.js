@@ -21,15 +21,24 @@ const labelize_id = async (id) => {
   if ( utils.is_zkid(id) ) {
     const zid = utils.zid_from_zkid(id);
     const zobject = await load.load(zid);
-    for (let key of zobject.Z2K2.Z4K2) {
-      if (key.Z3K2 === id) {
-        const label = get_label(key.Z3K3);
-        return (label === null) ? id : label;
+    if ( zobject.Z2K2.Z1K1 === 'Z4' ) {
+      for (let key of zobject.Z2K2.Z4K2) {
+        if (key.Z3K2 === id) {
+          const label = get_label(key.Z3K3);
+          return (label === null) ? id : label;
+        }
       }
     }
-    return zid;
+    if ( zobject.Z2K2.Z1K1 === 'Z8' ) {
+      for (let key of zobject.Z2K2.Z8K1) {
+        if (key.Z17K2 === id) {
+          const label = get_label(key.Z17K3);
+          return (label === null) ? id : label;
+        }
+      }
+    }
   }
-  return zid; // TODO
+  return id;
 }
 
 const labelize_object = async (zobject) => {
