@@ -3,15 +3,22 @@
 A command line interface to Wikifunctions (or any other WikiLambda
 installation).
 
-It currently, given a ZID, loads the ZObject with the given ZID from
-notwikilambda, performs an incomplete wellformedness check, and displays the
-ZObject.
+It currently, given a ZID, loads that ZObject from notwikilambda and displays
+it with all ZIDs and key IDs replaced by English labels.
 
 ## Next TODOs
 - labelize
 - first version of a cache
+- first version of configs
+- first version of interactive and CLI
+- allow entering JSON directly
+
+- move the full README to a TODO or README_MVP.md
+
+then:
 - normalize
 - canonicalize
+- prettyprint
 
 ## TODO: initial plan - all below is unimplemented
 
@@ -148,7 +155,7 @@ as the default value.
 The configuration can be overriden through command line arguments which have
 the same name but are prefixed by a -- e.g.
 
-lambda labelize Z4 --language ja --timer on
+lambda labelize --language ja --timer on Z4
 
 ## TODOs
 - add standard files (LICENSE, CODE OF CONDUCT, etc.)

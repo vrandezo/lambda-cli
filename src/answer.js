@@ -15,11 +15,10 @@ const answer = (command, callback) => {
       res.on('data', chunk => {
         body += chunk;
       });
-      res.on('end', () => {
+      res.on('end', async () => {
         try {
           const zobject = JSON.parse(body);
-          const check = labelize.labelize( zobject );
-          const result = check.length === 0 ? zobject : check;
+          const result = await labelize.labelize( zobject );
           callback(result);
         } catch(e) {
           callback({
