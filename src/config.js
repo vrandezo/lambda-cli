@@ -9,6 +9,7 @@ const cache = () => {
 }
 
 const is_local = () => {
+  return true;
   return false;
 }
 
@@ -17,6 +18,7 @@ const data_host = () => {
 }
 
 const data_path = () => {
+  return "./data/$1.json";
   return "/wiki/ZObject:$1?action=raw";
 }
 
