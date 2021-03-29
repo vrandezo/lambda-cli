@@ -7,6 +7,12 @@ It currently, given a ZID, loads the ZObject with the given ZID from
 notwikilambda, performs an incomplete wellformedness check, and displays the
 ZObject.
 
+## Next TODOs
+- labelize
+- first version of a cache
+- normalize
+- canonicalize
+
 ## TODO: initial plan - all below is unimplemented
 
 lambda is usable as a CLI tool in two ways: either calling it for a specific

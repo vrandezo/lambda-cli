@@ -1,7 +1,7 @@
 'use strict';
 
 const https = require('https');
-const wellformed = require('./wellformed.js');
+const labelize = require('./labelize.js');
 
 const answer = (command, callback) => {
   const path = '/wiki/ZObject:' + command.trim() + '?action=raw';
@@ -18,7 +18,7 @@ const answer = (command, callback) => {
       res.on('end', () => {
         try {
           const zobject = JSON.parse(body);
-          const check = wellformed.wellformed( zobject );
+          const check = labelize.labelize( zobject );
           const result = check.length === 0 ? zobject : check;
           callback(result);
         } catch(e) {
