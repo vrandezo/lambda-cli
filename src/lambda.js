@@ -1,3 +1,5 @@
+'use strict';
+
 const repl = require('repl');
 const util = require('util');
 

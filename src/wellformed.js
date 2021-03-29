@@ -1,3 +1,5 @@
+'use strict';
+
 const wellformed_object = (zobject) => {
   if (zobject.Z1K1 === 'Z2') {
     return [];

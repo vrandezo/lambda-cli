@@ -37,8 +37,8 @@ used in the third example above):
   case, the writer is being omitted.
 - prettyprint (p): return the exact format as used for the data directory in
   the WikiLambda repository
-- evaluate (e): if a literal, nothing. If a function call, the function call
-  is being applied.
+- evaluate (e): if a literal, return the literal. If a function call, the
+  function call is being applied and the result shown.
 - parse JSON (j): assumes the input is JSON and parses it.
 - parse functional syntax (f): assumes functional syntax and parses it.
 - wellformed (w): checks for well-formedness.
