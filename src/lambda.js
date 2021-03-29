@@ -25,18 +25,27 @@ const cli = repl.start({
   writer: write
 });
 
-//delete cli.commands.break;
-//delete cli.commands.clear;
-//delete cli.commands.editor;
-//delete cli.commands.load;
-//delete cli.commands.save;
-
 cli.defineCommand(
   'version', {
     help: 'Version number of the lambda CLI',
     action() {
       this.clearBufferedCommand();
       console.log(version);
+      this.displayPrompt();
+    }
+  }
+);
+
+cli.defineCommand(
+  'language', {
+    help: 'Language to use',
+    action(lang) {
+      this.clearBufferedCommand();
+      if (lang !== '') {
+        config.set_language(lang);
+      }
+      console.log(config.language());
+
       this.displayPrompt();
     }
   }

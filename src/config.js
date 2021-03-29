@@ -13,6 +13,10 @@ const language = () => {
   return config.language;
 }
 
+const set_language = (lang) => {
+  config.language = lang;  // TODO check if this is a language
+}
+
 const cache = () => {
   return config.cache;
 }
@@ -31,6 +35,7 @@ const data_path = () => {
 
 exports.load = load;
 exports.language = language;
+exports.set_language = set_language;
 exports.cache = cache;
 exports.is_local = is_local;
 exports.data_host = data_host;

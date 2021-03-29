@@ -1,5 +1,4 @@
-- first version of a cache
-- first version of configs
+- allow CLI arguments, for language
 - first version of interactive and CLI
 - allow entering JSON directly
 - tests
