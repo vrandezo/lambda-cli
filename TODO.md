@@ -10,7 +10,6 @@ then:
 - prettyprint
 
 furthermore:
-- add standard files (LICENSE, CODE OF CONDUCT, etc.)
 - read ZObjects from Command line
 - autocomplete (for default parser)
 - result preview (for default parser)
