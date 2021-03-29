@@ -1,11 +1,12 @@
 'use strict';
 
+const config = require('./config.js');
 const utils = require('./utils.js');
 const load = require('./load.js');
 
 const get_label = (zobject) => {
   for (let monotext of zobject.Z12K1) {
-    if (monotext.Z11K1 === 'en') {
+    if (monotext.Z11K1 === config.language()) {
       return monotext.Z11K2;
     }
   }

@@ -1,27 +1,35 @@
 "use strict";
 
+const fs = require('fs');
+
+let config = {};
+
+const load = (path) => {
+  config = JSON.parse(fs.readFileSync(path));
+  config.data_index = 'notwikilambda';  // TODO should be the first
+}
+
 const language = () => {
-  return "en";
+  return config.language;
 }
 
 const cache = () => {
-  return "./cache/";
+  return config.cache;
 }
 
 const is_local = () => {
-  return true;
-  return false;
+  return (config.data[config.data_index].host === undefined);
 }
 
 const data_host = () => {
-  return "notwikilambda.toolforge.org";
+  return config.data[config.data_index].host;
 }
 
 const data_path = () => {
-  return "./data/$1.json";
-  return "/wiki/ZObject:$1?action=raw";
+  return config.data[config.data_index].path;
 }
 
+exports.load = load;
 exports.language = language;
 exports.cache = cache;
 exports.is_local = is_local;

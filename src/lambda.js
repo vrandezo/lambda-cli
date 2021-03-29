@@ -4,6 +4,7 @@ const repl = require('repl');
 const util = require('util');
 
 const answer = require('./answer.js');
+const config = require('./config.js');
 
 const version = 'lambda v0.1';
 
@@ -14,6 +15,8 @@ const evaluate = (command, context, file, callback) => {
 const write = (input) => {
   return util.inspect(input, false, Infinity, true);
 }
+
+config.load('./config.json');
 
 console.log(version);
 const cli = repl.start({
