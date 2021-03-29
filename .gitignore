@@ -1,0 +1,58 @@
+# Repository management
+.svn
+
+# git-deploy status file:
+/.deploy
+
+# Editors
+*.kate-swp
+*~
+\#*#
+.#*
+.*.swp
+.project
+cscope.files
+cscope.out
+*.orig
+## NetBeans
+nbproject*
+project.index
+## Sublime
+sublime-*
+sftp-config.json
+## Visual Studio Code
+*.vscode/
+
+# Cache and configs
+/cache
+config.json
+
+# Building & testing
+npm-debug.log
+node_modules/
+/resources/lib/.foreign
+.eslintcache
+
+# Operating systems
+## Mac OS X
+.DS_Store
+## Windows
+Thumbs.db
+
+# Misc
+.buildpath
+.classpath
+.idea
+*.iml
+.metadata*
+.settings
+/favicon.ico
+/static*
+/tags
+/.htaccess
+/.htpasswd
+*.rej
+
+# Docker
+docker-compose.override.yml
+.env

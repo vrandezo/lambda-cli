@@ -1,0 +1,9 @@
+{
+  "language": "en",
+  "cache": "./cache/",
+  "data": {
+    "notwikilambda": "https://notwikilambda.toolforge.org/wiki/ZObject:",
+    "wikifunctions": "https://www.wikifunctions.org/wiki/",
+    "local": "./data/"
+  }
+}
