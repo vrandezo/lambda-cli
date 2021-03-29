@@ -123,8 +123,7 @@ The interactive shell has the following magic features:
 - .label: if a ZID, returns the label, if a label, returns all matching ZIDs
   with their types.
 - .alias: returns all matching ZIDs with their canonical label and their types.
-- .uncache: deletes a specific ZID from cache. Without arguments, deletes all
-  cache.
+- .reload: reloads a specific ZID. Without arguments, deletes all cache.
 - .follow: connects live to the source wiki, i.e. follows the recentchanges and
   subscribes to updates as they happen on wiki.
 
