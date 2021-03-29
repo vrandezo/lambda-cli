@@ -2,13 +2,16 @@
 
 const https = require('https');
 
+const config = require('./config.js');
+
 const cache = {};
 
 const request = (zid) => {
   return new Promise((resolve, reject) => {
+    const path = config.data_path().replace('$1', zid);
     const req = https.request({
-      hostname: 'notwikilambda.toolforge.org',
-      path: '/wiki/ZObject:' + zid + '?action=raw',
+      hostname: config.data_host(),
+      path: path,
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
       res.setEncoding('utf8');

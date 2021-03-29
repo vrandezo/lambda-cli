@@ -2,8 +2,16 @@
   "language": "en",
   "cache": "./cache/",
   "data": {
-    "notwikilambda": "https://notwikilambda.toolforge.org/wiki/ZObject:",
-    "wikifunctions": "https://www.wikifunctions.org/wiki/",
-    "local": "./data/"
+    "notwikilambda": {
+      "host": "notwikilambda.toolforge.org",
+      "path": "/wiki/ZObject:$1?action=raw"
+    },
+    "wikifunctions": {
+      "host": "wikifunctions.org",
+      "path": "/wiki/$1?action=raw"
+    },
+    "local": {
+      "path": "./data/$1.json"
+    }
   }
 }
