@@ -7,8 +7,8 @@ The CLI currently only has an interactive mode which is started using
 
 node src/lambda.js
 
-Then, entering an existing ZID, it loads that ZObject from notwikilambda and
-displays it with all ZIDs and key IDs replaced by the labels.
+Then, entering an existing ZID, it loads that ZObject from notwikilambda, or a
+ZObject can also be given as a literal. That ZObject is then displayed with all ZIDs and key IDs replaced by the labels.
 
 The interactive shell has the following magic features:
 - you can go up and down in a history
