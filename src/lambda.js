@@ -6,6 +6,7 @@ const util = require('util');
 
 const answer = require('./answer.js');
 const config = require('./config.js');
+const labelize = require('./labelize.js');
 
 const version = 'lambda v0.1';
 
@@ -19,11 +20,15 @@ const write = (input) => {
 
 config.load('./config.json');
 
+const help = () => {
+  console.log("Help.");
+}
+
+let command = null;
+let data = null;
+
 const settings = ((argv) => {
   let i = 1;
-
-  let command = null;
-  let data = null;
 
   while (++i < argv.length) {
     const v = argv[i];
@@ -35,39 +40,58 @@ const settings = ((argv) => {
         continue;
       }
     }
-    console.log(argv[i]);
+    if (command === null) {
+      if (v === "labelize" || v === "l") {
+        command = "labelize";
+        continue;
+      }
+      console.log("Unknown command: " + v);
+    }
+    if (data === null) {
+      data = v;
+      continue;
+    }
+    console.log("Unknown parameter: " + argv[i]);
   }
 })(process.argv);
 
-console.log(version);
-const cli = repl.start({
-  prompt: '> ',
-  eval: evaluate,
-  writer: write
-});
-
-cli.defineCommand(
-  'version', {
-    help: 'Version number of the lambda CLI',
-    action() {
-      this.clearBufferedCommand();
-      console.log(version);
-      this.displayPrompt();
-    }
+if (command !== null) {
+  if (command === "labelize") {
+    labelize.labelize(JSON.parse(data)).then(console.log)
   }
-);
+}
 
-cli.defineCommand(
-  'language', {
-    help: 'Language to use',
-    action(lang) {
-      this.clearBufferedCommand();
-      if (lang !== '') {
-        config.set_language(lang);
+if (command === null) {
+  console.log(version);
+  const cli = repl.start({
+    prompt: '> ',
+    eval: evaluate,
+    writer: write
+  });
+
+  cli.defineCommand(
+    'version', {
+      help: 'Version number of the lambda CLI',
+      action() {
+        this.clearBufferedCommand();
+        console.log(version);
+        this.displayPrompt();
       }
-      console.log(config.language());
-
-      this.displayPrompt();
     }
-  }
-);
+  );
+
+  cli.defineCommand(
+    'language', {
+      help: 'Language to use',
+      action(lang) {
+        this.clearBufferedCommand();
+        if (lang !== '') {
+          config.set_language(lang);
+        }
+        console.log(config.language());
+
+        this.displayPrompt();
+      }
+    }
+  );
+}
