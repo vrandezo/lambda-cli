@@ -9,10 +9,10 @@ const cache = {};
 
 const request_web = (zid) => {
   return new Promise((resolve, reject) => {
-    const path = config.data_path().replace('$1', zid);
+    const url = new URL(config.data().replace('$1', zid));
     const req = https.request({
-      hostname: config.data_host(),
-      path: path,
+      hostname: url.host,
+      path: url.pathname + url.search,
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
       res.setEncoding('utf8');

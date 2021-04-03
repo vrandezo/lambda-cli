@@ -22,15 +22,11 @@ const cache = () => {
 }
 
 const is_local = () => {
-  return (config.data[config.data_index].host === undefined);
+  return (config.data[config.data_index].slice(0, 6) !== 'https:');
 }
 
-const data_host = () => {
-  return config.data[config.data_index].host;
-}
-
-const data_path = () => {
-  return config.data[config.data_index].path;
+const data = () => {
+  return config.data[config.data_index];
 }
 
 exports.load = load;
@@ -38,5 +34,4 @@ exports.language = language;
 exports.set_language = set_language;
 exports.cache = cache;
 exports.is_local = is_local;
-exports.data_host = data_host;
-exports.data_path = data_path;
+exports.data = data;
