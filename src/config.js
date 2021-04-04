@@ -1,12 +1,17 @@
 "use strict";
 
 const fs = require('fs');
+const utils = require('./utils.js')
 
 let config = {};
 
 const load = (path) => {
   config = JSON.parse(fs.readFileSync(path));
-  config.data_actually = config.data['notwikilambda'];  // TODO should be first
+  if (utils.is_string(config.data)) {
+    config.data_actually = config.data;
+  } else {
+    config.data_actually = config.data[Object.keys(config.data)[0]];
+  }
 }
 
 const language = () => {

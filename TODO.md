@@ -1,5 +1,4 @@
 next steps:
-- switch to first parameter in the data instead of localhost
 - be able to use the short names for data
 - use and store cache
 - set cache on command and argument
