@@ -7,4 +7,3 @@
     "local": "./data/$1.json"
   }
 }
-}

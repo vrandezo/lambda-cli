@@ -18,7 +18,11 @@ const write = (input) => {
   return util.inspect(input, false, Infinity, true);
 }
 
-config.load('./config.json');
+try {
+  config.load('./config.json');
+} catch (err) {
+  config.load('./config.default.json');
+}
 
 const help = () => {
   console.log("Help.");
