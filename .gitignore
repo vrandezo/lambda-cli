@@ -24,7 +24,7 @@ sftp-config.json
 *.vscode/
 
 # Cache and configs
-/cache
+/cache/*.json
 config.json
 
 # Building & testing

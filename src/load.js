@@ -2,10 +2,13 @@
 
 const fs = require('fs');
 const https = require('https');
+const util = require('util');
 
 const config = require('./config.js');
 
-const cache = {};
+let cache = {};
+
+let cache_loaded = false;
 
 const request_web = (zid) => {
   return new Promise((resolve, reject) => {
@@ -57,7 +60,27 @@ const request_local = (zid) => {
   });
 }
 
+const load_cache = (path) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path + 'cache.json', (err, data) => {
+      cache_loaded = true;
+      if (err) {
+        resolve({});
+      } else {
+        resolve(JSON.parse(data));
+      }
+    })
+  });
+}
+
+const save_cache = (path) => {
+  fs.writeFileSync(path + 'cache.json', JSON.stringify(cache));
+}
+
 const load = async (zid) => {
+  if (!cache_loaded) {
+    cache = await load_cache(config.cache());
+  }
   if (zid in cache) {
     return cache[zid];
   }
@@ -73,3 +96,5 @@ const load = async (zid) => {
 }
 
 exports.load = load;
+exports.load_cache = load_cache;
+exports.save_cache = save_cache;

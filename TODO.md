@@ -1,9 +1,7 @@
 next steps:
-- use and store cache
 - set cache on command and argument
 - delete cache
 - delete cache partially
-- tests
 
 then:
 - normalize
@@ -12,7 +10,10 @@ then:
 
 furthermore:
 - read ZIDs from Command line
+- write a help message for --help
+- allow --config parameter
 - history
+- tests
 - autocomplete (for default parser)
 - result preview (for default parser)
 - check abstracttext capabilities and learn

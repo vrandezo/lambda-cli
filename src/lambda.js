@@ -7,6 +7,7 @@ const util = require('util');
 const answer = require('./answer.js');
 const config = require('./config.js');
 const labelize = require('./labelize.js');
+const load = require('./load.js');
 
 const version = 'lambda v0.1';
 
@@ -77,6 +78,12 @@ if (command === null) {
     prompt: '> ',
     eval: evaluate,
     writer: write
+  });
+
+  cli.on('exit', () => {
+    load.save_cache(config.cache());
+    console.log('Have a mindful day.');
+    process.exit();
   });
 
   cli.defineCommand(
