@@ -4,9 +4,11 @@ This document is the README file that I wish this tool had. It basically
 lists all the capabilities it should feature.
 
 lambda is usable as a CLI tool in two ways: either calling it for a specific
-command or in interactive mode. The command line works in the following way:
+command or in interactive mode.
 
 ## Batch
+
+The command line works in the following way:
 
 lambda <command> <input>
 
@@ -60,8 +62,8 @@ You can also pipe the input in through stdin and pipe the result out
 
 ## Interactive
 
-You can call the interactive mode by starting lambda without a command or data.
-You can still use command line arguments.
+You can call the interactive mode by starting lambda without a command or
+input data. You can still use command line arguments.
 
 The command line interface per default runs:
 - the standard parser. If parsing fails, respective errors are displayed and we
