@@ -6,7 +6,7 @@ let config = {};
 
 const load = (path) => {
   config = JSON.parse(fs.readFileSync(path));
-  config.data_index = 'notwikilambda';  // TODO should be the first
+  config.data_actually = config.data['notwikilambda'];  // TODO should be first
 }
 
 const language = () => {
@@ -22,11 +22,15 @@ const cache = () => {
 }
 
 const is_local = () => {
-  return (config.data[config.data_index].slice(0, 6) !== 'https:');
+  return (config.data_actually.slice(0, 6) !== 'https:');
 }
 
 const data = () => {
-  return config.data[config.data_index];
+  return config.data_actually;
+}
+
+const set_data = (data) => {
+  config.data_actually = data;
 }
 
 exports.load = load;
@@ -35,3 +39,4 @@ exports.set_language = set_language;
 exports.cache = cache;
 exports.is_local = is_local;
 exports.data = data;
+exports.set_data = set_data;

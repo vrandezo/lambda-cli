@@ -1,6 +1,10 @@
-- allow CLI arguments, for language
-- first version of interactive and CLI
-- allow entering JSON directly
+next steps:
+- switch to first parameter in the data instead of localhost
+- be able to use the short names for data
+- use and store cache
+- set cache on command and argument
+- delete cache
+- delete cache partially
 - tests
 
 then:
@@ -9,15 +13,11 @@ then:
 - prettyprint
 
 furthermore:
-- read ZObjects from Command line
+- read ZIDs from Command line
+- history
 - autocomplete (for default parser)
 - result preview (for default parser)
 - check abstracttext capabilities and learn
-- history
-- command line interface, not just interactive
-- labelize
-- canonicalize
-- normalize
 - validate
 - checking levels
 -- parses (JSON)
@@ -26,11 +26,10 @@ furthermore:
 -- Linked (all ZIDs exist)
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
-- defineCommand language
 - defineCommand timer
 - defineCommand parser
 - defineCommand writer
 - defineCommand reload labelmap
 - defineCommand set evaluator
-- set where to load the data from
 - what about i18n of the commands?
+- check if FUTURE_README and README align

@@ -41,13 +41,14 @@ const request_web = (zid) => {
 
 const request_local = (zid) => {
   return new Promise((resolve, reject) => {
-    const path = config.data_path().replace('$1', zid);
+    const path = config.data().replace('$1', zid);
     fs.readFile(path, (err, data) => {
       if (err) {
         resolve({
           Z1K1: 'Z5',
           Z5K1: 'Could not load file',
-          Z5K2: path
+          Z5K2: path,
+          Z5K3: err
         });
       } else {
         resolve(JSON.parse(data));

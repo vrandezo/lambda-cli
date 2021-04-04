@@ -52,6 +52,7 @@ The interactive shell has the following magic features:
 - .save: Save all evaluated commands in this REPL session to a file
 - .version: Version number of the lambda CLI
 - .language: show or set the natural language
+- .data: location of the data (might be local or via http)
 
 ## Configuration
 
@@ -67,7 +68,7 @@ as the default value.
 
 The configuration can be overriden through command line arguments which have
 the same name but are prefixed by a --. This currently works for the language
-parameter.
+and the data parameter.
 
 The plans of what this tool should be able to do is described in
 FUTURE_README.md

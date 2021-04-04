@@ -39,6 +39,12 @@ const settings = ((argv) => {
         config.set_language(lang);
         continue;
       }
+      if (v === "--data") {
+        const data = argv[i+1];  // TODO do something in case of error
+        i++;
+        config.set_data(data);
+        continue;
+      }
     }
     if (command === null) {
       if (v === "labelize" || v === "l") {
@@ -89,6 +95,21 @@ if (command === null) {
           config.set_language(lang);
         }
         console.log(config.language());
+
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'data', {
+      help: 'Local directory or web URL to get data from',
+      action(data) {
+        this.clearBufferedCommand();
+        if (data !== '') {
+          config.set_data(data);
+        }
+        console.log(config.data());
 
         this.displayPrompt();
       }
