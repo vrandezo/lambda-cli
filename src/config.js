@@ -9,6 +9,8 @@ const load = (path) => {
   config = JSON.parse(fs.readFileSync(path));
   if (utils.is_string(config.data)) {
     config.data_actually = config.data;
+    config.data = {};
+    config.data.default = config.data_actually;
   } else {
     config.data_actually = config.data[Object.keys(config.data)[0]];
   }
@@ -35,7 +37,11 @@ const data = () => {
 }
 
 const set_data = (data) => {
-  config.data_actually = data;
+  if (Object.keys(config.data).includes(data)) {
+    config.data_actually = config.data[data];
+  } else {
+    config.data_actually = data;
+  }
 }
 
 exports.load = load;

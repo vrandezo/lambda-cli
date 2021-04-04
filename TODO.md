@@ -1,5 +1,4 @@
 next steps:
-- be able to use the short names for data
 - use and store cache
 - set cache on command and argument
 - delete cache
