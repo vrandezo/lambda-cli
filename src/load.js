@@ -60,9 +60,9 @@ const request_local = (zid) => {
   });
 }
 
-const load_cache = (path) => {
+const load_cache = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile(path + 'cache.json', (err, data) => {
+    fs.readFile(config.cache() + 'cache.json', (err, data) => {
       cache_loaded = true;
       if (err) {
         resolve({});
@@ -79,7 +79,7 @@ const save_cache = (path) => {
 
 const load = async (zid) => {
   if (!cache_loaded) {
-    cache = await load_cache(config.cache());
+    cache = await load_cache();
   }
   if (zid in cache) {
     return cache[zid];

@@ -1,5 +1,5 @@
 next steps:
-- set cache on command and argument
+- set cache on command
 - delete cache
 - delete cache partially
 

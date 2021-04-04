@@ -28,6 +28,10 @@ const cache = () => {
   return config.cache;
 }
 
+const set_cache = (path) => {
+  config.cache = path;
+}
+
 const is_local = () => {
   return (config.data_actually.slice(0, 6) !== 'https:');
 }
@@ -48,6 +52,7 @@ exports.load = load;
 exports.language = language;
 exports.set_language = set_language;
 exports.cache = cache;
+exports.set_cache = set_cache;
 exports.is_local = is_local;
 exports.data = data;
 exports.set_data = set_data;

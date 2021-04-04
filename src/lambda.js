@@ -50,6 +50,12 @@ const settings = ((argv) => {
         config.set_data(data);
         continue;
       }
+      if (v === "--cache") {
+        const data = argv[i+1];  // TODO do something in case of error
+        i++;
+        config.set_cache(data);
+        continue;
+      }
     }
     if (command === null) {
       if (v === "labelize" || v === "l") {
