@@ -3,6 +3,12 @@
 const fs = require('fs');
 const utils = require('./utils.js')
 
+const v = 'lambda v0.1';
+
+const version = () => {
+  return v;
+}
+
 let config = {};
 
 const load = (path) => {
@@ -56,3 +62,4 @@ exports.set_cache = set_cache;
 exports.is_local = is_local;
 exports.data = data;
 exports.set_data = set_data;
+exports.version = version;
