@@ -12,7 +12,7 @@ const nl = () => {
 }
 
 const spaces = (x) => {
-  out(' '.repeat(x*2));
+  out('\t'.repeat(x));
 }
 
 const prettyprint_object = (o, indent) => {
