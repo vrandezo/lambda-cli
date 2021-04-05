@@ -28,6 +28,8 @@ used in the third example above):
   case, the writer is being omitted.
 - canonicalize (c): returns the canonicalized version of the input. In this
   case, the writer is being omitted.
+- prettyprint (p): return the exact format as used for the data directory in
+  the WikiLambda repository
 
 The input can be given in the following ways:
 - in JSON: whenever it starts with ", {, or [

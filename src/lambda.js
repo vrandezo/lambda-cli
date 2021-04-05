@@ -10,6 +10,7 @@ const config = require('./config.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 const normalize = require('./normalize.js');
+const prettyprint = require('./prettyprint.js');
 const utils = require('./utils.js');
 
 const version = 'lambda v0.1';
@@ -19,6 +20,7 @@ const evaluate = (command, context, file, callback) => {
 }
 
 const write = (input) => {
+  if (input === null) return '';
   return util.inspect(input, false, Infinity, true);
 }
 
@@ -73,6 +75,10 @@ const settings = ((argv) => {
       }
       if (v === "canonicalize" || v === "c") {
         command = canonicalize.canonicalize_async;
+        continue;
+      }
+      if (v === "prettyprint" || v === "p") {
+        command = prettyprint.prettyprint_async;
         continue;
       }
       console.log("Unknown command: " + v);

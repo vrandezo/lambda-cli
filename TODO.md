@@ -2,14 +2,9 @@ next steps:
 - underscore in the REPL
 - normalize in the REPL
 - canonicalize in the REPL
+- prettyprint in the REPL
 
 then:
-- prettyprint
-
-furthermore:
-- write a help message for --help
-- allow --config parameter
-- validate
 - checking levels
 -- parses (JSON)
 -- Wellformedness (simple wellformedness)
@@ -17,6 +12,12 @@ furthermore:
 -- Linked (all ZIDs exist)
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
+
+furthermore:
+- write a help message for --help
+- allow --config parameter
+- checking levels
+- evaluate
 - defineCommand timer
 - tests
 - autocomplete (for default parser)

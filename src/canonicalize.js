@@ -9,7 +9,7 @@ const canonicalize = (zobject) => {
   if (utils.is_string(zobject)) {
     return zobject;
   }
-  const keys = Object.keys(zobject).sort(utils.sortzkids);
+  const keys = Object.keys(zobject).sort(utils.sort_zkids);
   const result = {};
   for (let key of keys) {
     result[key] = canonicalize(zobject[key]);
