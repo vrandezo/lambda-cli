@@ -147,4 +147,19 @@ if (command === null) {
       }
     }
   );
+
+  cli.defineCommand(
+    'reload', {
+      help: 'deletes a ZID or the whole local cache, if no argument',
+      action(zid) {
+        this.clearBufferedCommand();
+        if (zid !== '') {
+          load.reset(zid);
+        } else {
+          load.reset_all();
+        }
+        this.displayPrompt();
+      }
+    }
+  );
 }

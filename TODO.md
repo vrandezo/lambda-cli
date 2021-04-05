@@ -1,21 +1,15 @@
 next steps:
-- delete cache
-- delete cache partially
+- read ZIDs from Command line
 
 then:
+- history
 - normalize
 - canonicalize
 - prettyprint
 
 furthermore:
-- read ZIDs from Command line
 - write a help message for --help
 - allow --config parameter
-- history
-- tests
-- autocomplete (for default parser)
-- result preview (for default parser)
-- check abstracttext capabilities and learn
 - validate
 - checking levels
 -- parses (JSON)
@@ -25,6 +19,10 @@ furthermore:
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
 - defineCommand timer
+- tests
+- autocomplete (for default parser)
+- result preview (for default parser)
+- check abstracttext capabilities and learn
 - defineCommand parser
 - defineCommand writer
 - defineCommand reload labelmap

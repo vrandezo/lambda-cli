@@ -54,6 +54,7 @@ The interactive shell has the following magic features:
 - .language: show or set the natural language
 - .data: location of the data (might be local or via http)
 - .cache: location of the local directory with the cache
+- .reload: reloads a specific ZID. Without arguments, deletes all cache.
 
 ## Configuration
 

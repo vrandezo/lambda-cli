@@ -95,6 +95,18 @@ const load = async (zid) => {
   }
 }
 
+const reset = (zid) => {
+  if (zid in cache) {
+    delete cache[zid];
+  }
+}
+
+const reset_all = () => {
+  cache = {};
+}
+
 exports.load = load;
 exports.load_cache = load_cache;
 exports.save_cache = save_cache;
+exports.reset = reset;
+exports.reset_all = reset_all;
