@@ -1,8 +1,16 @@
 next steps:
-- underscore in the REPL
-- normalize in the REPL
-- canonicalize in the REPL
+- normalization and canonicalization is buggy, do
+'test'
+.canonicalize
+.canonicalize
+.normalize
+.normalize
+
+then:
+- normalize in the REPL, need with input too, and underscore
+- canonicalize in the REPL, as above
 - prettyprint in the REPL
+- full underscore implementation
 
 then:
 - checking levels

@@ -4,9 +4,13 @@ const https = require('https');
 const repl = require('repl');
 const util = require('util');
 
+const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const load = require('./load.js');
+const normalize = require('./normalize.js');
 const utils = require('./utils.js');
+
+let last = null;
 
 const help = () => {
   console.log("Help.");
@@ -21,6 +25,8 @@ const getZ2K2 = (zobject) => {
 }
 
 const write = (input) => {
+  if (input === null) { return ''; }
+  last = input;
   return util.inspect(input, false, Infinity, true);
 }
 
@@ -31,6 +37,8 @@ const answer = (command, callback) => {
     callback(JSON.parse(data));
   } else if (utils.is_zid(data)) {
     load.load(data).then(getZ2K2).then(callback);
+  } else if (data === '_') {
+    callback(last);
   } else {
     console.log('Did not understand input.');
     callback(data);
@@ -119,6 +127,34 @@ const interactive = () => {
         } else {
           load.reset_all();
         }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'canonicalize', {
+      help: 'returns the canonical version of a ZObject',
+      action(input) {
+        this.clearBufferedCommand();
+        if (input !== '') {
+          console.log('todo');
+        }
+        console.log(write(canonicalize.canonicalize(last)));
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'normalize', {
+      help: 'returns the normal version of a ZObject',
+      action(input) {
+        this.clearBufferedCommand();
+        if (input !== '') {
+          console.log('todo');
+        }
+        console.log(write(normalize.normalize(last)));
         this.displayPrompt();
       }
     }

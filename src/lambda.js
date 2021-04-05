@@ -19,7 +19,7 @@ try {
 }
 
 const write = (input) => {
-  if (input === null) return '';
+  if (input === null) { return ''; }
   return util.inspect(input, false, Infinity, true);
 }
 
