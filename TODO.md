@@ -1,9 +1,8 @@
 next steps:
-- read ZIDs from Command line
-
-then:
 - history
 - normalize
+
+then:
 - canonicalize
 - prettyprint
 

@@ -56,6 +56,8 @@ const settings = ((argv) => {
         config.set_cache(data);
         continue;
       }
+      console.log("Unknown argument: " + v);
+      process.exit(1);
     }
     if (command === null) {
       if (v === "labelize" || v === "l") {
@@ -63,18 +65,28 @@ const settings = ((argv) => {
         continue;
       }
       console.log("Unknown command: " + v);
+      process.exit(1);
     }
     if (data === null) {
       data = v;
       continue;
     }
     console.log("Unknown parameter: " + argv[i]);
+    process.exit(1);
   }
 })(process.argv);
 
 if (command !== null) {
+  if (data === null) {
+    console.log("No input given.");
+    process.exit(1);
+  }
   if (command === "labelize") {
-    labelize.labelize(JSON.parse(data)).then(console.log)
+    if ('{"['.includes(data[0])) {
+      labelize.labelize(JSON.parse(data)).then(write).then(console.log);
+    } else {
+      load.load(data).then(labelize.labelize).then(write).then(console.log);
+    }
   }
 }
 

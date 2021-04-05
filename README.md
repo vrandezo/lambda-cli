@@ -14,6 +14,7 @@ src/lambda.js <command> <input>
 
 Examples:
 
+lambda --language fr l Z6
 lambda labelize '{ "Z1K1": "Z6", "Z6K1": "Hello" }'
 
 The input may need to be escaped from the shell, e.g. if it includes a space or
@@ -26,6 +27,7 @@ used in the third example above):
 
 The input can be given in the following ways:
 - in JSON: whenever it starts with ", {, or [
+- as a ZID, and then it will be loaded from the configured data path
 
 ## Interactive
 
