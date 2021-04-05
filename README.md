@@ -53,6 +53,7 @@ The interactive shell has the following magic features:
 - .version: Version number of the lambda CLI
 - .language: show or set the natural language
 - .data: location of the data (might be local or via http)
+- .cache: location of the local directory with the cache
 
 ## Configuration
 
@@ -67,8 +68,7 @@ from a short name to a value. In case of the latter, the first value is taken
 as the default value.
 
 The configuration can be overriden through command line arguments which have
-the same name but are prefixed by a --. This currently works for the language
-and the data parameter.
+the same name but are prefixed by a --.
 
 The plans of what this tool should be able to do is described in
 FUTURE_README.md

@@ -8,7 +8,7 @@ const config = require('./config.js');
 
 let cache = {};
 
-let cache_loaded = false;
+let cache_loaded = null;
 
 const request_web = (zid) => {
   return new Promise((resolve, reject) => {
@@ -63,7 +63,7 @@ const request_local = (zid) => {
 const load_cache = () => {
   return new Promise((resolve, reject) => {
     fs.readFile(config.cache() + 'cache.json', (err, data) => {
-      cache_loaded = true;
+      cache_loaded = config.cache();
       if (err) {
         resolve({});
       } else {
@@ -78,7 +78,7 @@ const save_cache = (path) => {
 }
 
 const load = async (zid) => {
-  if (!cache_loaded) {
+  if (cache_loaded !== config.cache()) {
     cache = await load_cache();
   }
   if (zid in cache) {

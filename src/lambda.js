@@ -132,4 +132,19 @@ if (command === null) {
       }
     }
   );
+
+  cli.defineCommand(
+    'cache', {
+      help: 'path to the cache',
+      action(cache) {
+        this.clearBufferedCommand();
+        if (cache !== '') {
+          config.set_cache(cache);
+        }
+        console.log(config.cache());
+
+        this.displayPrompt();
+      }
+    }
+  );
 }
