@@ -8,6 +8,7 @@ const answer = require('./answer.js');
 const config = require('./config.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
+const utils = require('./utils.js');
 
 const version = 'lambda v0.1';
 
@@ -30,7 +31,7 @@ const help = () => {
 }
 
 let command = null;
-let data = null;
+let input = null;
 
 const settings = ((argv) => {
   let i = 1;
@@ -51,9 +52,9 @@ const settings = ((argv) => {
         continue;
       }
       if (v === "--cache") {
-        const data = argv[i+1];  // TODO do something in case of error
+        const cache = argv[i+1];  // TODO do something in case of error
         i++;
-        config.set_cache(data);
+        config.set_cache(cache);
         continue;
       }
       console.log("Unknown argument: " + v);
@@ -67,8 +68,8 @@ const settings = ((argv) => {
       console.log("Unknown command: " + v);
       process.exit(1);
     }
-    if (data === null) {
-      data = v;
+    if (input === null) {
+      input = v;
       continue;
     }
     console.log("Unknown parameter: " + argv[i]);
@@ -77,15 +78,18 @@ const settings = ((argv) => {
 })(process.argv);
 
 if (command !== null) {
-  if (data === null) {
+  if (input === null) {
     console.log("No input given.");
     process.exit(1);
   }
   if (command === "labelize") {
-    if ('{"['.includes(data[0])) {
-      labelize.labelize(JSON.parse(data)).then(write).then(console.log);
+    if ('{"['.includes(input[0])) {
+      labelize.labelize(JSON.parse(input)).then(write).then(console.log);
+    } else if (utils.is_zid(input)) {
+      load.load(input).then(labelize.labelize).then(write).then(console.log);
     } else {
-      load.load(data).then(labelize.labelize).then(write).then(console.log);
+      console.log("Input not understood.");
+      process.exit(1);
     }
   }
 }
