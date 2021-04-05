@@ -23,6 +23,10 @@ const write = (input) => {
   return util.inspect(input, false, Infinity, true);
 }
 
+const getZ2K2 = (zobject) => {
+  return zobject.Z2K2;
+}
+
 let command = null;
 let input = null;
 
@@ -90,7 +94,7 @@ if (command !== null) {
   if ('{"['.includes(input[0])) {
     command(JSON.parse(input)).then(write).then(console.log);
   } else if (utils.is_zid(input)) {
-    load.load(input).then(command).then(write).then(console.log);
+    load.load(input).then(getZ2K2).then(command).then(write).then(console.log);
   } else {
     console.log("Input not understood.");
     process.exit(1);
