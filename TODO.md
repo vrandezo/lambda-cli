@@ -1,5 +1,5 @@
 next steps:
-- normalize
+- normalize in the REPL
 
 then:
 - canonicalize

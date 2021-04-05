@@ -24,6 +24,8 @@ The following commands are available (the letter is a one letter shorcut,
 used in the third example above):
 - labelize (l): replace all keys with labels (use language from config or
   the --language parameter).
+- normalize (n): return the fully normalized version of the input. In this
+  case, the writer is being omitted.
 
 The input can be given in the following ways:
 - in JSON: whenever it starts with ", {, or [

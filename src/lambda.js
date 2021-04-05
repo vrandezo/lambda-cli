@@ -8,6 +8,7 @@ const answer = require('./answer.js');
 const config = require('./config.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
+const normalize = require('./normalize.js');
 const utils = require('./utils.js');
 
 const version = 'lambda v0.1';
@@ -62,7 +63,11 @@ const settings = ((argv) => {
     }
     if (command === null) {
       if (v === "labelize" || v === "l") {
-        command = "labelize";
+        command = labelize.labelize;
+        continue;
+      }
+      if (v === "normalize" || v === "n") {
+        command = normalize.normalize_async;
         continue;
       }
       console.log("Unknown command: " + v);
@@ -82,15 +87,13 @@ if (command !== null) {
     console.log("No input given.");
     process.exit(1);
   }
-  if (command === "labelize") {
-    if ('{"['.includes(input[0])) {
-      labelize.labelize(JSON.parse(input)).then(write).then(console.log);
-    } else if (utils.is_zid(input)) {
-      load.load(input).then(labelize.labelize).then(write).then(console.log);
-    } else {
-      console.log("Input not understood.");
-      process.exit(1);
-    }
+  if ('{"['.includes(input[0])) {
+    command(JSON.parse(input)).then(write).then(console.log);
+  } else if (utils.is_zid(input)) {
+    load.load(input).then(command).then(write).then(console.log);
+  } else {
+    console.log("Input not understood.");
+    process.exit(1);
   }
 }
 
