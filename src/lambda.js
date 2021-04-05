@@ -5,6 +5,7 @@ const repl = require('repl');
 const util = require('util');
 
 const answer = require('./answer.js');
+const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
@@ -68,6 +69,10 @@ const settings = ((argv) => {
       }
       if (v === "normalize" || v === "n") {
         command = normalize.normalize_async;
+        continue;
+      }
+      if (v === "canonicalize" || v === "c") {
+        command = canonicalize.canonicalize_async;
         continue;
       }
       console.log("Unknown command: " + v);

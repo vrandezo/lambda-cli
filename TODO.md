@@ -1,8 +1,9 @@
 next steps:
+- underscore in the REPL
 - normalize in the REPL
+- canonicalize in the REPL
 
 then:
-- canonicalize
 - prettyprint
 
 furthermore:

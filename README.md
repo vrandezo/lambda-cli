@@ -15,7 +15,7 @@ src/lambda.js <command> <input>
 Examples:
 
 lambda --language fr l Z6
-lambda labelize '{ "Z1K1": "Z6", "Z6K1": "Hello" }'
+lambda canonicalize '{ "Z1K1": "Z6", "Z6K1": "Hello" }'
 
 The input may need to be escaped from the shell, e.g. if it includes a space or
 quote or other special character.
@@ -25,6 +25,8 @@ used in the third example above):
 - labelize (l): replace all keys with labels (use language from config or
   the --language parameter).
 - normalize (n): return the fully normalized version of the input. In this
+  case, the writer is being omitted.
+- canonicalize (c): returns the canonicalized version of the input. In this
   case, the writer is being omitted.
 
 The input can be given in the following ways:
@@ -41,11 +43,11 @@ The command line interface per default runs the labelizer.
 In the standard setting, you can start typing.
 If you start with a {, " or [, the interactive shell assumes that you are
 entering a JSON file.
-If you type in the label or ZID of an existing ZObject that is not a type or
-function, that object is loaded.
+If you type in the label or ZID of an existing ZObject that object will be
+displayed.
 
 The interactive shell has the following magic features:
-- you can go up and down in a history
+- you can go up and down in a history, also across sessions
 - you can type a . and then use any of the following commands
 - .help: List all commands
 - .break: Sometimes you get stuck, this gets you out
