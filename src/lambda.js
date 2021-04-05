@@ -102,6 +102,8 @@ if (command === null) {
     writer: write
   });
 
+  cli.setupHistory('./.history', () => null);
+
   cli.on('exit', () => {
     load.save_cache(config.cache());
     console.log('Have a mindful day.');

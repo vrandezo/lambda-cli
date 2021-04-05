@@ -1,5 +1,4 @@
 next steps:
-- history
 - normalize
 
 then:

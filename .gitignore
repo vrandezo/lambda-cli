@@ -26,6 +26,7 @@ sftp-config.json
 # Cache and configs
 /cache/*.json
 config.json
+.history
 
 # Building & testing
 npm-debug.log
