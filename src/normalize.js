@@ -25,14 +25,13 @@ const normalize = (zobject) => {
       Z6K1: zobject
     }
   }
+  if ((zobject.Z1K1 === "Z9") || (zobject.Z1K1 === "Z6")) {
+    return zobject;
+  }
   const keys = Object.keys(zobject).sort(utils.sort_zkids);
   const result = {};
   for (let key of keys) {
-    if (["Z6K1", "Z9K1"].includes(key)) {
-      result[key] = zobject[key];
-    } else {
-      result[key] = normalize(zobject[key]);
-    }
+    result[key] = normalize(zobject[key]);
   }
   return result;
 }

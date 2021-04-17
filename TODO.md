@@ -1,10 +1,20 @@
 next steps:
-- normalization and canonicalization is buggy, do
+
+bug:
+- normalization and canonicalization are both buggy, do
+> { "Z1K1": { "Z1K1": "Z9", "Z9K1": "Z6" }, "Z6K1": "test" }
+{ Z1K1: { Z1K1: 'Z9', Z9K1: 'Z6' }, Z6K1: 'test' }
+> .normalize
+{
+  Z1K1: { Z1K1: 'Z9', Z9K1: 'Z6' },
+  Z6K1: { Z1K1: 'Z6', Z6K1: 'test' }
+}
+> .canonicalize
+{ Z1K1: 'Z6', Z6K1: 'test' }
+> .canonicalize
 'test'
-.canonicalize
-.canonicalize
-.normalize
-.normalize
+
+replace canonicalization and normalization with code in function-schemata
 
 then:
 - normalize in the REPL, need with input too, and underscore
@@ -20,12 +30,13 @@ then:
 -- Linked (all ZIDs exist)
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
+- evaluate
 
 furthermore:
 - write a help message for --help
+- rename master to main
+- move repo to gerrit
 - allow --config parameter
-- checking levels
-- evaluate
 - defineCommand timer
 - tests
 - autocomplete (for default parser)
