@@ -6,6 +6,7 @@ const util = require('util');
 
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
+const labelize = require('./labelize.js');
 const load = require('./load.js');
 const normalize = require('./normalize.js');
 const utils = require('./utils.js');
@@ -139,8 +140,9 @@ const interactive = () => {
         this.clearBufferedCommand();
         if (input !== '') {
           console.log('todo');
+        } else {
+          console.log(write(canonicalize.canonicalize(last)));
         }
-        console.log(write(canonicalize.canonicalize(last)));
         this.displayPrompt();
       }
     }
@@ -153,12 +155,28 @@ const interactive = () => {
         this.clearBufferedCommand();
         if (input !== '') {
           console.log('todo');
+        } else {
+          console.log(write(normalize.normalize(last)));
         }
-        console.log(write(normalize.normalize(last)));
         this.displayPrompt();
       }
     }
   );
+
+  cli.defineCommand(
+    'labelize', {
+      help: 'prints a version of the ZObject with ZIDs replaced with labels',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input !== '') {
+          console.log('todo');
+        } else {
+          console.log(write(await labelize.labelize(last)));
+        }
+        this.displayPrompt();
+      }
+    }
+  )
 }
 
 exports.interactive = interactive;
