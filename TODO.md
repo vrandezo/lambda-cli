@@ -17,10 +17,10 @@ bug:
 replace canonicalization and normalization with code in function-schemata
 
 then:
-- labelize in the REPL
+- labelize in the REPL, need with input too and underscore
 - normalize in the REPL, need with input too, and underscore
 - canonicalize in the REPL, as above
-- prettyprint in the REPL
+- prettyprint in the REPL (worry about Z2 envelope)
 - full underscore implementation
 
 then:
@@ -41,6 +41,7 @@ furthermore:
 - defineCommand timer
 - tests
 - autocomplete (for default parser)
+-- needs labelmap or something to get all labels from .data source
 - result preview (for default parser)
 - check abstracttext capabilities and learn
 - defineCommand parser

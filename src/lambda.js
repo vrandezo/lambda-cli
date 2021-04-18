@@ -29,6 +29,7 @@ const getZ2K2 = (zobject) => {
 
 let command = null;
 let input = null;
+let meta = false;
 
 const settings = ((argv) => {
   let i = 1;
@@ -72,6 +73,7 @@ const settings = ((argv) => {
       }
       if (v === "prettyprint" || v === "p") {
         command = prettyprint.prettyprint_async;
+        meta = true;
         continue;
       }
       console.log("Unknown command: " + v);
@@ -94,7 +96,11 @@ if (command !== null) {
   if ('{"['.includes(input[0])) {
     command(JSON.parse(input)).then(write).then(console.log);
   } else if (utils.is_zid(input)) {
-    load.load(input).then(getZ2K2).then(command).then(write).then(console.log);
+    if (meta) {
+      load.load(input).then(command).then(write).then(console.log);
+    } else {
+      load.load(input).then(getZ2K2).then(command).then(write).then(console.log);
+    }
   } else {
     console.log("Input not understood.");
     process.exit(1);
