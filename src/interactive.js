@@ -31,6 +31,11 @@ const write = (input) => {
   return util.inspect(input, false, Infinity, true);
 }
 
+const write_no_remember = (input) => {
+  if (input === null) { return ''; }
+  return util.inspect(input, false, Infinity, true);
+}
+
 const answer = (command, callback) => {
   const data = command.trim();
   const first = data[0];
@@ -171,7 +176,7 @@ const interactive = () => {
         if (input !== '') {
           console.log('todo');
         } else {
-          console.log(write(await labelize.labelize(last)));
+          console.log(write_no_remember(await labelize.labelize(last, false)));
         }
         this.displayPrompt();
       }
