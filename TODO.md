@@ -17,9 +17,6 @@ bug:
 replace canonicalization and normalization with code in function-schemata
 
 then:
-- labelize in the REPL, need with input too and underscore
-- normalize in the REPL, need with input too, and underscore
-- canonicalize in the REPL, as above
 - prettyprint in the REPL (worry about Z2 envelope)
 - full underscore implementation
 

@@ -144,11 +144,14 @@ const interactive = () => {
       action(input) {
         this.clearBufferedCommand();
         if (input !== '') {
-          console.log('todo');
+          answer(input, (x) => {
+            console.log(write_no_remember(canonicalize.canonicalize(x)));
+            this.displayPrompt();
+          })
         } else {
           console.log(write(canonicalize.canonicalize(last)));
+          this.displayPrompt();
         }
-        this.displayPrompt();
       }
     }
   );
@@ -159,11 +162,14 @@ const interactive = () => {
       action(input) {
         this.clearBufferedCommand();
         if (input !== '') {
-          console.log('todo');
+          answer(input, (x) => {
+            console.log(write_no_remember(normalize.normalize(x)));
+            this.displayPrompt();
+          })
         } else {
           console.log(write(normalize.normalize(last)));
+          this.displayPrompt();
         }
-        this.displayPrompt();
       }
     }
   );
@@ -174,11 +180,14 @@ const interactive = () => {
       async action(input) {
         this.clearBufferedCommand();
         if (input !== '') {
-          console.log('todo');
+          answer(input, (x) => {
+            console.log(write_no_remember(normalize.normalize(x)));
+            this.displayPrompt();
+          })
         } else {
           console.log(write_no_remember(await labelize.labelize(last, false)));
+          this.displayPrompt();
         }
-        this.displayPrompt();
       }
     }
   )
