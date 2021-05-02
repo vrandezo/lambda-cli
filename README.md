@@ -6,6 +6,11 @@ installation).
 lambda is usable as a CLI tool in two ways: either calling it for a specific
 command or in interactive mode.
 
+## installation
+
+lambda requires function schemata. Set the path to function schemata in the
+config file.
+
 ## Batch
 
 The command line works in the following way:
