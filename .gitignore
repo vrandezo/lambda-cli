@@ -33,6 +33,7 @@ npm-debug.log
 node_modules/
 /resources/lib/.foreign
 .eslintcache
+lib/
 
 # Operating systems
 ## Mac OS X
