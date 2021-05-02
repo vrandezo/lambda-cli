@@ -8,8 +8,11 @@ command or in interactive mode.
 
 ## installation
 
-lambda requires function schemata. Set the path to function schemata in the
-config file.
+lambda requires function-schemata, available here:
+https://gerrit.wikimedia.org/g/mediawiki/services/function-schemata
+Set the path to function schemata in the config file.
+If you have function-orchestrator installed, function-schemata is a submodule
+of it.
 
 ## Batch
 

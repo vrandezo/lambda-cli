@@ -1,9 +1,10 @@
 {
-  "language": "en",
-  "cache": "./cache/",
-  "data": {
-    "notwikilambda": "https://notwikilambda.toolforge.org/wiki/ZObject:$1?action=raw",
-    "wikifunctions": "https://wikifunctions.org/wiki/$1?action=raw",
-    "local": "./data/$1.json"
-  }
+	"language": "en",
+	"cache": "./cache/",
+	"data": {
+		"notwikilambda": "https://notwikilambda.toolforge.org/wiki/ZObject:$1?action=raw",
+		"wikifunctions": "https://wikifunctions.org/wiki/$1?action=raw",
+		"local": "./data/$1.json"
+	},
+	"schemata": "lib/function-schemata"
 }

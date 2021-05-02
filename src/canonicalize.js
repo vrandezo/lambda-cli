@@ -1,8 +1,19 @@
 'use strict';
 
-const utils = require('./utils.js');
+const fs = require("fs");
 
-const canonicalize = require('../lib/function-schemata/javascript/src/canonicalize.js');
+const utils = require('./utils.js');
+const config = require('./config.js');
+
+let canonfun = undefined;
+
+const canonicalize = (zobject) => {
+  if (canonfun === undefined) {
+    const schemata_dir = config.schemata_directory();
+    canonfun = require(schemata_dir + '/javascript/src/canonicalize.js');
+  }
+  return canonfun(zobject);
+}
 
 const canonicalize_async = async (zobject) => {
   return new Promise((resolve, reject) => {

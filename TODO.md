@@ -14,8 +14,6 @@ bug:
 > .canonicalize
 'test'
 
-replace canonicalization and normalization with code in function-schemata
-
 then:
 - prettyprint in the REPL (worry about Z2 envelope)
 - full underscore implementation
@@ -31,6 +29,7 @@ then:
 - evaluate
 
 furthermore:
+- make function-schemata a proper node module and add to dependencies
 - write a help message for --help
 - rename master to main
 - move repo to gerrit
