@@ -5,6 +5,7 @@ const util = require('util');
 
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
+const evaluate = require('./evaluate.js');
 const interactive = require('./interactive.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
@@ -74,6 +75,10 @@ const settings = ((argv) => {
       if (v === "prettyprint" || v === "p") {
         command = prettyprint.prettyprint_async;
         meta = true;
+        continue;
+      }
+      if (v === "evaluate" || v === "e") {
+        command = evaluate.evaluate_async;
         continue;
       }
       console.log("Unknown command: " + v);
