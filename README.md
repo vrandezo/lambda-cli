@@ -8,17 +8,19 @@ command or in interactive mode.
 
 ## installation
 
-lambda requires function-schemata, available here:
-https://gerrit.wikimedia.org/g/mediawiki/services/function-schemata
-Set the path to function schemata in the config file.
-If you have function-orchestrator installed, function-schemata is a submodule
-of it.
+Clone the lambda CLI and set up the dependencies:
+```
+git clone https://github.com/vrandezo/lambda.git
+git submodule init
+git submodule update
+npm init
+```
 
 ## Batch
 
 The command line works in the following way:
 
-src/lambda.js <command> <input>
+```src/lambda.js <command> <input>```
 
 Examples:
 
@@ -46,7 +48,9 @@ The input can be given in the following ways:
 ## Interactive
 
 You can call the interactive mode by starting lambda without a command or
-input data. You can still use command line arguments.
+input data. You can still use command line arguments, e.g.
+
+```src/lambda.js --language en```
 
 The command line interface per default runs the labelizer.
 
