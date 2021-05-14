@@ -1,18 +1,10 @@
 next steps:
-
-bug:
-- normalization and canonicalization are both buggy, do
-> { "Z1K1": { "Z1K1": "Z9", "Z9K1": "Z6" }, "Z6K1": "test" }
-{ Z1K1: { Z1K1: 'Z9', Z9K1: 'Z6' }, Z6K1: 'test' }
-> .normalize
-{
-  Z1K1: { Z1K1: 'Z9', Z9K1: 'Z6' },
-  Z6K1: { Z1K1: 'Z6', Z6K1: 'test' }
-}
-> .canonicalize
-{ Z1K1: 'Z6', Z6K1: 'test' }
-> .canonicalize
-'test'
+- evaluation
+-- works in batch mode
+-- does not yet work in interactive
+-- cannot choose the orchestrator endpoint yet
+-- uses http only. should choose depending on protocol.
+-- same for loading data, should switch
 
 then:
 - prettyprint in the REPL (worry about Z2 envelope)
@@ -26,13 +18,20 @@ then:
 -- Linked (all ZIDs exist)
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
-- evaluate
+
+bug:
+- normalization and canonicalization are both buggy, do
+> { "Z1K1": { "Z1K1": "Z9", "Z9K1": "Z6" }, "Z6K1": "test" }
+> .canonicalize
+throws error
+(probably because the input is not wellformed, and we yet don't check for
+wellformedness, so let's check if that still happens once the checking levels
+are implemented)
 
 furthermore:
-- make function-schemata a proper node module and add to dependencies
 - write a help message for --help
-- rename master to main
 - move repo to gerrit
+- rename master to main (will happen together with all other gerrit repos)
 - allow --config parameter
 - defineCommand timer
 - tests
