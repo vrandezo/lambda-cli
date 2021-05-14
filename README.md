@@ -24,8 +24,10 @@ The command line works in the following way:
 
 Examples:
 
+```
 lambda --language fr l Z6
 lambda canonicalize '{ "Z1K1": "Z6", "Z6K1": "Hello" }'
+```
 
 The input may need to be escaped from the shell, e.g. if it includes a space or
 quote or other special character.
