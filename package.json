@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies": {
+    "function-schemata": "file:function-schemata"
+  }
+}
