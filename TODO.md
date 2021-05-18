@@ -7,6 +7,12 @@ next steps:
 -- same for loading data, should switch
 
 then:
+- parsing
+
+then:
+- getting the raw ZObject doesn't work anymore due to switch in content model :(
+
+then:
 - prettyprint in the REPL (worry about Z2 envelope)
 - full underscore implementation
 
@@ -18,6 +24,36 @@ then:
 -- Linked (all ZIDs exist)
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
+
+bug:
+> { "Z1K1": "Z7", "Z7K1": "Hello" }
+{ Z1K1: 'Z7', Z7K1: 'Hello' }
+- should be an errormessage
+
+bug:
+> { "Z1K1": "Z7", "Z7K1": "Z802" }
+{
+  Z1K1: 'Z5',
+  Z5K1: {
+    Z1K1: 'Z416',
+    Z416K1: 'No value for supplied for declared argument Z802K1'
+  }
+}
+- the ZID is wrong and the errortype is wrongly used
+
+bug:
+> { "Z1K1": "Z7", "Z7K1": "Z802", "Z802K1": "Z41", "Z802K2": "this", "Z802K3": "that" }
+{
+  Z1K1: 'Z7',
+  Z7K1: 'Z802',
+  Z802K1: 'Z41',
+  Z802K2: 'this',
+  Z802K3: 'that'
+}
+- should return "this", see the following:
+
+> { "Z1K1": "Z7", "Z7K1": "Z802", "Z802K1": { "Z1K1": "Z40", "Z40K1": "Z41" }, "Z802K2": "this", "Z802K3": "that" }
+{ Z1K1: 'Z6', Z6K1: 'this' }
 
 bug:
 - normalization and canonicalization are both buggy, do

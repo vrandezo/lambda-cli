@@ -6,6 +6,7 @@ const util = require('util');
 
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
+const evaluate = require('./evaluate.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 const normalize = require('./normalize.js');
@@ -17,7 +18,7 @@ const help = () => {
   console.log("Help.");
 }
 
-const evaluate = (command, context, file, callback) => {
+const evalinput = (command, context, file, callback) => {
   answer(command, (result) => { callback(null, result); });
 }
 
@@ -40,7 +41,7 @@ const answer = (command, callback) => {
   const data = command.trim();
   const first = data[0];
   if (first === '[' || first === '{' || first === '"') {
-    callback(JSON.parse(data));
+    evaluate.evaluate_async(JSON.parse(data)).then(callback);
   } else if (utils.is_zid(data)) {
     load.load(data).then(getZ2K2).then(callback);
   } else if (data === '_') {
@@ -55,7 +56,7 @@ const interactive = () => {
   console.log(config.version());
   const cli = repl.start({
     prompt: '> ',
-    eval: evaluate,
+    eval: evalinput,
     writer: write
   });
 
