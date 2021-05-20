@@ -48,7 +48,15 @@ const answer = (command, callback) => {
   } else if (data === '_') {
     callback(last);
   } else {
-    parse.parse_async(data).then(callback);
+    parse.parse_async(
+      data
+    ).then(
+      evaluate.evaluate_async
+    ).then(
+      canonicalize.canonicalize_async
+    ).then(
+      callback
+    );
   }
 }
 

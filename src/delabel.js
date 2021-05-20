@@ -16,6 +16,18 @@ const delabel = (string, language) => {
       }]
     }];
   }
+  if (string === 'Reify') {
+    return [{
+      Z1K1: 'ZSearchResult',
+      K1: 'Z805',
+      K2: 'Z8',
+      K3: [{
+        Z1K1: 'Z11',
+        Z11K1: 'en',
+        Z11K2: 'Reify'
+      }]
+    }];
+  }
   if (string === 'String_to_list') {
     return [{
       Z1K1: 'ZSearchResult',
