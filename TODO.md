@@ -7,9 +7,9 @@ next steps:
 -- same for loading data, should switch
 
 then:
-- parsing
-- disambiguation
-- build function calls
+- make the call after parsing a call
+- parsing nested function calls and lists
+- delabel should be dynamic
 
 then:
 - getting the raw ZObject doesn't work anymore due to switch in content model :(
