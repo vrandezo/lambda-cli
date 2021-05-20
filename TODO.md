@@ -8,6 +8,8 @@ next steps:
 
 then:
 - parsing
+- disambiguation
+- build function calls
 
 then:
 - getting the raw ZObject doesn't work anymore due to switch in content model :(

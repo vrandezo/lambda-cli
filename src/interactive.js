@@ -10,6 +10,7 @@ const evaluate = require('./evaluate.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 const normalize = require('./normalize.js');
+const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
@@ -47,8 +48,7 @@ const answer = (command, callback) => {
   } else if (data === '_') {
     callback(last);
   } else {
-    console.log('Did not understand input.');
-    callback(data);
+    parse.parse_async(data).then(callback);
   }
 }
 
