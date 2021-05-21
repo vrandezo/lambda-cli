@@ -88,6 +88,18 @@ const delabel = (string, language) => {
       }]
     }];
   }
+  if (string === 'Boolean') {
+    return [{
+      Z1K1: 'ZSearchResult',
+      K1: 'Z40',
+      K2: 'Z4',
+      K3: [{
+        Z1K1: 'Z11',
+        Z11K1: 'en',
+        Z11K2: 'Boolean'
+      }]
+    }];
+  }
   if (string === 'true') {
     return [{
       Z1K1: 'ZSearchResult',

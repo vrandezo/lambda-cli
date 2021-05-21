@@ -188,7 +188,10 @@ const build_symbol = (tokens) => {
     return error('could not delabel reference', tokens[0]);
   }
   const call_zid = delabel_call_token[0].K1;
-  if (tokens.length === 1 || tokens[1].K1 !== OPENARG) {
+  const call_type = delabel_call_token[0].K2;
+  const is_type = call_type === 'Z4';
+  const is_function = call_type === 'Z8';
+  if (tokens.length === 1 || tokens[1].K1 !== OPENARG || !(is_type || is_function)) {
     return {
       value: {
         Z1K1: 'Z9',
@@ -197,9 +200,13 @@ const build_symbol = (tokens) => {
       rest: tokens.slice(1)
     }
   }
-  let call = {
-    Z1K1: 'Z7',
-    Z7K1: call_zid
+  let call = {}
+  if (is_type) {
+    call.Z1K1 = call_zid;
+  }
+  if (is_function) {
+    call.Z1K1 = 'Z7';
+    call.Z7K1 = call_zid;
   }
   let { value, rest } = build_args(tokens.slice(1));
   if (value.Z1K1 === 'Z5') { return { value: value, rest: rest }; }
