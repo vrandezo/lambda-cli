@@ -134,7 +134,7 @@ const error = (message, tokens) => {
   return {
     value: {
       Z1K1: 'Z5',
-      Z5K1: 'message',
+      Z5K1: message,
       Z5K2: tokens
     },
     rest: []
@@ -188,7 +188,7 @@ const build_symbol = (tokens) => {
     return error('could not delabel reference', tokens[0]);
   }
   const call_zid = delabel_call_token[0].K1;
-  if (tokens.length === 1) {
+  if (tokens.length === 1 || tokens[1].K1 !== OPENARG) {
     return {
       value: {
         Z1K1: 'Z9',
@@ -253,7 +253,6 @@ const build_single_value = (tokens) => {
 const parse = (input) => {
   const tokens = tokenize(input);
   const call = build_single_value(tokens);
-  console.log(call);
   return call;
 }
 
