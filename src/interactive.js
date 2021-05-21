@@ -54,6 +54,8 @@ const answer = (command, callback) => {
       evaluate.evaluate_async
     ).then(
       canonicalize.canonicalize_async
+//    ).then(
+//      labelize.labelize
     ).then(
       callback
     );

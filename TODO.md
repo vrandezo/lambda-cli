@@ -8,10 +8,6 @@ next steps:
 
 then:
 - switch to fetch instead of raw
-- allow JSON objects in syntax
-- labelmap from website
-
-then:
 - getting the raw ZObject doesn't work anymore due to switch in content model :(
 
 then:
@@ -67,6 +63,8 @@ wellformedness, so let's check if that still happens once the checking levels
 are implemented)
 
 furthermore:
+- allow JSON objects in syntax
+- labelmap from website
 - write a help message for --help
 - move repo to gerrit
 - rename master to main (will happen together with all other gerrit repos)
