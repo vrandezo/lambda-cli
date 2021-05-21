@@ -7,8 +7,9 @@ next steps:
 -- same for loading data, should switch
 
 then:
-- delabel should be dynamic
+- switch to fetch instead of raw
 - allow JSON objects in syntax
+- labelmap from website
 
 then:
 - getting the raw ZObject doesn't work anymore due to switch in content model :(

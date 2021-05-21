@@ -4,22 +4,13 @@ const config = require('./config.js');
 const utils = require('./utils.js');
 const load = require('./load.js');
 
-const get_label = (zobject) => {
-  for (let monotext of zobject.Z12K1) {
-    if (monotext.Z11K1 === config.language()) {
-      return monotext.Z11K2;
-    }
-  }
-  return null;
-}
-
 const labelize_id = async (id) => {
   if ( utils.is_zid(id) ) {
     const zobject = await load.load(id);
     if (zobject.Z1K1 === 'Z5') {
       return id;
     }
-    const label = get_label(zobject.Z2K3);
+    const label = utils.get_label(zobject.Z2K3, config.language());
     return (label === null) ? id : label;
   }
   if ( utils.is_zkid(id) ) {
@@ -31,7 +22,7 @@ const labelize_id = async (id) => {
     if ( zobject.Z2K2.Z1K1 === 'Z4' ) {
       for (let key of zobject.Z2K2.Z4K2) {
         if (key.Z3K2 === id) {
-          const label = get_label(key.Z3K3);
+          const label = utils.get_label(key.Z3K3, config.language());
           return (label === null) ? id : label;
         }
       }
@@ -39,7 +30,7 @@ const labelize_id = async (id) => {
     if ( zobject.Z2K2.Z1K1 === 'Z8' ) {
       for (let key of zobject.Z2K2.Z8K1) {
         if (key.Z17K2 === id) {
-          const label = get_label(key.Z17K3);
+          const label = utils.get_label(key.Z17K3, config.language());
           return (label === null) ? id : label;
         }
       }

@@ -5,6 +5,7 @@ const https = require('https');
 const util = require('util');
 
 const config = require('./config.js');
+const utils = require('./utils.js');
 
 let cache = {};
 let labelmap = {};
@@ -105,9 +106,41 @@ const reset = (zid) => {
   }
 }
 
+const create_new_labelmap = async () => {
+  // if local
+  const directory = config.data().substring(0, config.data().lastIndexOf('/'));
+  const files = await fs.promises.readdir( directory );
+  let labelmap = { '_': {
+    language: config.language,
+    source: directory,
+    timestamp: (new Date()).toJSON()
+  }};
+  for (let f of files) {
+    const zid = f.substring(0, f.indexOf('.'));
+    const obj = await load(zid);
+    let label = utils.get_label(obj.Z2K3, config.language());
+    label = (label === null) ? zid : label;
+    const type = obj.Z2K2.Z1K1;
+    const normal = utils.string_normalize(label);
+    if (!(normal in labelmap)) {
+      labelmap[normal] = [];
+    }
+    labelmap[normal].push([zid, type, label, label]);
+  }
+  fs.writeFileSync(
+    config.cache() + 'labelmap.' + config.language() + '.json',
+    JSON.stringify(labelmap)
+  );
+  return labelmap;
+  // if website, download it (needs a labelmap api)
+}
+
 const get_labelmap = async (language) => {
   if (labelmap_loaded === null) {
-    labelmap = await load_json_from_cache('labelmap');
+    labelmap = await load_json_from_cache('labelmap.' + language);
+    if (!('_' in labelmap)) {
+      labelmap = await create_new_labelmap();
+    }
     labelmap_loaded = true;
   }
   return labelmap;

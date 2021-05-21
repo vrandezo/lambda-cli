@@ -5,29 +5,26 @@ const utils = require('./utils.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 
-const normalize = (s) => s.toLowerCase().replace(' ', '_');
-
 const delabel = async (label) => {
   const labelmap = await load.labelmap(config.language());
-  const normal = normalize(label);
+  const normal = utils.string_normalize(label);
 
   if (!(normal in labelmap)) {
     return [];
   }
 
-  const zids = labelmap[normal];
+  const hits = labelmap[normal];
 
   let results = [];
-  for (let zid of zids) {
-    const obj = await load.load(zid);
+  for (let hit of hits) {
     let result = {
       Z1K1: 'ZSearchResult',
-      K1: zid,
-      K2: obj.Z2K2.Z1K1,
+      K1: hit[0],
+      K2: hit[1],
       K3: [{
         Z1K1: 'Z11',
         Z11K1: config.language(),
-        Z11K1: labelize.labelize(zid)
+        Z11K1: hit[3]
       }]
     }
     results.push(result);

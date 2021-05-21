@@ -55,6 +55,17 @@ const sort_zkids = (left, right) => {
   return znumber(left) - znumber(right);
 }
 
+const get_label = (zobject, language) => {
+  for (let monotext of zobject.Z12K1) {
+    if (monotext.Z11K1 === language) {
+      return monotext.Z11K2;
+    }
+  }
+  return null;
+}
+
+const string_normalize = (s) => s.toLowerCase().replaceAll(/[\s\-\_\.\(\)]/g, '');
+
 exports.is_object = is_object;
 exports.is_string = is_string;
 exports.is_array = is_array;
@@ -63,3 +74,5 @@ exports.is_zid = is_zid;
 exports.is_zkid = is_zkid;
 exports.zid_from_zkid = zid_from_zkid;
 exports.sort_zkids = sort_zkids;
+exports.get_label = get_label;
+exports.string_normalize = string_normalize;
