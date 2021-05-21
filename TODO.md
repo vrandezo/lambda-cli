@@ -8,7 +8,6 @@ next steps:
 
 then:
 - delabel should be dynamic
-- if a Z5, don't call evaluate
 - allow JSON objects in syntax
 
 then:

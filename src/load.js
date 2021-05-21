@@ -7,8 +7,10 @@ const util = require('util');
 const config = require('./config.js');
 
 let cache = {};
+let labelmap = {};
 
 let cache_loaded = null;
+let labelmap_loaded = null;
 
 const request_web = (zid) => {
   return new Promise((resolve, reject) => {
@@ -60,9 +62,9 @@ const request_local = (zid) => {
   });
 }
 
-const load_cache = () => {
+const load_json_from_cache = (filename) => {
   return new Promise((resolve, reject) => {
-    fs.readFile(config.cache() + 'cache.json', (err, data) => {
+    fs.readFile(config.cache() + filename + '.json', (err, data) => {
       cache_loaded = config.cache();
       if (err) {
         resolve({});
@@ -72,6 +74,8 @@ const load_cache = () => {
     })
   });
 }
+
+const load_cache = () => load_json_from_cache('cache');
 
 const save_cache = (path) => {
   fs.writeFileSync(path + 'cache.json', JSON.stringify(cache));
@@ -101,26 +105,19 @@ const reset = (zid) => {
   }
 }
 
-const load_labelmap = (language) => {
-  return {
-    if: [ 'Z802' ],
-    reify: [ 'Z805' ],
-    cons: [ 'Z810' ],
-    head: [ 'Z811' ],
-    tail: [ 'Z812' ],
-    empty: [ 'Z813' ],
-    string_to_list: [ 'Z868' ],
-    boolean: [ 'Z40' ],
-    true: [ 'Z41' ],
-    false: [ 'Z42' ]
+const get_labelmap = async (language) => {
+  if (labelmap_loaded === null) {
+    labelmap = await load_json_from_cache('labelmap');
+    labelmap_loaded = true;
   }
+  return labelmap;
 }
 
 const reset_all = () => {
   cache = {};
 }
 
-exports.load_labelmap = load_labelmap;
+exports.labelmap = get_labelmap;
 
 exports.load = load;
 exports.load_cache = load_cache;

@@ -7,6 +7,7 @@ const config = require('./config.js');
 const canonicalize = require('../function-schemata/javascript/src/canonicalize.js');
 
 const canonicalize_async = async (zobject) => {
+  if (zobject.Z1K1 === 'Z5') { return zobject; }
   return new Promise((resolve, reject) => {
     resolve(canonicalize(zobject));
   });

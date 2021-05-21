@@ -8,7 +8,7 @@ const load = require('./load.js');
 const normalize = (s) => s.toLowerCase().replace(' ', '_');
 
 const delabel = async (label) => {
-  const labelmap = await load.load_labelmap(config.language());
+  const labelmap = await load.labelmap(config.language());
   const normal = normalize(label);
 
   if (!(normal in labelmap)) {
