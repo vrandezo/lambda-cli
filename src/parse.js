@@ -141,7 +141,7 @@ const error = (message, tokens) => {
   }
 }
 
-const build_csv = (tokens, open, close) => {
+const build_csv = async (tokens, open, close) => {
   if (tokens[0].K1 !== open) {
     return error('expected opener', tokens);
   }
@@ -156,7 +156,7 @@ const build_csv = (tokens, open, close) => {
   }
   let values = [];
   while (true) {
-    let { value, rest } = build_value(tokens.slice(1));
+    let { value, rest } = await build_value(tokens.slice(1));
     values.push(value);
     if (rest.length === 0) {
       return error('expected closing', tokens);
@@ -175,15 +175,15 @@ const build_csv = (tokens, open, close) => {
   }
 }
 
-const build_args = (tokens) => {
-  return build_csv(tokens, OPENARG, CLOSEARG);
+const build_args = async (tokens) => {
+  return await build_csv(tokens, OPENARG, CLOSEARG);
 }
 
-const build_symbol = (tokens) => {
+const build_symbol = async (tokens) => {
   if (tokens[0].K1 !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
-  const delabel_call_token = delabel.delabel(tokens[0].K3);
+  const delabel_call_token = await delabel.delabel(tokens[0].K3, 'en');
   if (delabel_call_token.length !== 1) {
     return error('could not delabel reference', tokens[0]);
   }
@@ -208,7 +208,7 @@ const build_symbol = (tokens) => {
     call.Z1K1 = 'Z7';
     call.Z7K1 = call_zid;
   }
-  let { value, rest } = build_args(tokens.slice(1));
+  let { value, rest } = await build_args(tokens.slice(1));
   if (value.Z1K1 === 'Z5') { return { value: value, rest: rest }; }
   for (let v in value) {
     call[call_zid + 'K' + (parseInt(v) + 1).toString()] = value[v];
@@ -219,8 +219,8 @@ const build_symbol = (tokens) => {
   }
 }
 
-const build_list = (tokens) => {
-  return build_csv(tokens, OPENLIST, CLOSELIST);
+const build_list = async (tokens) => {
+  return await build_csv(tokens, OPENLIST, CLOSELIST);
 }
 
 const build_string = (tokens) => {
@@ -236,12 +236,12 @@ const build_string = (tokens) => {
   }
 }
 
-const build_value = (tokens) => {
+const build_value = async (tokens) => {
   if (tokens[0].K1 === POTENTIALREFERENCE) {
-    return build_symbol(tokens);
+    return await build_symbol(tokens);
   }
   if (tokens[0].K1 === OPENLIST) {
-    return build_list(tokens);
+    return await build_list(tokens);
   }
   if (tokens[0].K1 === STRING) {
     return build_string(tokens);
@@ -249,25 +249,19 @@ const build_value = (tokens) => {
   return error('must be a reference, function call, list, or string', tokens);
 }
 
-const build_single_value = (tokens) => {
-  let { value, rest } = build_value(tokens);
+const build_single_value = async (tokens) => {
+  let { value, rest } = await build_value(tokens);
   if (rest.length > 0) {
     return error('rest after parsing a value', rest);
   }
   return value;
 }
 
-const parse = (input) => {
+const parse_async = async (input) => {
   const tokens = tokenize(input);
-  const call = build_single_value(tokens);
+  const call = await build_single_value(tokens);
+  console.log(call);
   return call;
 }
 
-const parse_async = async (zobject) => {
-  return new Promise((resolve, reject) => {
-    resolve(parse(zobject));
-  });
-}
-
-exports.parse = parse;
 exports.parse_async = parse_async;

@@ -101,9 +101,26 @@ const reset = (zid) => {
   }
 }
 
+const load_labelmap = (language) => {
+  return {
+    if: [ 'Z802' ],
+    reify: [ 'Z805' ],
+    cons: [ 'Z810' ],
+    head: [ 'Z811' ],
+    tail: [ 'Z812' ],
+    empty: [ 'Z813' ],
+    string_to_list: [ 'Z868' ],
+    boolean: [ 'Z40' ],
+    true: [ 'Z41' ],
+    false: [ 'Z42' ]
+  }
+}
+
 const reset_all = () => {
   cache = {};
 }
+
+exports.load_labelmap = load_labelmap;
 
 exports.load = load;
 exports.load_cache = load_cache;

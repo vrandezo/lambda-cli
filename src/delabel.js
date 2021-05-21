@@ -2,129 +2,37 @@
 
 const config = require('./config.js');
 const utils = require('./utils.js');
+const labelize = require('./labelize.js');
+const load = require('./load.js');
 
-const delabel = (string, language) => {
-  if (string === 'If') {
-    return [{
+const normalize = (s) => s.toLowerCase().replace(' ', '_');
+
+const delabel = async (label) => {
+  const labelmap = await load.load_labelmap(config.language());
+  const normal = normalize(label);
+
+  if (!(normal in labelmap)) {
+    return [];
+  }
+
+  const zids = labelmap[normal];
+
+  let results = [];
+  for (let zid of zids) {
+    const obj = await load.load(zid);
+    let result = {
       Z1K1: 'ZSearchResult',
-      K1: 'Z802',
-      K2: 'Z8',
+      K1: zid,
+      K2: obj.Z2K2.Z1K1,
       K3: [{
         Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'If'
+        Z11K1: config.language(),
+        Z11K1: labelize.labelize(zid)
       }]
-    }];
+    }
+    results.push(result);
   }
-  if (string === 'Reify') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z805',
-      K2: 'Z8',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'Reify'
-      }]
-    }];
-  }
-  if (string === 'Cons') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z810',
-      K2: 'Z8',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'Cons'
-      }]
-    }];
-  }
-  if (string === 'Head') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z811',
-      K2: 'Z8',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'Head'
-      }]
-    }];
-  }
-  if (string === 'Tail') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z812',
-      K2: 'Z8',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'Tail'
-      }]
-    }];
-  }
-  if (string === 'Empty') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z813',
-      K2: 'Z8',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'Empty'
-      }]
-    }];
-  }
-  if (string === 'String_to_list') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z868',
-      K2: 'Z8',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'String to list'
-      }]
-    }];
-  }
-  if (string === 'Boolean') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z40',
-      K2: 'Z4',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'Boolean'
-      }]
-    }];
-  }
-  if (string === 'true') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z41',
-      K2: 'Z40',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'true'
-      }]
-    }];
-  }
-  if (string === 'false') {
-    return [{
-      Z1K1: 'ZSearchResult',
-      K1: 'Z42',
-      K2: 'Z40',
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: 'en',
-        Z11K2: 'false'
-      }]
-    }];
-  }
-  return [];
+  return results;
 }
 
 exports.delabel = delabel;

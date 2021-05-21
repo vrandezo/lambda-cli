@@ -7,8 +7,8 @@ next steps:
 -- same for loading data, should switch
 
 then:
-- if a Z5, don't call evaluate
 - delabel should be dynamic
+- if a Z5, don't call evaluate
 - allow JSON objects in syntax
 
 then:
