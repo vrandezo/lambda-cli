@@ -7,8 +7,7 @@ next steps:
 -- same for loading data, should switch
 
 then:
-- make the call after parsing a call
-- parsing nested function calls and lists
+- if a Z5, don't call evaluate
 - delabel should be dynamic
 
 then:

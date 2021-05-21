@@ -31,7 +31,7 @@ const tokenize = (input) => {
   const add_potential_reference = () => {
     token = token.trim();
     if (token) {
-      tokens.push({ Z1K1: 'ZToken', K1: POTENTIALREFERENCE, K2: position, K3: token });
+      tokens.push({ Z1K1: 'ZToken', K1: POTENTIALREFERENCE, K2: position.toString(), K3: token });
       position = current_position;
       token = '';
     }
@@ -42,7 +42,7 @@ const tokenize = (input) => {
     const pick_token = (match, symbol) => {
       if (character === match) {
         add_potential_reference();
-        tokens.push({ Z1K1: 'ZToken', K1: symbol, K2: position });
+        tokens.push({ Z1K1: 'ZToken', K1: symbol, K2: position.toString() });
         position = current_position + 1;
         character = '';
       }
@@ -60,15 +60,15 @@ const tokenize = (input) => {
           token += '\\n';
           insideEscape = false;
         } else {
-          tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position,  K3: token });
+          tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position.toString(),  K3: token });
           position = current_position - 1;
-          tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position });
+          tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
           position = current_position;
           token = character;
         }
       } else {
         if (character === '"') {
-          tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position, K3: token });
+          tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position.toString(), K3: token });
           position = current_position + 1;
           token = '';
           insideString = false;
@@ -88,7 +88,7 @@ const tokenize = (input) => {
         } else {
           add_potential_reference();
           position = current_position - 1;
-          tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position });
+          tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
           position = current_position;
           token = character;
         }
@@ -105,7 +105,7 @@ const tokenize = (input) => {
         add_potential_reference();
       } else if (character && escapeInSymbolFuture.includes(character)) {
         add_potential_reference();
-        tokens.push({ Z1K1: 'ZToken', K1: FUTURESYMBOL, K2: position, K3: character });
+        tokens.push({ Z1K1: 'ZToken', K1: FUTURESYMBOL, K2: position.toString(), K3: character });
         token = '';
         position = current_position + 1;
       } else if (character === '\\') {
@@ -116,13 +116,13 @@ const tokenize = (input) => {
     }
   }
   if (insideString) {
-    tokens.push({ Z1K1: 'ZToken', K1: OPENSTRING, K2: position, K3: token });
+    tokens.push({ Z1K1: 'ZToken', K1: OPENSTRING, K2: position.toString(), K3: token });
     position = current_position;
     token = '';
   }
   if (insideEscape) {
     add_potential_reference();
-    tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position });
+    tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
     position = current_position;
     token = '';
   }
@@ -130,135 +130,130 @@ const tokenize = (input) => {
   return tokens;
 }
 
-const check_tokens = (tokens) => {
-  for (let token of tokens) {
-    const bad_tokens = [ OPENSTRING, OPENESCAPE, FUTURESYMBOL ];
-    if ( bad_tokens.includes( token.K1 ) ) {
-      return {
-        Z1K1: 'Z5',
-        Z5K1: 'ZSyntaxError',
-        Z5K2: tokens
-      }
-    }
+const error = (message, tokens) => {
+  return {
+    value: {
+      Z1K1: 'Z5',
+      Z5K1: 'message',
+      Z5K2: tokens
+    },
+    rest: []
   }
-  return undefined;
 }
 
-const check_grammar = (tokens) => {
-  // TODO: this is all wrong
-  // once we allow for nested calls, first check for imbalanced quotes
-  // then make a stack that you push and pop as opening args and arrays
-  // then check arrays and strings are only in places literals should be, i.e. args
-  // then check that symbols are either standalone args or starting a function call
-  if (tokens.length < 4) {
+const build_csv = (tokens, open, close) => {
+  if (tokens[0].K1 !== open) {
+    return error('expected opener', tokens);
+  }
+  if (tokens.length < 2) {
+    return error('unclosed', tokens);
+  }
+  if (tokens[1].K1 === close) {
     return {
-      Z1K1: 'Z5',
-      Z5K1: 'Function call must be of the form f(x, y)',
-      Z5K2: tokens
+      value: [],
+      rest: tokens.slice(2)
     }
   }
+  let values = [];
+  while (true) {
+    let { value, rest } = build_value(tokens.slice(1));
+    values.push(value);
+    if (rest.length === 0) {
+      return error('expected closing', tokens);
+    }
+    if (rest[0].K1 === close) {
+      return {
+        value: values,
+        rest: rest.slice(1)
+      }
+    }
+    if (rest[0].K1 === SEPERATOR) {
+      tokens = rest;
+      continue;
+    }
+    return error('expected comma', rest);
+  }
+}
+
+const build_args = (tokens) => {
+  return build_csv(tokens, OPENARG, CLOSEARG);
+}
+
+const build_symbol = (tokens) => {
   if (tokens[0].K1 !== POTENTIALREFERENCE) {
-    return {
-      Z1K1: 'Z5',
-      Z5K1: 'Function call must start with a function reference',
-      Z5K2: tokens
-    }
+    return error('expected reference', tokens);
   }
-  if (tokens[1].K1 !== OPENARG) {
-    return {
-      Z1K1: 'Z5',
-      Z5K1: 'Function call must have an ( after function reference',
-      Z5K2: tokens
-    }
-  }
-  if (tokens[tokens.length-1].K1 !== CLOSEARG) {
-    return {
-      Z1K1: 'Z5',
-      Z5K1: 'Function call must end with an )',
-      Z5K2: tokens
-    }
-  }
-  let arg = true;
-  for (let token of tokens.slice(2, -1)) {
-    if (arg) {
-      if (token.K1 === POTENTIALREFERENCE || token.K1 === STRING) {
-        arg = false;
-        continue;
-      }
-      return {
-        Z1K1: 'Z5',
-        Z5K1: 'Function call be of the form f(x, y)',
-        Z5K2: tokens
-      }
-    } else {
-      if (token.K1 !== SEPERATOR) {
-        return {
-          Z1K1: 'Z5',
-          Z5K1: 'Function call be of the form f(x, y)',
-          Z5K2: tokens
-        }
-      }
-      arg = true;
-    }
-  }
-  return undefined;
-}
-
-const get_simple_function_call = (tokens) => {
-  let call = {
-    Z1K1: 'Z7'
-  }
-  const call_token = tokens[0];
-  const delabel_call_token = delabel.delabel(call_token.K3);
+  const delabel_call_token = delabel.delabel(tokens[0].K3);
   if (delabel_call_token.length !== 1) {
-    return {
-      Z1K1: 'Z5',
-      Z5K1: 'Could not delabel symbol',
-      Z5K2: call_token
-    }
+    return error('could not delabel reference', tokens[0]);
   }
   const call_zid = delabel_call_token[0].K1;
-  call.Z7K1 = call_zid;
-  let argpos = 0;
-  let arg = true;
-  for (let token of tokens.slice(2, -1)) {
-    if (arg) {
-      argpos += 1;
-      const argkey = call_zid + 'K' + argpos.toString();
-      arg = false;
-      if (token.K1 === POTENTIALREFERENCE) {
-        const delabel_argument_token = delabel.delabel(token.K3);
-        if (delabel_argument_token.length !== 1) {
-          return {
-            Z1K1: 'Z5',
-            Z5K1: 'Could not delabel symbol',
-            Z5K2: token
-          }
-        }
-        call[argkey] = {
-          Z1K1: 'Z9',
-          Z9K1: delabel_argument_token[0].K1
-        }
-      } else if (token.K1 === STRING) {
-        call[argkey] = {
-          Z1K1: 'Z6',
-          Z6K1: token.K3
-        }
-      }
-    } else {
-      arg = true;
+  if (tokens.length === 1) {
+    return {
+      value: {
+        Z1K1: 'Z9',
+        Z9K1: call_zid
+      },
+      rest: tokens.slice(1)
     }
   }
-  return call;
+  let call = {
+    Z1K1: 'Z7',
+    Z7K1: call_zid
+  }
+  let { value, rest } = build_args(tokens.slice(1));
+  if (value.Z1K1 === 'Z5') { return { value: value, rest: rest }; }
+  for (let v in value) {
+    call[call_zid + 'K' + (parseInt(v) + 1).toString()] = value[v];
+  }
+  return {
+    value: call,
+    rest: rest
+  }
+}
+
+const build_list = (tokens) => {
+  return build_csv(tokens, OPENLIST, CLOSELIST);
+}
+
+const build_string = (tokens) => {
+  if (tokens[0].K1 !== STRING) {
+    return error('expected string', tokens);
+  }
+  return {
+    value: {
+      Z1K1: 'Z6',
+      Z6K1: tokens[0].K3
+    },
+    rest: tokens.slice(1)
+  }
+}
+
+const build_value = (tokens) => {
+  if (tokens[0].K1 === POTENTIALREFERENCE) {
+    return build_symbol(tokens);
+  }
+  if (tokens[0].K1 === OPENLIST) {
+    return build_list(tokens);
+  }
+  if (tokens[0].K1 === STRING) {
+    return build_string(tokens);
+  }
+  return error('must be a reference, function call, list, or string', tokens);
+}
+
+const build_single_value = (tokens) => {
+  let { value, rest } = build_value(tokens);
+  if (rest.length > 0) {
+    return error('rest after parsing a value', rest);
+  }
+  return value;
 }
 
 const parse = (input) => {
   const tokens = tokenize(input);
-  const checktokens = check_tokens(tokens);
-  if (checktokens) { return checktokens; }
-  const checkgrammar = check_grammar(tokens);
-  if (checkgrammar) { return checkgrammar; }
-  const call = get_simple_function_call(tokens);
+  const call = build_single_value(tokens);
+  console.log(call);
   return call;
 }
 

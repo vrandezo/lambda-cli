@@ -28,6 +28,54 @@ const delabel = (string, language) => {
       }]
     }];
   }
+  if (string === 'Cons') {
+    return [{
+      Z1K1: 'ZSearchResult',
+      K1: 'Z810',
+      K2: 'Z8',
+      K3: [{
+        Z1K1: 'Z11',
+        Z11K1: 'en',
+        Z11K2: 'Cons'
+      }]
+    }];
+  }
+  if (string === 'Head') {
+    return [{
+      Z1K1: 'ZSearchResult',
+      K1: 'Z811',
+      K2: 'Z8',
+      K3: [{
+        Z1K1: 'Z11',
+        Z11K1: 'en',
+        Z11K2: 'Head'
+      }]
+    }];
+  }
+  if (string === 'Tail') {
+    return [{
+      Z1K1: 'ZSearchResult',
+      K1: 'Z812',
+      K2: 'Z8',
+      K3: [{
+        Z1K1: 'Z11',
+        Z11K1: 'en',
+        Z11K2: 'Tail'
+      }]
+    }];
+  }
+  if (string === 'Empty') {
+    return [{
+      Z1K1: 'ZSearchResult',
+      K1: 'Z813',
+      K2: 'Z8',
+      K3: [{
+        Z1K1: 'Z11',
+        Z11K1: 'en',
+        Z11K2: 'Empty'
+      }]
+    }];
+  }
   if (string === 'String_to_list') {
     return [{
       Z1K1: 'ZSearchResult',
