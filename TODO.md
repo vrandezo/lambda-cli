@@ -1,18 +1,8 @@
 next steps:
 - evaluation
--- works in batch mode
--- does not yet work in interactive
 -- cannot choose the orchestrator endpoint yet
 -- uses http only. should choose depending on protocol.
 -- same for loading data, should switch
-
-then:
-- switch to fetch instead of raw
-- getting the raw ZObject doesn't work anymore due to switch in content model :(
-
-then:
-- prettyprint in the REPL (worry about Z2 envelope)
-- full underscore implementation
 
 then:
 - checking levels
@@ -63,6 +53,8 @@ wellformedness, so let's check if that still happens once the checking levels
 are implemented)
 
 furthermore:
+- prettyprint in the REPL (worry about Z2 envelope)
+- full underscore implementation
 - allow JSON objects in syntax
 - labelmap from website
 - write a help message for --help
