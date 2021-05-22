@@ -29,7 +29,7 @@ const request_web = (zid) => {
       });
 
       res.on('end', () => {
-        resolve(JSON.parse(body));
+        resolve(JSON.parse(JSON.parse(body)[zid]['wikilambda_fetch']));
       });
     });
 

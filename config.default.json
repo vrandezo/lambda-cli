@@ -2,7 +2,7 @@
 	"language": "en",
 	"cache": "./cache/",
 	"data": {
-		"notwikilambda": "https://notwikilambda.toolforge.org/wiki/ZObject:$1?action=raw",
+		"notwikilambda": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
 		"wikifunctions": "https://wikifunctions.org/wiki/$1?action=raw",
 		"local": "./data/$1.json"
 	}
