@@ -27,6 +27,14 @@ const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
 }
 
+const getZ22K1 = (zobject) => {
+  if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
+    return zobject.Z22K1
+  } else {
+    return zobject;
+  }
+}
+
 const write = (input) => {
   if (input === null) { return ''; }
   last = input;
@@ -52,6 +60,8 @@ const answer = (command, callback) => {
       data
     ).then(
       evaluate.evaluate_async
+    ).then(
+      getZ22K1
     ).then(
       canonicalize.canonicalize_async
 //    ).then(

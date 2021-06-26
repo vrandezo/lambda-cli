@@ -1,4 +1,9 @@
 next steps:
+- how to manage labelmap state in different languages and endpoints
+- use search instead of labelmap for remote endpoints
+- how to deal with caches against different endpoints
+- what to do when more than one hit
+
 - evaluation
 -- cannot choose the orchestrator endpoint yet
 -- uses http only. should choose depending on protocol.
