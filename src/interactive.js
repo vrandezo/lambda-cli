@@ -201,8 +201,8 @@ const interactive = () => {
       async action(input) {
         this.clearBufferedCommand();
         if (input !== '') {
-          answer(input, (x) => {
-            console.log(write_no_remember(normalize.normalize(x)));
+          answer(input, async (x) => {
+            console.log(write_no_remember(await labelize.labelize(x, false)));
             this.displayPrompt();
           })
         } else {
