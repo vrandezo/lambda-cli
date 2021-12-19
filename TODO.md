@@ -1,8 +1,9 @@
 next steps:
-- works: config, lambda, interactive, labelize, normalize
+- works: config, lambda, interactive, labelize, normalize,
+  prettyprint (but needs canonicalizer)
 - does not work:
--- canonicalize
--- prettyprint
+-- canonicalize (but because something doesn't work inside canonicalizer in schemata)
+-- file bug upstream
 
 -- parse
 -- evaluate
