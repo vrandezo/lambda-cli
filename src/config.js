@@ -52,7 +52,8 @@ const set_cache = (path) => {
 }
 
 const is_local = () => {
-  return (config.data_actually.slice(0, 6) !== 'https:');
+  return (config.data_actually.slice(0, 6) !== 'https:') &&
+    (config.data_actually.slice(0, 5) !== 'http:');
 }
 
 const data = () => {

@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const https = require('https');
+const http = require('http');
 const util = require('util');
 
 const config = require('./config.js');
@@ -16,9 +17,8 @@ let labelmap_loaded = null;
 const request_web = (zid) => {
   return new Promise((resolve, reject) => {
     const url = new URL(config.data().replace('$1', zid));
-    const req = https.request({
-      hostname: url.host,
-      path: url.pathname + url.search,
+    const protocol = (url.protocol=='https:') ? https : http;
+    const req = protocol.request(url, {
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
       res.setEncoding('utf8');
