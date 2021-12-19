@@ -75,7 +75,7 @@ const answer = (command, callback) => {
 const interactive = () => {
   console.log(config.version());
   const cli = repl.start({
-    prompt: '> ',
+    prompt: 'λ→ ',
     eval: evalinput,
     writer: write
   });
