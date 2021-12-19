@@ -16,6 +16,7 @@ const utils = require('./utils.js');
 try {
   config.load('./config.json');
 } catch (err) {
+  console.log('No config.json exists, using config.default.json instead.');
   config.load('./config.default.json');
 }
 
