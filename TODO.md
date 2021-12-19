@@ -1,18 +1,14 @@
 next steps:
-- figure out what works what doesn't
-- all from scratch
-- works: config, lambda, interactive
+- works: config, lambda, interactive, labelize, normalize
 - does not work:
--- labelize??
 -- canonicalize
--- normalize
 -- prettyprint
 
 -- parse
--- delabel
 -- evaluate
--- wellformed
+-- delabel
 -- labelmap in load
+-- wellformed
 
 previous next steps:
 - how to manage labelmap state in different languages and endpoints
