@@ -1,9 +1,10 @@
 {
-	"language": "en",
+	"language": "Z1002",
 	"cache": "./cache/",
 	"data": {
 		"notwikilambda": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
 		"beta": "https://wikifunctions.beta.wmflabs.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
+		"localhost": "http://localhost:8080/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
 		"local": "./function-schemata/data/definitions/$1.json"
 	}
 }
