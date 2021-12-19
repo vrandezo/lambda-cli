@@ -14,6 +14,13 @@ let loaded = false;
 
 const load = (path) => {
   config = JSON.parse(fs.readFileSync(path));
+  if (utils.is_string(config.language)) {
+    config.language_actually = config.language;
+    config.language = {};
+    config.language.default = config.language_actually;
+  } else {
+    config.language_actually = config.language[Object.keys(config.language)[0]];
+  }
   if (utils.is_string(config.data)) {
     config.data_actually = config.data;
     config.data = {};
@@ -24,11 +31,16 @@ const load = (path) => {
 }
 
 const language = () => {
-  return config.language;
+  return config.language_actually;
 }
 
 const set_language = (lang) => {
-  config.language = lang;  // TODO check if this is a language
+  // TODO check if this is a language
+  if (Object.keys(config.language).includes(lang)) {
+    config.language_actually = config.language[lang];
+  } else {
+    config.language_actually = lang;
+  }
 }
 
 const cache = () => {

@@ -1,5 +1,7 @@
 {
-	"language": "Z1002",
+	"language": {
+		"en": "Z1002"
+	},
 	"cache": "./cache/",
 	"data": {
 		"notwikilambda": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
