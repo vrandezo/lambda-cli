@@ -1,4 +1,20 @@
 next steps:
+- figure out what works what doesn't
+- all from scratch
+- works: config, lambda, interactive
+- does not work:
+-- load??
+-- labelize??
+-- canonicalize
+-- normalize
+-- prettyprint
+
+-- parse
+-- delabel
+-- evaluate
+-- wellformed
+
+previous next steps:
 - how to manage labelmap state in different languages and endpoints
 - use search instead of labelmap for remote endpoints
 - how to deal with caches against different endpoints
