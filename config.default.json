@@ -3,7 +3,7 @@
 	"cache": "./cache/",
 	"data": {
 		"notwikilambda": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
-		"wikifunctions": "https://wikifunctions.org/wiki/$1?action=raw",
+		"beta": "https://wikifunctions.beta.wmflabs.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
 		"local": "./data/$1.json"
 	}
 }
