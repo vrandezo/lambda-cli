@@ -3,7 +3,6 @@ next steps:
 - all from scratch
 - works: config, lambda, interactive
 - does not work:
--- load??
 -- labelize??
 -- canonicalize
 -- normalize
@@ -13,6 +12,7 @@ next steps:
 -- delabel
 -- evaluate
 -- wellformed
+-- labelmap in load
 
 previous next steps:
 - how to manage labelmap state in different languages and endpoints
@@ -26,6 +26,7 @@ previous next steps:
 -- same for loading data, should switch
 
 then:
+- command for label/delabel single ZID / name / ZKID
 - checking levels
 -- parses (JSON)
 -- Wellformedness (simple wellformedness)
