@@ -4,6 +4,6 @@
 	"data": {
 		"notwikilambda": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
 		"beta": "https://wikifunctions.beta.wmflabs.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
-		"local": "./data/$1.json"
+		"local": "./function-schemata/data/definitions/$1.json"
 	}
 }
