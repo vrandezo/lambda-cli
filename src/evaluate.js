@@ -1,18 +1,16 @@
 'use strict';
 
 const utils = require('./utils.js');
-const https = require('http');
+const http = require('http');
 
-const evalurl = 'http://127.0.0.1:6254/local/v1/evaluate/$1';
+const evalurl = 'http://localhost:8080/w/api.php?action=wikilambda_function_call&format=json&wikilambda_function_call_zobject=';
 
 const evaluate_async = async (zobject) => {
   if (zobject.Z1K1 === 'Z5') { return zobject; }
   return new Promise((resolve, reject) => {
-    const url = new URL(evalurl.replace('$1', JSON.stringify(zobject)));
-    const req = https.request({
-      hostname: url.hostname,
-      port: url.port,
-      path: url.pathname + url.search,
+    const call = { Z1K1: "Z7", Z7K1: "Z801", Z801K1: zobject };
+    const url = new URL(evalurl + JSON.stringify(call));
+    const req = http.request(url, {
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
       res.setEncoding('utf8');
@@ -23,7 +21,10 @@ const evaluate_async = async (zobject) => {
       });
 
       res.on('end', () => {
-        resolve(JSON.parse(body));
+        // TODO: what if not success
+        resolve(JSON.parse(
+          JSON.parse(body).query.wikilambda_function_call.Orchestrated.data
+        ).Z22K1);
       });
     });
 
