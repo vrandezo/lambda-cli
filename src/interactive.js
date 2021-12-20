@@ -38,12 +38,12 @@ const getZ22K1 = (zobject) => {
 const write = (input) => {
   if (input === null) { return ''; }
   last = input;
-  return util.inspect(input, false, Infinity, true);
+  return JSON.stringify(input, null, 2);
 }
 
 const write_no_remember = (input) => {
   if (input === null) { return ''; }
-  return util.inspect(input, false, Infinity, true);
+  return JSON.stringify(input, null, 2);
 }
 
 const answer = (command, callback) => {

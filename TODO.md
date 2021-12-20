@@ -2,11 +2,9 @@ next steps:
 - works: config, lambda, interactive, labelize, normalize,
   prettyprint (but needs canonicalizer)
 - does not work:
--- canonicalize (but because something doesn't work inside canonicalizer in schemata)
--- file bug upstream
+-- canonicalizer: file bug upstream for canonicalizer
 
 -- parse
--- evaluate
 -- delabel
 -- labelmap in load
 -- wellformed
