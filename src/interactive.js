@@ -53,12 +53,8 @@ const answer = (command, callback) => {
   } else {
     parse.parse_async(
       data
-//    ).then(
-//      evaluate.evaluate_async
-//    ).then(
-//      getZ22K1
-//    ).then(
-//      canonicalize.canonicalize_async
+    ).then(
+      evaluate.evaluate_async
 //    ).then(
 //      labelize.labelize
     ).then(
