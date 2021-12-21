@@ -108,9 +108,9 @@ const interactive = () => {
   cli.defineCommand(
     'wiki', {
       help: 'URL of the wiki to talk to, or local directory with ZObject files',
-      action(data) {
+      action(wiki) {
         this.clearBufferedCommand();
-        if (data !== '') {
+        if (wiki !== '') {
           config.set_wiki(wiki);
         }
         console.log(config.wiki());
