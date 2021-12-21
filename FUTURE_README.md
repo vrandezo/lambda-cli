@@ -102,7 +102,7 @@ The interactive shell has the following magic features:
 - .parser: show or set the parser to use
 - .writer: show or set the writer to use
 - .timer: switch the timer on or off
-- .data: location of the data (might be local or via http)
+- .wiki: URL of the wiki, or a local path to the data
 - .evaluator: which evaluator to run (local or via http)
 - .labelize: use a writer that shows the canonical version but labelized
 - .normal: use normalization instead of the standard writer

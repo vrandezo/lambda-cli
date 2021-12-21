@@ -1,7 +1,6 @@
 'use strict';
 
 const canonicalize = require('./canonicalize.js');
-const utils = require('./utils.js');
 
 const prettyprint = (zobject) => {
   process.stdout.write(

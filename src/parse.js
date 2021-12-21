@@ -3,7 +3,6 @@
 const delabel = require('./delabel.js');
 const load = require('./load.js');
 const utils = require('./utils.js');
-const config = require('./config.js');
 
 const POTENTIALREFERENCE = 'ZSymbol';
 const STRING = 'ZString';

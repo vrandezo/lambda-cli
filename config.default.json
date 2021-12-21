@@ -3,11 +3,11 @@
 		"en": "Z1002"
 	},
 	"cache": "./cache/",
-	"data": {
-		"beta": "https://wikifunctions.beta.wmflabs.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
-		"notwikilambda": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
-		"nwl": "https://notwikilambda.toolforge.org/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
-		"local": "http://localhost:8080/w/api.php?action=wikilambda_fetch&format=json&zids=$1",
+	"wiki": {
+		"beta": "https://wikifunctions.beta.wmflabs.org",
+		"notwikilambda": "https://notwikilambda.toolforge.org",
+		"nwl": "https://notwikilambda.toolforge.org",
+		"local": "http://localhost:8080",
 		"files": "./function-schemata/data/definitions/$1.json"
 	}
 }

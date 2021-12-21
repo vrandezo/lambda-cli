@@ -106,14 +106,14 @@ const interactive = () => {
   );
 
   cli.defineCommand(
-    'data', {
-      help: 'Local directory or web URL to get data from',
+    'wiki', {
+      help: 'URL of the wiki to talk to, or local directory with ZObject files',
       action(data) {
         this.clearBufferedCommand();
         if (data !== '') {
-          config.set_data(data);
+          config.set_wiki(wiki);
         }
-        console.log(config.data());
+        console.log(config.wiki());
 
         this.displayPrompt();
       }

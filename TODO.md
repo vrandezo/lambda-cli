@@ -1,11 +1,6 @@
 next steps:
-- works: config, lambda, interactive, labelize, normalize, canonicalizer,
-  prettyprint
 - does not work:
--- parse
--- delabel
--- labelmap in load
-
+-- parse / delabel / labelmap in load
 -- wellformed
 
 previous next steps:
@@ -13,6 +8,8 @@ previous next steps:
 - use search instead of labelmap for remote endpoints
 - how to deal with caches against different endpoints
 - what to do when more than one hit
+
+- when switching .data, also delete the cache
 
 - evaluation
 -- cannot choose the orchestrator endpoint yet
@@ -23,50 +20,13 @@ then:
 - command for label/delabel single ZID / name / ZKID
 - checking levels
 -- parses (JSON)
+-- parses mixed JSON into function call syntax and the other way around
 -- Wellformedness (simple wellformedness)
 -- Conforming (all inalienable truths)
 -- Linked (all ZIDs exist)
 -- checkable (the Type has a validator)
 -- valid (the validator returns no errrors)
-
-bug:
-> { "Z1K1": "Z7", "Z7K1": "Hello" }
-{ Z1K1: 'Z7', Z7K1: 'Hello' }
-- should be an errormessage
-
-bug:
-> { "Z1K1": "Z7", "Z7K1": "Z802" }
-{
-  Z1K1: 'Z5',
-  Z5K1: {
-    Z1K1: 'Z416',
-    Z416K1: 'No value for supplied for declared argument Z802K1'
-  }
-}
-- the ZID is wrong and the errortype is wrongly used
-
-bug:
-> { "Z1K1": "Z7", "Z7K1": "Z802", "Z802K1": "Z41", "Z802K2": "this", "Z802K3": "that" }
-{
-  Z1K1: 'Z7',
-  Z7K1: 'Z802',
-  Z802K1: 'Z41',
-  Z802K2: 'this',
-  Z802K3: 'that'
-}
-- should return "this", see the following:
-
-> { "Z1K1": "Z7", "Z7K1": "Z802", "Z802K1": { "Z1K1": "Z40", "Z40K1": "Z41" }, "Z802K2": "this", "Z802K3": "that" }
-{ Z1K1: 'Z6', Z6K1: 'this' }
-
-bug:
-- normalization and canonicalization are both buggy, do
-> { "Z1K1": { "Z1K1": "Z9", "Z9K1": "Z6" }, "Z6K1": "test" }
-> .canonicalize
-throws error
-(probably because the input is not wellformed, and we yet don't check for
-wellformedness, so let's check if that still happens once the checking levels
-are implemented)
+- deal with errors in many places
 
 furthermore:
 - prettyprint in the REPL (worry about Z2 envelope)
@@ -78,6 +38,7 @@ furthermore:
 - rename master to main (will happen together with all other gerrit repos)
 - allow --config parameter
 - defineCommand timer
+- have a command for ZID to name and vice versa
 - tests
 - autocomplete (for default parser)
 -- needs labelmap or something to get all labels from .data source

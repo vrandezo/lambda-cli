@@ -46,7 +46,7 @@ used in the third example above):
 
 The input can be given in the following ways:
 - in JSON: whenever it starts with ", {, or [
-- as a ZID, and then it will be loaded from the configured data path
+- as a ZID, and then it will be loaded from the configured wiki or local path
 
 ## Interactive
 
@@ -75,7 +75,7 @@ The interactive shell has the following magic features:
 - .save: Save all evaluated commands in this REPL session to a file
 - .version: Version number of the lambda CLI
 - .language: show or set the natural language
-- .data: location of the data (might be local or via http)
+- .wiki: URL of the wiki to connect to, or local path to the data
 - .cache: location of the local directory with the cache
 - .reload: reloads a specific ZID. Without arguments, deletes all cache.
 
@@ -83,7 +83,7 @@ The interactive shell has the following magic features:
 
 The config.json file allows to configure the following settings:
 - natural language (key "language", value MediaWiki language code)
-- where to load the data from (key "data", value either the URL or the path to
+- where to load the data from (key "wiki", either the URL or the path to
   a local directory, the ZID is replaced by $1)
 - cache: path to a local directory for storing the cached files (key "cache")
 

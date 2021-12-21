@@ -21,12 +21,12 @@ const load = (path) => {
   } else {
     config.language_actually = config.language[Object.keys(config.language)[0]];
   }
-  if (utils.is_string(config.data)) {
-    config.data_actually = config.data;
-    config.data = {};
-    config.data.default = config.data_actually;
+  if (utils.is_string(config.wiki)) {
+    config.wiki_actually = config.wiki;
+    config.wiki = {};
+    config.wiki.default = config.wiki_actually;
   } else {
-    config.data_actually = config.data[Object.keys(config.data)[0]];
+    config.wiki_actually = config.wiki[Object.keys(config.wiki)[0]];
   }
 }
 
@@ -52,19 +52,19 @@ const set_cache = (path) => {
 }
 
 const is_local = () => {
-  return (config.data_actually.slice(0, 6) !== 'https:') &&
-    (config.data_actually.slice(0, 5) !== 'http:');
+  return (config.wiki_actually.slice(0, 6) !== 'https:') &&
+    (config.wiki_actually.slice(0, 5) !== 'http:');
 }
 
-const data = () => {
-  return config.data_actually;
+const wiki = () => {
+  return config.wiki_actually;
 }
 
-const set_data = (data) => {
-  if (Object.keys(config.data).includes(data)) {
-    config.data_actually = config.data[data];
+const set_wiki = (wiki) => {
+  if (Object.keys(config.wiki).includes(wiki)) {
+    config.wiki_actually = config.wiki[wiki];
   } else {
-    config.data_actually = data;
+    config.wiki_actually = wiki;
   }
 }
 
@@ -74,6 +74,6 @@ exports.set_language = set_language;
 exports.cache = cache;
 exports.set_cache = set_cache;
 exports.is_local = is_local;
-exports.data = data;
-exports.set_data = set_data;
+exports.wiki = wiki;
+exports.set_wiki = set_wiki;
 exports.version = version;

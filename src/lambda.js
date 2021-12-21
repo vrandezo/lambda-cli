@@ -43,10 +43,10 @@ const settings = ((argv) => {
         config.set_language(lang);
         continue;
       }
-      if (v === "--data") {
-        const data = argv[i+1];  // TODO do something in case of error
+      if (v === "--wiki") {
+        const wiki = argv[i+1];  // TODO do something in case of error
         i++;
-        config.set_data(data);
+        config.set_wiki(wiki);
         continue;
       }
       if (v === "--cache") {

@@ -1,9 +1,5 @@
 'use strict';
 
-const fs = require("fs");
-
-const utils = require('./utils.js');
-const config = require('./config.js');
 const canonicalize_schemata = require('../function-schemata/javascript/src/canonicalize.js');
 
 const canonicalize_async = async (zobject) => {
