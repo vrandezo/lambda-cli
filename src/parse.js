@@ -101,8 +101,9 @@ const tokenize = (input) => {
       if (character === '"') {
         add_potential_reference();
         insideString = true;
-      } else if (character === ' ') {
-        add_potential_reference();
+        // TODO: decide whether spaces are allowed in symbols
+        // } else if (character === ' ') {
+        //   add_potential_reference();
       } else if (character && escapeInSymbolFuture.includes(character)) {
         add_potential_reference();
         tokens.push({ Z1K1: 'ZToken', K1: FUTURESYMBOL, K2: position.toString(), K3: character });
@@ -267,6 +268,7 @@ const build_single_value = async (tokens) => {
 
 const parse_async = async (input) => {
   const tokens = tokenize(input);
+  console.log(tokens);
   const call = await build_single_value(tokens);
   return call;
 }
