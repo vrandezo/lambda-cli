@@ -1,6 +1,7 @@
 'use strict';
 
 const delabel = require('./delabel.js');
+const load = require('./load.js');
 const utils = require('./utils.js');
 const config = require('./config.js');
 
@@ -183,12 +184,20 @@ const build_symbol = async (tokens) => {
   if (tokens[0].K1 !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
-  const delabel_call_token = await delabel.delabel(tokens[0].K3, 'en');
-  if (delabel_call_token.length !== 1) {
-    return error('could not delabel reference', tokens[0]);
+  let call_zid = '';
+  let call_type = ''
+  if (utils.is_zid(tokens[0].K3)) {
+    call_zid = tokens[0].K3;
+    const call_object = await load.load(call_zid);
+    call_type = call_object.Z2K2.Z1K1;
+  } else {
+    const delabel_call_token = await delabel.delabel(tokens[0].K3, 'en');
+    if (delabel_call_token.length !== 1) {
+      return error('could not delabel reference', tokens[0]);
+    }
+    call_zid = delabel_call_token[0].K1;
+    call_type = delabel_call_token[0].K2;
   }
-  const call_zid = delabel_call_token[0].K1;
-  const call_type = delabel_call_token[0].K2;
   const is_type = call_type === 'Z4';
   const is_function = call_type === 'Z8';
   if (tokens.length === 1 || tokens[1].K1 !== OPENARG || !(is_type || is_function)) {
@@ -260,7 +269,6 @@ const build_single_value = async (tokens) => {
 const parse_async = async (input) => {
   const tokens = tokenize(input);
   const call = await build_single_value(tokens);
-  // console.log('parse result', call);
   return call;
 }
 

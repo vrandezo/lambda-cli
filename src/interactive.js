@@ -14,10 +14,6 @@ const utils = require('./utils.js');
 
 let last = null;
 
-const help = () => {
-  console.log("Help.");
-}
-
 const evalinput = (command, context, file, callback) => {
   answer(command, (result) => { callback(null, result); });
 }
