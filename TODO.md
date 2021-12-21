@@ -9,15 +9,11 @@ previous next steps:
 - how to deal with caches against different endpoints
 - what to do when more than one hit
 
-- when switching .data, also delete the cache
-
-- evaluation
--- cannot choose the orchestrator endpoint yet
--- uses http only. should choose depending on protocol.
--- same for loading data, should switch
+- when switching .wiki, also delete the cache
 
 then:
 - command for label/delabel single ZID / name / ZKID
+- tests
 - checking levels
 -- parses (JSON)
 -- parses mixed JSON into function call syntax and the other way around
@@ -39,7 +35,6 @@ furthermore:
 - allow --config parameter
 - defineCommand timer
 - have a command for ZID to name and vice versa
-- tests
 - autocomplete (for default parser)
 -- needs labelmap or something to get all labels from .data source
 - result preview (for default parser)

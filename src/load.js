@@ -16,7 +16,8 @@ let labelmap_loaded = null;
 
 const request_web = (zid) => {
   return new Promise((resolve, reject) => {
-    const path = '/w/api.php?action=wikilambda_fetch&format=json&zids=$1'.replace('$1', zid);
+    const path = '/w/api.php?action=wikilambda_fetch&' +
+      'format=json&zids=$1'.replace('$1', zid);
     const url = new URL(config.wiki() + path);
     const protocol = (url.protocol=='https:') ? https : http;
     const req = protocol.request(url, {
