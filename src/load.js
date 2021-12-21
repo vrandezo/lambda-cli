@@ -108,8 +108,7 @@ const reset = (zid) => {
   }
 }
 
-const create_new_labelmap = async () => {
-  // if local
+const create_new_labelmap_local = async () => {
   const directory = config.data().substring(0, config.data().lastIndexOf('/'));
   const files = await fs.promises.readdir( directory );
   let labelmap = { '_': {
@@ -134,18 +133,32 @@ const create_new_labelmap = async () => {
     JSON.stringify(labelmap)
   );
   return labelmap;
-  // if website, download it (needs a labelmap api)
 }
 
 const get_labelmap = async (language) => {
-  if (labelmap_loaded === null) {
-    labelmap = await load_json_from_cache('labelmap.' + language);
-    if (!('_' in labelmap)) {
-      labelmap = await create_new_labelmap();
+  if (config.is_local()) {
+    if (labelmap_loaded === null) {
+      labelmap = await load_json_from_cache('labelmap.' + language);
+      if (!('_' in labelmap)) {
+        labelmap = await create_new_labelmap_local();
+      }
+      labelmap_loaded = true;
     }
-    labelmap_loaded = true;
+    return labelmap;
+  } else {
+    if (labelmap_loaded === null) {
+      labelmap = await load_json_from_cache('labelmap.' + language);
+      if (!('_' in labelmap)) {
+        labelmap = { '_': {
+          language: config.language,
+          source: config.wiki(),
+          timestamp: (new Date()).toJSON()
+        }};
+      }
+      labelmap_loaded = true;
+    }
+    return labelmap;
   }
-  return labelmap;
 }
 
 const reset_all = () => {

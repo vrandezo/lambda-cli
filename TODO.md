@@ -1,5 +1,5 @@
 next steps:
-- does not work:
+- works a little:
 -- parse / delabel / labelmap in load
 -- wellformed
 
@@ -9,11 +9,13 @@ previous next steps:
 - how to deal with caches against different endpoints
 - what to do when more than one hit
 
-- when switching .wiki, also delete the cache
+- when switching .wiki, also delete the cache and the labelmap
 
 then:
 - command for label/delabel single ZID / name / ZKID
 - tests
+- log stuff, allow to be chattier on the command line (.details on)
+- eval, search, and load all make calls to the MW API with lots of repeat code
 - checking levels
 -- parses (JSON)
 -- parses mixed JSON into function call syntax and the other way around

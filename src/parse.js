@@ -268,7 +268,6 @@ const build_single_value = async (tokens) => {
 
 const parse_async = async (input) => {
   const tokens = tokenize(input);
-  console.log(tokens);
   const call = await build_single_value(tokens);
   return call;
 }
