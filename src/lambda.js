@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-const util = require('util');
-
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const evaluate = require('./evaluate.js');
@@ -22,7 +20,7 @@ try {
 
 const write = (input) => {
   if (input === null) { return ''; }
-  return util.inspect(input, false, Infinity, true);
+  return JSON.stringify(input, null, 2);
 }
 
 const getZ2K2 = (zobject) => {

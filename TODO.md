@@ -1,9 +1,7 @@
 next steps:
-- works: config, lambda, interactive, labelize, normalize,
-  prettyprint (but needs canonicalizer)
+- works: config, lambda, interactive, labelize, normalize, canonicalizer,
+  prettyprint
 - does not work:
--- canonicalizer: file bug upstream for canonicalizer
-
 -- parse
 -- delabel
 -- labelmap in load

@@ -13,7 +13,8 @@ const canonicalize_async = async (zobject) => {
   });
 }
 
-const canonicalize = (zobject) => canonicalize_schemata(zobject);
+// TODO: do something in error case
+const canonicalize = (zobject) => canonicalize_schemata(zobject).Z22K1;
 
 exports.canonicalize = canonicalize;
 exports.canonicalize_async = canonicalize_async;

@@ -2,7 +2,6 @@
 
 const https = require('https');
 const repl = require('repl');
-const util = require('util');
 
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
@@ -58,12 +57,12 @@ const answer = (command, callback) => {
   } else {
     parse.parse_async(
       data
-    ).then(
-      evaluate.evaluate_async
-    ).then(
-      getZ22K1
-    ).then(
-      canonicalize.canonicalize_async
+//    ).then(
+//      evaluate.evaluate_async
+//    ).then(
+//      getZ22K1
+//    ).then(
+//      canonicalize.canonicalize_async
 //    ).then(
 //      labelize.labelize
     ).then(
