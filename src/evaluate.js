@@ -1,20 +1,20 @@
 'use strict';
 
-const utils = require('./utils.js');
 const config = require('./config.js');
 const http = require('http');
 const https = require('https');
 
-
-const evaluate_async = async (zobject) => {
+const evaluateAsync = async (zobject) => {
   const evalpath = '/w/api.php?' +
     'action=wikilambda_function_call&' +
     'format=json&wikilambda_function_call_zobject=';
-  if (zobject.Z1K1 === 'Z5') { return zobject; }
+  if (zobject.Z1K1 === 'Z5') {
+    return zobject;
+  }
   return new Promise((resolve, reject) => {
-    const call = { Z1K1: "Z7", Z7K1: "Z801", Z801K1: zobject };
+    const call = { Z1K1: 'Z7', Z7K1: 'Z801', Z801K1: zobject };
     const url = new URL(config.wiki() + evalpath + JSON.stringify(call));
-    const protocol = (url.protocol=='https:') ? https : http;
+    const protocol = (url.protocol === 'https:') ? https : http;
     const req = protocol.request(url, {
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
@@ -43,6 +43,6 @@ const evaluate_async = async (zobject) => {
 
     req.end();
   });
-}
+};
 
-exports.evaluate_async = evaluate_async;
+exports.evaluateAsync = evaluateAsync;

@@ -35,7 +35,7 @@ const tokenize = (input) => {
       position = current_position;
       token = '';
     }
-  }
+  };
 
   for (let character of input) {
     current_position += 1;
@@ -46,7 +46,7 @@ const tokenize = (input) => {
         position = current_position + 1;
         character = '';
       }
-    }
+    };
 
     if (insideString) {
       if (insideEscape) {
@@ -80,7 +80,7 @@ const tokenize = (input) => {
       }
     } else {
       if (insideEscape) {
-        if ( escapeInSymbol.includes(character) || escapeInSymbolFuture.includes(character) ) {
+        if (escapeInSymbol.includes(character) || escapeInSymbolFuture.includes(character)) {
           token += character;
           if (character === '_') { token += character; }
           character = '';
@@ -129,7 +129,7 @@ const tokenize = (input) => {
   }
   add_potential_reference();
   return tokens;
-}
+};
 
 const error = (message, tokens) => {
   return {
@@ -139,8 +139,8 @@ const error = (message, tokens) => {
       Z5K2: tokens
     },
     rest: []
-  }
-}
+  };
+};
 
 const build_csv = async (tokens, open, close) => {
   if (tokens[0].K1 !== open) {
@@ -153,11 +153,11 @@ const build_csv = async (tokens, open, close) => {
     return {
       value: [],
       rest: tokens.slice(2)
-    }
+    };
   }
-  let values = [];
+  const values = [];
   while (true) {
-    let { value, rest } = await build_value(tokens.slice(1));
+    const { value, rest } = await build_value(tokens.slice(1));
     values.push(value);
     if (rest.length === 0) {
       return error('expected closing', tokens);
@@ -166,7 +166,7 @@ const build_csv = async (tokens, open, close) => {
       return {
         value: values,
         rest: rest.slice(1)
-      }
+      };
     }
     if (rest[0].K1 === SEPERATOR) {
       tokens = rest;
@@ -174,18 +174,18 @@ const build_csv = async (tokens, open, close) => {
     }
     return error('expected comma', rest);
   }
-}
+};
 
 const build_args = async (tokens) => {
   return await build_csv(tokens, OPENARG, CLOSEARG);
-}
+};
 
 const build_symbol = async (tokens) => {
   if (tokens[0].K1 !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
   let call_zid = '';
-  let call_type = ''
+  let call_type = '';
   if (utils.is_zid(tokens[0].K3)) {
     call_zid = tokens[0].K3;
     const call_object = await load.load(call_zid);
@@ -207,9 +207,9 @@ const build_symbol = async (tokens) => {
         Z9K1: call_zid
       },
       rest: tokens.slice(1)
-    }
+    };
   }
-  let call = {}
+  const call = {};
   if (is_type) {
     call.Z1K1 = call_zid;
   }
@@ -217,20 +217,20 @@ const build_symbol = async (tokens) => {
     call.Z1K1 = 'Z7';
     call.Z7K1 = call_zid;
   }
-  let { value, rest } = await build_args(tokens.slice(1));
+  const { value, rest } = await build_args(tokens.slice(1));
   if (value.Z1K1 === 'Z5') { return { value: value, rest: rest }; }
-  for (let v in value) {
+  for (const v in value) {
     call[call_zid + 'K' + (parseInt(v) + 1).toString()] = value[v];
   }
   return {
     value: call,
     rest: rest
-  }
-}
+  };
+};
 
 const build_list = async (tokens) => {
   return await build_csv(tokens, OPENLIST, CLOSELIST);
-}
+};
 
 const build_string = (tokens) => {
   if (tokens[0].K1 !== STRING) {
@@ -242,8 +242,8 @@ const build_string = (tokens) => {
       Z6K1: tokens[0].K3
     },
     rest: tokens.slice(1)
-  }
-}
+  };
+};
 
 const build_value = async (tokens) => {
   if (tokens[0].K1 === POTENTIALREFERENCE) {
@@ -256,20 +256,20 @@ const build_value = async (tokens) => {
     return build_string(tokens);
   }
   return error('must be a reference, function call, list, or string', tokens);
-}
+};
 
 const build_single_value = async (tokens) => {
-  let { value, rest } = await build_value(tokens);
+  const { value, rest } = await build_value(tokens);
   if (rest.length > 0) {
     return error('rest after parsing a value', rest);
   }
   return value;
-}
+};
 
 const parse_async = async (input) => {
   const tokens = tokenize(input);
   const call = await build_single_value(tokens);
   return call;
-}
+};
 
 exports.parse_async = parse_async;

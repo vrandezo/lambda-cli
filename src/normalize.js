@@ -1,20 +1,20 @@
 'use strict';
 
-const normalize_schemata = require('../function-schemata/javascript/src/normalize.js');
-
-const normalize_async = async (zobject) => {
-  return new Promise((resolve, reject) => {
-    // TODO: if Z22K2 != Z23 reject, else
-    resolve(normalize(zobject));
-  });
-}
+const normalizeSchemata = require('../function-schemata/javascript/src/normalize.js');
 
 // TODO: if Z22K2 != Z23 reject, else
 // if ( Z5Validator.validateStatus( normalized.Z22K2 ).isValid() ) {
   // forward the error that happened in preliminary normalization
 //  return normalized;
-//}
-const normalize = (zobject) => normalize_schemata(zobject).Z22K1;
+// }
+const normalize = (zobject) => normalizeSchemata(zobject).Z22K1;
+
+const normalizeAsync = async (zobject) => {
+  return new Promise((resolve, reject) => {
+    // TODO: if Z22K2 != Z23 reject, else
+    resolve(normalize(zobject));
+  });
+};
 
 exports.normalize = normalize;
-exports.normalize_async = normalize_async;
+exports.normalizeAsync = normalizeAsync;

@@ -16,36 +16,36 @@ let last = null;
 
 const evalinput = (command, context, file, callback) => {
   answer(command, (result) => { callback(null, result); });
-}
+};
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
-}
+};
 
 const getZ22K1 = (zobject) => {
   if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
-    return zobject.Z22K1
+    return zobject.Z22K1;
   } else {
     return zobject;
   }
-}
+};
 
 const write = (input) => {
   if (input === null) { return ''; }
   last = input;
   return JSON.stringify(input, null, 2);
-}
+};
 
 const write_no_remember = (input) => {
   if (input === null) { return ''; }
   return JSON.stringify(input, null, 2);
-}
+};
 
 const answer = (command, callback) => {
   const data = command.trim();
   const first = data[0];
   if (first === '[' || first === '{' || first === '"') {
-    evaluate.evaluate_async(JSON.parse(data)).then(callback);
+    evaluate.evaluateAsync(JSON.parse(data)).then(callback);
   } else if (utils.is_zid(data)) {
     load.load(data).then(getZ2K2).then(callback);
   } else if (data === '_') {
@@ -54,14 +54,14 @@ const answer = (command, callback) => {
     parse.parse_async(
       data
     ).then(
-      evaluate.evaluate_async
+      evaluate.evaluateAsync
 //    ).then(
 //      labelize.labelize
     ).then(
       callback
     );
   }
-}
+};
 
 const interactive = () => {
   console.log(config.version());
@@ -74,7 +74,7 @@ const interactive = () => {
   cli.setupHistory('./.history', () => null);
 
   cli.on('exit', () => {
-    load.save_cache(config.cache());
+    load.saveCache(config.cache());
     console.log('Have a mindful day.');
     process.exit();
   });
@@ -96,7 +96,7 @@ const interactive = () => {
       action(lang) {
         this.clearBufferedCommand();
         if (lang !== '') {
-          config.set_language(lang);
+          config.setLanguage(lang);
         }
         console.log(config.language());
 
@@ -111,7 +111,7 @@ const interactive = () => {
       action(wiki) {
         this.clearBufferedCommand();
         if (wiki !== '') {
-          config.set_wiki(wiki);
+          config.setWiki(wiki);
         }
         console.log(config.wiki());
 
@@ -126,7 +126,7 @@ const interactive = () => {
       action(cache) {
         this.clearBufferedCommand();
         if (cache !== '') {
-          config.set_cache(cache);
+          config.setCache(cache);
         }
         console.log(config.cache());
 
@@ -143,7 +143,7 @@ const interactive = () => {
         if (zid !== '') {
           load.reset(zid);
         } else {
-          load.reset_all();
+          load.resetAll();
         }
         this.displayPrompt();
       }
@@ -159,7 +159,7 @@ const interactive = () => {
           answer(input, (x) => {
             console.log(write_no_remember(canonicalize.canonicalize(x)));
             this.displayPrompt();
-          })
+          });
         } else {
           console.log(write(canonicalize.canonicalize(last)));
           this.displayPrompt();
@@ -177,7 +177,7 @@ const interactive = () => {
           answer(input, (x) => {
             console.log(write_no_remember(normalize.normalize(x)));
             this.displayPrompt();
-          })
+          });
         } else {
           console.log(write(normalize.normalize(last)));
           this.displayPrompt();
@@ -195,14 +195,14 @@ const interactive = () => {
           answer(input, async (x) => {
             console.log(write_no_remember(await labelize.labelize(x, false)));
             this.displayPrompt();
-          })
+          });
         } else {
           console.log(write_no_remember(await labelize.labelize(last, false)));
           this.displayPrompt();
         }
       }
     }
-  )
-}
+  );
+};
 
 exports.interactive = interactive;

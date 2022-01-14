@@ -3,7 +3,6 @@
 const fs = require('fs');
 const https = require('https');
 const http = require('http');
-const util = require('util');
 
 const config = require('./config.js');
 const utils = require('./utils.js');
@@ -11,15 +10,15 @@ const utils = require('./utils.js');
 let cache = {};
 let labelmap = {};
 
-let cache_loaded = null;
-let labelmap_loaded = null;
+let cacheLoaded = null;
+let labelmapLoaded = null;
 
-const request_web = (zid) => {
+const requestWeb = (zid) => {
   return new Promise((resolve, reject) => {
     const path = '/w/api.php?action=wikilambda_fetch&' +
       'format=json&zids=$1'.replace('$1', zid);
     const url = new URL(config.wiki() + path);
-    const protocol = (url.protocol=='https:') ? https : http;
+    const protocol = (url.protocol === 'https:') ? https : http;
     const req = protocol.request(url, {
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
@@ -31,7 +30,7 @@ const request_web = (zid) => {
       });
 
       res.on('end', () => {
-        resolve(JSON.parse(JSON.parse(body)[zid]['wikilambda_fetch']));
+        resolve(JSON.parse(JSON.parse(body)[zid].wikilambda_fetch));
       });
     });
 
@@ -45,9 +44,9 @@ const request_web = (zid) => {
 
     req.end();
   });
-}
+};
 
-const request_local = (zid) => {
+const requestLocal = (zid) => {
   return new Promise((resolve, reject) => {
     const path = config.data().replace('$1', zid);
     fs.readFile(path, (err, data) => {
@@ -61,63 +60,63 @@ const request_local = (zid) => {
       } else {
         resolve(JSON.parse(data));
       }
-    })
+    });
   });
-}
+};
 
-const load_json_from_cache = (filename) => {
+const loadJsonFromCache = (filename) => {
   return new Promise((resolve, reject) => {
     fs.readFile(config.cache() + filename + '.json', (err, data) => {
-      cache_loaded = config.cache();
+      cacheLoaded = config.cache();
       if (err) {
         resolve({});
       } else {
         resolve(JSON.parse(data));
       }
-    })
+    });
   });
-}
+};
 
-const load_cache = () => load_json_from_cache('cache');
+const loadCache = () => loadJsonFromCache('cache');
 
-const save_cache = (path) => {
+const saveCache = (path) => {
   fs.writeFileSync(path + 'cache.json', JSON.stringify(cache));
-}
+};
 
 const load = async (zid) => {
-  if (cache_loaded !== config.cache()) {
-    cache = await load_cache();
+  if (cacheLoaded !== config.cache()) {
+    cache = await loadCache();
   }
   if (zid in cache) {
     return cache[zid];
   }
-  if (config.is_local()) {
-    const zobject = await request_local(zid);
+  if (config.isLocal()) {
+    const zobject = await requestLocal(zid);
     cache[zid] = zobject;
     return zobject;
   } else {
-    const zobject = await request_web(zid);
+    const zobject = await requestWeb(zid);
     cache[zid] = zobject;
     return zobject;
   }
-}
+};
 
 const reset = (zid) => {
   if (zid in cache) {
     delete cache[zid];
   }
-}
+};
 
-const create_new_labelmap_local = async () => {
-  const directory = config.data().substring(0, config.data().lastIndexOf('/'));
-  const files = await fs.promises.readdir( directory );
-  let labelmap = { '_': {
+const createNewLabelmapLocal = async () => {
+  const directory = config.data().slice(0, Math.max(0, config.data().lastIndexOf('/')));
+  const files = await fs.promises.readdir(directory);
+  const labelmap = { _: {
     language: config.language,
     source: directory,
     timestamp: (new Date()).toJSON()
-  }};
-  for (let f of files) {
-    const zid = f.substring(0, f.indexOf('.'));
+  } };
+  for (const f of files) {
+    const zid = f.slice(0, Math.max(0, f.indexOf('.')));
     const obj = await load(zid);
     let label = utils.get_label(obj.Z2K3, config.language());
     label = (label === null) ? zid : label;
@@ -133,42 +132,42 @@ const create_new_labelmap_local = async () => {
     JSON.stringify(labelmap)
   );
   return labelmap;
-}
+};
 
-const get_labelmap = async (language) => {
-  if (config.is_local()) {
-    if (labelmap_loaded === null) {
-      labelmap = await load_json_from_cache('labelmap.' + language);
+const getLabelmap = async (language) => {
+  if (config.isLocal()) {
+    if (labelmapLoaded === null) {
+      labelmap = await loadJsonFromCache('labelmap.' + language);
       if (!('_' in labelmap)) {
-        labelmap = await create_new_labelmap_local();
+        labelmap = await createNewLabelmapLocal();
       }
-      labelmap_loaded = true;
+      labelmapLoaded = true;
     }
     return labelmap;
   } else {
-    if (labelmap_loaded === null) {
-      labelmap = await load_json_from_cache('labelmap.' + language);
+    if (labelmapLoaded === null) {
+      labelmap = await loadJsonFromCache('labelmap.' + language);
       if (!('_' in labelmap)) {
-        labelmap = { '_': {
+        labelmap = { _: {
           language: config.language,
           source: config.wiki(),
           timestamp: (new Date()).toJSON()
-        }};
+        } };
       }
-      labelmap_loaded = true;
+      labelmapLoaded = true;
     }
     return labelmap;
   }
-}
+};
 
-const reset_all = () => {
+const resetAll = () => {
   cache = {};
-}
+};
 
-exports.labelmap = get_labelmap;
+exports.labelmap = getLabelmap;
 
 exports.load = load;
-exports.load_cache = load_cache;
-exports.save_cache = save_cache;
+exports.loadCache = loadCache;
+exports.saveCache = saveCache;
 exports.reset = reset;
-exports.reset_all = reset_all;
+exports.resetAll = resetAll;

@@ -21,11 +21,11 @@ try {
 const write = (input) => {
   if (input === null) { return ''; }
   return JSON.stringify(input, null, 2);
-}
+};
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
-}
+};
 
 let command = null;
 let input = null;
@@ -36,65 +36,65 @@ const settings = ((argv) => {
 
   while (++i < argv.length) {
     const v = argv[i];
-    if (v[0] === "-") {
-      if (v === "--language") {
-        const lang = argv[i+1];  // TODO do something in case of error
+    if (v[0] === '-') {
+      if (v === '--language') {
+        const lang = argv[i + 1];  // TODO do something in case of error
         i++;
-        config.set_language(lang);
+        config.setLanguage(lang);
         continue;
       }
-      if (v === "--wiki") {
-        const wiki = argv[i+1];  // TODO do something in case of error
+      if (v === '--wiki') {
+        const wiki = argv[i + 1];  // TODO do something in case of error
         i++;
-        config.set_wiki(wiki);
+        config.setWiki(wiki);
         continue;
       }
-      if (v === "--cache") {
-        const cache = argv[i+1];  // TODO do something in case of error
+      if (v === '--cache') {
+        const cache = argv[i + 1];  // TODO do something in case of error
         i++;
-        config.set_cache(cache);
+        config.setCache(cache);
         continue;
       }
-      console.log("Unknown argument: " + v);
+      console.log('Unknown argument: ' + v);
       process.exit(1);
     }
     if (command === null) {
-      if (v === "labelize" || v === "l") {
+      if (v === 'labelize' || v === 'l') {
         command = labelize.labelize;
         continue;
       }
-      if (v === "normalize" || v === "n") {
-        command = normalize.normalize_async;
+      if (v === 'normalize' || v === 'n') {
+        command = normalize.normalizeAsync;
         continue;
       }
-      if (v === "canonicalize" || v === "c") {
-        command = canonicalize.canonicalize_async;
+      if (v === 'canonicalize' || v === 'c') {
+        command = canonicalize.canonicalizeAsync;
         continue;
       }
-      if (v === "prettyprint" || v === "p") {
-        command = prettyprint.prettyprint_async;
+      if (v === 'prettyprint' || v === 'p') {
+        command = prettyprint.prettyprintAsync;
         meta = true;
         continue;
       }
-      if (v === "evaluate" || v === "e") {
-        command = evaluate.evaluate_async;
+      if (v === 'evaluate' || v === 'e') {
+        command = evaluate.evaluateAsync;
         continue;
       }
-      console.log("Unknown command: " + v);
+      console.log('Unknown command: ' + v);
       process.exit(1);
     }
     if (input === null) {
       input = v;
       continue;
     }
-    console.log("Unknown parameter: " + argv[i]);
+    console.log('Unknown parameter: ' + argv[i]);
     process.exit(1);
   }
 })(process.argv);
 
 if (command !== null) {
   if (input === null) {
-    console.log("No input given.");
+    console.log('No input given.');
     process.exit(1);
   }
   if ('{"['.includes(input[0])) {
@@ -106,7 +106,7 @@ if (command !== null) {
       load.load(input).then(getZ2K2).then(command).then(write).then(console.log);
     }
   } else {
-    console.log("Input not understood.");
+    console.log('Input not understood.');
     process.exit(1);
   }
 }

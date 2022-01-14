@@ -5,7 +5,6 @@ const http = require('http');
 
 const config = require('./config.js');
 const utils = require('./utils.js');
-const labelize = require('./labelize.js');
 const load = require('./load.js');
 
 const searchlabel = async (label) => {
@@ -14,7 +13,7 @@ const searchlabel = async (label) => {
       'list=wikilambdasearch_labels&wikilambdasearch_language=en' +
       '&wikilambdasearch_limit=100&wikilambdasearch_search=';
     const url = new URL(config.wiki() + searchpath + label);
-    const protocol = (url.protocol=='https:') ? https : http;
+    const protocol = (url.protocol === 'https:') ? https : http;
     const req = protocol.request(url, {
       headers: { 'User-Agent': 'lambda-cli/0.1' }
     }, (res) => {
@@ -41,7 +40,7 @@ const searchlabel = async (label) => {
 
     req.end();
   });
-}
+};
 
 const delabel = async (label) => {
   const labelmap = await load.labelmap(config.language());
@@ -49,10 +48,12 @@ const delabel = async (label) => {
 
   if (!(normal in labelmap)) {
     const hits = await searchlabel(label);
-    let results = [];
+    const results = [];
     for (const hit of hits) {
-      if (utils.string_normalize(label) !== utils.string_normalize(hit.label)) continue;
-      let result = {
+      if (utils.string_normalize(label) !== utils.string_normalize(hit.label)) {
+        continue;
+      }
+      const result = {
         Z1K1: 'ZSearchResult',
         K1: hit.page_title,
         K2: hit.page_type,
@@ -61,7 +62,7 @@ const delabel = async (label) => {
           Z11K1: config.language(),
           Z11K2: hit.label
         }]
-      }
+      };
       results.push(result);
     }
     return results;
@@ -69,9 +70,9 @@ const delabel = async (label) => {
 
   const hits = labelmap[normal];
 
-  let results = [];
-  for (let hit of hits) {
-    let result = {
+  const results = [];
+  for (const hit of hits) {
+    const result = {
       Z1K1: 'ZSearchResult',
       K1: hit[0],
       K2: hit[1],
@@ -80,10 +81,10 @@ const delabel = async (label) => {
         Z11K1: config.language(),
         Z11K2: hit[3]
       }]
-    }
+    };
     results.push(result);
   }
   return results;
-}
+};
 
 exports.delabel = delabel;
