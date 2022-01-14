@@ -12,7 +12,7 @@ const wellformedObject = (zobject) => {
 };
 
 const wellformedArray = (arr) => {
-  if (arr.flatMap(wellformed).length === 0) {  // eslint-disable-line no-use-before-define
+  if (arr.flatMap(wellformed).length === 0) {  // eslint-disable-line no-use-before-define, no-restricted-properties, max-len
     return []; // TODO
   }
   return [{

@@ -1,7 +1,7 @@
 {
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --ext .js --ext .json .",
-		"test": "qunit"
+		"test": "eslint --max-warnings 0 --ext .js --ext .json . && qunit"
 	},
 	"dependencies": {
 		"function-schemata": "file:function-schemata"

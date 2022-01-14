@@ -58,7 +58,7 @@ let meta = false;
         continue;
       }
       console.log('Unknown argument: ' + v);
-      process.exit(1);
+      process.exit(1);  // eslint-disable-line no-process-exit
     }
     if (command === null) {
       if (v === 'labelize' || v === 'l') {
@@ -83,21 +83,21 @@ let meta = false;
         continue;
       }
       console.log('Unknown command: ' + v);
-      process.exit(1);
+      process.exit(1);  // eslint-disable-line no-process-exit
     }
     if (input === null) {
       input = v;
       continue;
     }
     console.log('Unknown parameter: ' + argv[i]);
-    process.exit(1);
+    process.exit(1);  // eslint-disable-line no-process-exit
   }
 })(process.argv);
 
 if (command !== null) {
   if (input === null) {
     console.log('No input given.');
-    process.exit(1);
+    process.exit(1);  // eslint-disable-line no-process-exit
   }
   if ('{"['.includes(input[0])) {
     command(JSON.parse(input)).then(write).then(console.log);
@@ -109,7 +109,7 @@ if (command !== null) {
     }
   } else {
     console.log('Input not understood.');
-    process.exit(1);
+    process.exit(1);  // eslint-disable-line no-process-exit
   }
 }
 

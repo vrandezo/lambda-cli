@@ -17,13 +17,13 @@ const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
 };
 
-const getZ22K1 = (zobject) => {
-  if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
-    return zobject.Z22K1;
-  } else {
-    return zobject;
-  }
-};
+// const getZ22K1 = (zobject) => {
+//  if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
+//    return zobject.Z22K1;
+//  } else {
+//    return zobject;
+//  }
+// };
 
 const write = (input) => {
   if (input === null) {
@@ -81,7 +81,7 @@ const interactive = () => {
   cli.on('exit', () => {
     load.saveCache(config.cache());
     console.log('Have a mindful day.');
-    process.exit(0);
+    process.exit(0);  // eslint-disable-line no-process-exit
   });
 
   cli.defineCommand(

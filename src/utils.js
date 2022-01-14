@@ -72,7 +72,10 @@ const getLabel = (multitext, language) => {
   return null;
 };
 
-const stringNormalize = (s) => s.toLowerCase().replaceAll(/[\s\-_.()]/g, '');
+const stringNormalize =
+  (s) => s.toLowerCase().replaceAll(  // eslint-disable-line no-restricted-properties
+    /[\s\-_.()]/g, ''
+  );
 
 exports.isObject = isObject;
 exports.isString = isString;

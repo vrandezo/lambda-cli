@@ -1,4 +1,5 @@
 next steps:
+- fill package.json
 - tests
 -- canonicalize
 -- config
@@ -13,9 +14,7 @@ next steps:
 -- parse
 -- prettyprint
 -- wellformed
-- fill package.json
-- eslint
-- logging
+- logging or just give much more options on the command line
 - works a little:
 -- parse / delabel / labelmap in load
 -- wellformed

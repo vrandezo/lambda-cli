@@ -16,7 +16,7 @@ const OPENESCAPE = 'ZEscape';
 const FUTURESYMBOL = 'ZFuture';
 
 const escapeInSymbol = '"()[],_\\';
-const escapeInString = '"n\\';
+// const escapeInString = '"n\\';
 // a few extra symbols that are not used for now but may in the future
 const escapeInSymbolFuture = '{}@!&^?#;:';
 
@@ -39,7 +39,7 @@ const tokenize = (input) => {
 
   for (let character of input) {
     currentPosition += 1;
-    const pickToken = (match, symbol) => {
+    const pickToken = (match, symbol) => {  // eslint-disable-line no-loop-func
       if (character === match) {
         addPotentialReference();
         tokens.push({ Z1K1: 'ZToken', K1: symbol, K2: position.toString() });
@@ -159,7 +159,8 @@ const buildCsv = async (tokens, open, close) => {
   }
   const values = [];
   while (true) {
-    const { value, rest } = await buildValue(tokens.slice(1));
+    const { value, rest } =
+      await buildValue(tokens.slice(1));  // eslint-disable-line no-use-before-define
     values.push(value);
     if (rest.length === 0) {
       return error('expected closing', tokens);
