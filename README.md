@@ -10,8 +10,8 @@ command or in interactive mode.
 
 Clone the lambda CLI and set up the dependencies:
 ```
-git clone https://github.com/vrandezo/lambda.git
-cd lambda
+git clone https://github.com/vrandezo/lambda-cli.git
+cd lambda-cli
 git submodule init
 git submodule update
 npm install
