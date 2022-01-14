@@ -1,6 +1,8 @@
 'use strict';
 
 const is_object = (zobject) => {
+  if (zobject === null) return false;
+  if (zobject === undefined) return false;
   return ( Object.getPrototypeOf(zobject) === Object.prototype );
 }
 
@@ -13,7 +15,7 @@ const is_string = (zobject) => {
 }
 
 const is_id = (zid) => {
-  return /^Z[1-9][0-9]*(K[1-9][0-9]*)?$/.test(zid);
+  return (/^Z[1-9][0-9]*(K[1-9][0-9]*)?$/.test(zid) || /^K[1-9][0-9]*$/.test(zid));
 }
 
 const is_zid = (zid) => {
@@ -55,8 +57,8 @@ const sort_zkids = (left, right) => {
   return znumber(left) - znumber(right);
 }
 
-const get_label = (zobject, language) => {
-  for (let monotext of zobject.Z12K1) {
+const get_label = (multitext, language) => {
+  for (let monotext of multitext.Z12K1) {
     if (monotext.Z11K1 === language) {
       return monotext.Z11K2;
     }

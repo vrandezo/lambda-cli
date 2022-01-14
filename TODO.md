@@ -1,4 +1,9 @@
 next steps:
+- constants file
+- fill package.json
+- eslint
+- tests!
+- logging
 - works a little:
 -- parse / delabel / labelmap in load
 -- wellformed
