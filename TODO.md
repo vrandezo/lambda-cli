@@ -1,18 +1,17 @@
 next steps:
-- fill package.json
 - tests
 -- config
 -- load
 -- delabel
 -- parse
--- canonicalize
--- evaluate
--- interactive
--- labelize
--- lambda
 -- normalize
--- prettyprint
+-- canonicalize
+-- labelize
 -- wellformed
+-- prettyprint
+-- evaluate
+-- lambda
+-- interactive
 - logging or just give much more options on the command line
 - works a little:
 -- parse / delabel / labelmap in load

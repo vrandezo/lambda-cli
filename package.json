@@ -1,6 +1,33 @@
 {
+	"name": "lambda-cli",
+	"version": "0.1.0",
+	"description": "a command line interface to Wikifunctions",
+	"repository": {
+		"type": "git",
+		"url": "git://ithub.com/vrandezo/lambda-cli.git"
+	},
+	"keywords": [
+		"CLI",
+		"Wikifunctions",
+		"functions",
+		"commands",
+		"WikiLambda"
+	],
+	"author": {
+		"name": "Denny Vrandečić",
+		"email": "denny@wikimedia.org",
+		"url": "http://simia.net/wiki/Denny"
+	},
+	"contributors": [
+	],
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/vrandezo/lambda-cli/issues"
+	},
+	"homepage": "https://github.com/vrandezo/lambda-cli",
 	"scripts": {
 		"lint": "eslint --max-warnings 0 --ext .js --ext .json .",
+		"fix": "eslint --fix --max-warnings 0 --ext .js --ext .json .",
 		"test": "eslint --max-warnings 0 --ext .js --ext .json . && qunit"
 	},
 	"dependencies": {
