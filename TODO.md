@@ -3,7 +3,6 @@ next steps:
 - tests
 -- canonicalize
 -- config
--- constants
 -- delabel
 -- evaluate
 -- interactive
