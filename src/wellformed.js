@@ -21,11 +21,11 @@ const wellformedArray = (arr) => {
 };
 
 const wellformed = (zobject) => {
-  if (utils.is_object(zobject)) {
+  if (utils.isObject(zobject)) {
     return wellformedObject(zobject);
-  } else if (utils.is_array(zobject)) {
+  } else if (utils.isArray(zobject)) {
     return wellformedArray(zobject);
-  } else if (utils.is_string(zobject)) {
+  } else if (utils.isString(zobject)) {
     return [];
   }
   return [{

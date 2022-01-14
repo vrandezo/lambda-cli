@@ -13,14 +13,14 @@ let config = {};
 
 const load = (path) => {
   config = JSON.parse(fs.readFileSync(path));
-  if (utils.is_string(config.language)) {
+  if (utils.isString(config.language)) {
     config.language_actually = config.language;
     config.language = {};
     config.language.default = config.language_actually;
   } else {
     config.language_actually = config.language[Object.keys(config.language)[0]];
   }
-  if (utils.is_string(config.wiki)) {
+  if (utils.isString(config.wiki)) {
     config.wiki_actually = config.wiki;
     config.wiki = {};
     config.wiki.default = config.wiki_actually;

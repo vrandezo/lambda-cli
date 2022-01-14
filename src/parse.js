@@ -23,27 +23,27 @@ const escapeInSymbolFuture = '{}@!&^?#;:';
 const tokenize = (input) => {
   let token = '';
   const tokens = [];
-  let current_position = 0;
+  let currentPosition = 0;
   let position = 1;
   let insideString = false;
   let insideEscape = false;
 
-  const add_potential_reference = () => {
+  const addPotentialReference = () => {
     token = token.trim();
     if (token) {
       tokens.push({ Z1K1: 'ZToken', K1: POTENTIALREFERENCE, K2: position.toString(), K3: token });
-      position = current_position;
+      position = currentPosition;
       token = '';
     }
   };
 
   for (let character of input) {
-    current_position += 1;
-    const pick_token = (match, symbol) => {
+    currentPosition += 1;
+    const pickToken = (match, symbol) => {
       if (character === match) {
-        add_potential_reference();
+        addPotentialReference();
         tokens.push({ Z1K1: 'ZToken', K1: symbol, K2: position.toString() });
-        position = current_position + 1;
+        position = currentPosition + 1;
         character = '';
       }
     };
@@ -61,15 +61,15 @@ const tokenize = (input) => {
           insideEscape = false;
         } else {
           tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position.toString(),  K3: token });
-          position = current_position - 1;
+          position = currentPosition - 1;
           tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
-          position = current_position;
+          position = currentPosition;
           token = character;
         }
       } else {
         if (character === '"') {
           tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position.toString(), K3: token });
-          position = current_position + 1;
+          position = currentPosition + 1;
           token = '';
           insideString = false;
         } else if (character === '\\') {
@@ -82,33 +82,35 @@ const tokenize = (input) => {
       if (insideEscape) {
         if (escapeInSymbol.includes(character) || escapeInSymbolFuture.includes(character)) {
           token += character;
-          if (character === '_') { token += character; }
+          if (character === '_') {
+            token += character;
+          }
           character = '';
           insideEscape = false;
         } else {
-          add_potential_reference();
-          position = current_position - 1;
+          addPotentialReference();
+          position = currentPosition - 1;
           tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
-          position = current_position;
+          position = currentPosition;
           token = character;
         }
       }
-      pick_token('(', OPENARG);
-      pick_token(')', CLOSEARG);
-      pick_token('[', OPENLIST);
-      pick_token(']', CLOSELIST);
-      pick_token(',', SEPERATOR);
+      pickToken('(', OPENARG);
+      pickToken(')', CLOSEARG);
+      pickToken('[', OPENLIST);
+      pickToken(']', CLOSELIST);
+      pickToken(',', SEPERATOR);
       if (character === '"') {
-        add_potential_reference();
+        addPotentialReference();
         insideString = true;
         // TODO: decide whether spaces are allowed in symbols
         // } else if (character === ' ') {
-        //   add_potential_reference();
+        //   addPotentialReference();
       } else if (character && escapeInSymbolFuture.includes(character)) {
-        add_potential_reference();
+        addPotentialReference();
         tokens.push({ Z1K1: 'ZToken', K1: FUTURESYMBOL, K2: position.toString(), K3: character });
         token = '';
-        position = current_position + 1;
+        position = currentPosition + 1;
       } else if (character === '\\') {
         insideEscape = true;
       } else {
@@ -118,16 +120,16 @@ const tokenize = (input) => {
   }
   if (insideString) {
     tokens.push({ Z1K1: 'ZToken', K1: OPENSTRING, K2: position.toString(), K3: token });
-    position = current_position;
+    position = currentPosition;
     token = '';
   }
   if (insideEscape) {
-    add_potential_reference();
+    addPotentialReference();
     tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
-    position = current_position;
+    position = currentPosition;
     token = '';
   }
-  add_potential_reference();
+  addPotentialReference();
   return tokens;
 };
 
@@ -142,7 +144,7 @@ const error = (message, tokens) => {
   };
 };
 
-const build_csv = async (tokens, open, close) => {
+const buildCsv = async (tokens, open, close) => {
   if (tokens[0].K1 !== open) {
     return error('expected opener', tokens);
   }
@@ -157,7 +159,7 @@ const build_csv = async (tokens, open, close) => {
   }
   const values = [];
   while (true) {
-    const { value, rest } = await build_value(tokens.slice(1));
+    const { value, rest } = await buildValue(tokens.slice(1));
     values.push(value);
     if (rest.length === 0) {
       return error('expected closing', tokens);
@@ -176,51 +178,53 @@ const build_csv = async (tokens, open, close) => {
   }
 };
 
-const build_args = async (tokens) => {
-  return await build_csv(tokens, OPENARG, CLOSEARG);
+const buildArgs = async (tokens) => {
+  return await buildCsv(tokens, OPENARG, CLOSEARG);
 };
 
-const build_symbol = async (tokens) => {
+const buildSymbol = async (tokens) => {
   if (tokens[0].K1 !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
-  let call_zid = '';
-  let call_type = '';
-  if (utils.is_zid(tokens[0].K3)) {
-    call_zid = tokens[0].K3;
-    const call_object = await load.load(call_zid);
-    call_type = call_object.Z2K2.Z1K1;
+  let callZid = '';
+  let callType = '';
+  if (utils.isZid(tokens[0].K3)) {
+    callZid = tokens[0].K3;
+    const callObject = await load.load(callZid);
+    callType = callObject.Z2K2.Z1K1;
   } else {
-    const delabel_call_token = await delabel.delabel(tokens[0].K3, 'en');
-    if (delabel_call_token.length !== 1) {
+    const delabelCallToken = await delabel.delabel(tokens[0].K3, 'en');
+    if (delabelCallToken.length !== 1) {
       return error('could not delabel reference', tokens[0]);
     }
-    call_zid = delabel_call_token[0].K1;
-    call_type = delabel_call_token[0].K2;
+    callZid = delabelCallToken[0].K1;
+    callType = delabelCallToken[0].K2;
   }
-  const is_type = call_type === 'Z4';
-  const is_function = call_type === 'Z8';
-  if (tokens.length === 1 || tokens[1].K1 !== OPENARG || !(is_type || is_function)) {
+  const isType = callType === 'Z4';
+  const isFunction = callType === 'Z8';
+  if (tokens.length === 1 || tokens[1].K1 !== OPENARG || !(isType || isFunction)) {
     return {
       value: {
         Z1K1: 'Z9',
-        Z9K1: call_zid
+        Z9K1: callZid
       },
       rest: tokens.slice(1)
     };
   }
   const call = {};
-  if (is_type) {
-    call.Z1K1 = call_zid;
+  if (isType) {
+    call.Z1K1 = callZid;
   }
-  if (is_function) {
+  if (isFunction) {
     call.Z1K1 = 'Z7';
-    call.Z7K1 = call_zid;
+    call.Z7K1 = callZid;
   }
-  const { value, rest } = await build_args(tokens.slice(1));
-  if (value.Z1K1 === 'Z5') { return { value: value, rest: rest }; }
+  const { value, rest } = await buildArgs(tokens.slice(1));
+  if (value.Z1K1 === 'Z5') {
+    return { value: value, rest: rest };
+  }
   for (const v in value) {
-    call[call_zid + 'K' + (parseInt(v) + 1).toString()] = value[v];
+    call[callZid + 'K' + (parseInt(v) + 1).toString()] = value[v];
   }
   return {
     value: call,
@@ -228,11 +232,11 @@ const build_symbol = async (tokens) => {
   };
 };
 
-const build_list = async (tokens) => {
-  return await build_csv(tokens, OPENLIST, CLOSELIST);
+const buildList = async (tokens) => {
+  return await buildCsv(tokens, OPENLIST, CLOSELIST);
 };
 
-const build_string = (tokens) => {
+const buildString = (tokens) => {
   if (tokens[0].K1 !== STRING) {
     return error('expected string', tokens);
   }
@@ -245,31 +249,31 @@ const build_string = (tokens) => {
   };
 };
 
-const build_value = async (tokens) => {
+const buildValue = async (tokens) => {
   if (tokens[0].K1 === POTENTIALREFERENCE) {
-    return await build_symbol(tokens);
+    return await buildSymbol(tokens);
   }
   if (tokens[0].K1 === OPENLIST) {
-    return await build_list(tokens);
+    return await buildList(tokens);
   }
   if (tokens[0].K1 === STRING) {
-    return build_string(tokens);
+    return buildString(tokens);
   }
   return error('must be a reference, function call, list, or string', tokens);
 };
 
-const build_single_value = async (tokens) => {
-  const { value, rest } = await build_value(tokens);
+const buildSingleValue = async (tokens) => {
+  const { value, rest } = await buildValue(tokens);
   if (rest.length > 0) {
     return error('rest after parsing a value', rest);
   }
   return value;
 };
 
-const parse_async = async (input) => {
+const parseAsync = async (input) => {
   const tokens = tokenize(input);
-  const call = await build_single_value(tokens);
+  const call = await buildSingleValue(tokens);
   return call;
 };
 
-exports.parse_async = parse_async;
+exports.parseAsync = parseAsync;

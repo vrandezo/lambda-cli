@@ -1,6 +1,5 @@
 'use strict';
 
-const https = require('https');
 const repl = require('repl');
 
 const canonicalize = require('./canonicalize.js');
@@ -13,10 +12,6 @@ const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
-
-const evalinput = (command, context, file, callback) => {
-  answer(command, (result) => { callback(null, result); });
-};
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
@@ -31,13 +26,17 @@ const getZ22K1 = (zobject) => {
 };
 
 const write = (input) => {
-  if (input === null) { return ''; }
+  if (input === null) {
+    return '';
+  }
   last = input;
   return JSON.stringify(input, null, 2);
 };
 
-const write_no_remember = (input) => {
-  if (input === null) { return ''; }
+const writeNoRemember = (input) => {
+  if (input === null) {
+    return '';
+  }
   return JSON.stringify(input, null, 2);
 };
 
@@ -46,12 +45,12 @@ const answer = (command, callback) => {
   const first = data[0];
   if (first === '[' || first === '{' || first === '"') {
     evaluate.evaluateAsync(JSON.parse(data)).then(callback);
-  } else if (utils.is_zid(data)) {
+  } else if (utils.isZid(data)) {
     load.load(data).then(getZ2K2).then(callback);
   } else if (data === '_') {
     callback(last);
   } else {
-    parse.parse_async(
+    parse.parseAsync(
       data
     ).then(
       evaluate.evaluateAsync
@@ -61,6 +60,12 @@ const answer = (command, callback) => {
       callback
     );
   }
+};
+
+const evalinput = (command, context, file, callback) => {
+  answer(command, (result) => {
+    callback(null, result);
+  });
 };
 
 const interactive = () => {
@@ -76,7 +81,7 @@ const interactive = () => {
   cli.on('exit', () => {
     load.saveCache(config.cache());
     console.log('Have a mindful day.');
-    process.exit();
+    process.exit(0);
   });
 
   cli.defineCommand(
@@ -157,7 +162,7 @@ const interactive = () => {
         this.clearBufferedCommand();
         if (input !== '') {
           answer(input, (x) => {
-            console.log(write_no_remember(canonicalize.canonicalize(x)));
+            console.log(writeNoRemember(canonicalize.canonicalize(x)));
             this.displayPrompt();
           });
         } else {
@@ -175,7 +180,7 @@ const interactive = () => {
         this.clearBufferedCommand();
         if (input !== '') {
           answer(input, (x) => {
-            console.log(write_no_remember(normalize.normalize(x)));
+            console.log(writeNoRemember(normalize.normalize(x)));
             this.displayPrompt();
           });
         } else {
@@ -193,11 +198,11 @@ const interactive = () => {
         this.clearBufferedCommand();
         if (input !== '') {
           answer(input, async (x) => {
-            console.log(write_no_remember(await labelize.labelize(x, false)));
+            console.log(writeNoRemember(await labelize.labelize(x, false)));
             this.displayPrompt();
           });
         } else {
-          console.log(write_no_remember(await labelize.labelize(last, false)));
+          console.log(writeNoRemember(await labelize.labelize(last, false)));
           this.displayPrompt();
         }
       }

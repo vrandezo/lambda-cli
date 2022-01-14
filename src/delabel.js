@@ -44,13 +44,13 @@ const searchlabel = async (label) => {
 
 const delabel = async (label) => {
   const labelmap = await load.labelmap(config.language());
-  const normal = utils.string_normalize(label);
+  const normal = utils.stringNormalize(label);
 
   if (!(normal in labelmap)) {
     const hits = await searchlabel(label);
     const results = [];
     for (const hit of hits) {
-      if (utils.string_normalize(label) !== utils.string_normalize(hit.label)) {
+      if (utils.stringNormalize(label) !== utils.stringNormalize(hit.label)) {
         continue;
       }
       const result = {

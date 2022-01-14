@@ -5,16 +5,16 @@ const utils = require('./utils.js');
 const load = require('./load.js');
 
 const labelizeId = async (id) => {
-  if (utils.is_zid(id)) {
+  if (utils.isZid(id)) {
     const zobject = await load.load(id);
     if (zobject.Z1K1 === 'Z5') {
       return id;
     }
-    const label = utils.get_label(zobject.Z2K3, config.language());
+    const label = utils.getLabel(zobject.Z2K3, config.language());
     return (label === null) ? id : label;
   }
-  if (utils.is_zkid(id)) {
-    const zid = utils.zid_from_zkid(id);
+  if (utils.isZkid(id)) {
+    const zid = utils.zidFromZkid(id);
     const zobject = await load.load(zid);
     if (zobject.Z1K1 === 'Z5') {
       return id;
@@ -22,7 +22,7 @@ const labelizeId = async (id) => {
     if (zobject.Z2K2.Z1K1 === 'Z4') {
       for (const key of zobject.Z2K2.Z4K2) {
         if (key.Z3K2 === id) {
-          const label = utils.get_label(key.Z3K3, config.language());
+          const label = utils.getLabel(key.Z3K3, config.language());
           return (label === null) ? id : label;
         }
       }
@@ -30,7 +30,7 @@ const labelizeId = async (id) => {
     if (zobject.Z2K2.Z1K1 === 'Z8') {
       for (const key of zobject.Z2K2.Z8K1) {
         if (key.Z17K2 === id) {
-          const label = utils.get_label(key.Z17K3, config.language());
+          const label = utils.getLabel(key.Z17K3, config.language());
           return (label === null) ? id : label;
         }
       }
@@ -43,7 +43,7 @@ const labelizeObject = async (zobject) => {
   const result = {};
   for (const key in zobject) {
     // do not labelize Z6K1
-    if (key === 'Z6K1' && utils.is_string(zobject[key])) {
+    if (key === 'Z6K1' && utils.isString(zobject[key])) {
       result[await labelizeId(key)] = zobject[key];
     } else {
       result[await labelizeId(key)] =
@@ -54,16 +54,16 @@ const labelizeObject = async (zobject) => {
 };
 
 const labelizeString = async (zobject) => {
-  if (utils.is_id(zobject)) {
+  if (utils.isId(zobject)) {
     return await labelizeId(zobject);
   }
   return zobject;
 };
 
 const labelize = async (zobject) => {
-  if (utils.is_array(zobject)) {
+  if (utils.isArray(zobject)) {
     return await Promise.all(zobject.map(labelize));
-  } else if (utils.is_string(zobject)) {
+  } else if (utils.isString(zobject)) {
     return await labelizeString(zobject);
   }
   return await labelizeObject(zobject);

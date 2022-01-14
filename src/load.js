@@ -118,10 +118,10 @@ const createNewLabelmapLocal = async () => {
   for (const f of files) {
     const zid = f.slice(0, Math.max(0, f.indexOf('.')));
     const obj = await load(zid);
-    let label = utils.get_label(obj.Z2K3, config.language());
+    let label = utils.getLabel(obj.Z2K3, config.language());
     label = (label === null) ? zid : label;
     const type = obj.Z2K2.Z1K1;
-    const normal = utils.string_normalize(label);
+    const normal = utils.stringNormalize(label);
     if (!(normal in labelmap)) {
       labelmap[normal] = [];
     }

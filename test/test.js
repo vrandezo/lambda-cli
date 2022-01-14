@@ -6,427 +6,427 @@ const c = require('../src/constants.js').constants;
 QUnit.module('utils');
 
 QUnit.test('is object []', (assert) => {
-  assert.strictEqual(utils.is_object([]), false);
+  assert.strictEqual(utils.isObject([]), false);
 });
 
 QUnit.test('is object [ "a" ]', (assert) => {
-  assert.strictEqual(utils.is_object([ 'a' ]), false);
+  assert.strictEqual(utils.isObject([ 'a' ]), false);
 });
 
 QUnit.test('is object [ "a", "b" ]', (assert) => {
-  assert.strictEqual(utils.is_object([ 'a', 'b' ]), false);
+  assert.strictEqual(utils.isObject([ 'a', 'b' ]), false);
 });
 
 QUnit.test('is object [ {} ]', (assert) => {
-  assert.strictEqual(utils.is_object([ {} ]), false);
+  assert.strictEqual(utils.isObject([ {} ]), false);
 });
 
 QUnit.test('is object [ {}, {} ]', (assert) => {
-  assert.strictEqual(utils.is_object([ {}, {} ]), false);
+  assert.strictEqual(utils.isObject([ {}, {} ]), false);
 });
 
 QUnit.test('is object {}', (assert) => {
-  assert.strictEqual(utils.is_object({}), true);
+  assert.strictEqual(utils.isObject({}), true);
 });
 
 QUnit.test('is object { Z1K1: Z6, ... }', (assert) => {
-  assert.strictEqual(utils.is_object({ Z1K1: 'Z6', Z6K1: 'a' }), true);
+  assert.strictEqual(utils.isObject({ Z1K1: 'Z6', Z6K1: 'a' }), true);
 });
 
 QUnit.test('is object true', (assert) => {
-  assert.strictEqual(utils.is_object(true), false);
+  assert.strictEqual(utils.isObject(true), false);
 });
 
 QUnit.test('is object 1', (assert) => {
-  assert.strictEqual(utils.is_object(1), false);
+  assert.strictEqual(utils.isObject(1), false);
 });
 
 QUnit.test('is object null', (assert) => {
-  assert.strictEqual(utils.is_object(null), false);
+  assert.strictEqual(utils.isObject(null), false);
 });
 
 QUnit.test('is object undefined', (assert) => {
-  assert.strictEqual(utils.is_object(undefined), false);
+  assert.strictEqual(utils.isObject(undefined), false);
 });
 
 QUnit.test('is object "test"', (assert) => {
-  assert.strictEqual(utils.is_object('test'), false);
+  assert.strictEqual(utils.isObject('test'), false);
 });
 
 QUnit.test('is object ""', (assert) => {
-  assert.strictEqual(utils.is_object(''), false);
+  assert.strictEqual(utils.isObject(''), false);
 });
 
 QUnit.test('is object " "', (assert) => {
-  assert.strictEqual(utils.is_object(' '), false);
+  assert.strictEqual(utils.isObject(' '), false);
 });
 
 QUnit.test('is array []', (assert) => {
-  assert.strictEqual(utils.is_array([]), true);
+  assert.strictEqual(utils.isArray([]), true);
 });
 
 QUnit.test('is array [ "a" ]', (assert) => {
-  assert.strictEqual(utils.is_array([ 'a' ]), true);
+  assert.strictEqual(utils.isArray([ 'a' ]), true);
 });
 
 QUnit.test('is array [ "a", "b" ]', (assert) => {
-  assert.strictEqual(utils.is_array([ 'a', 'b' ]), true);
+  assert.strictEqual(utils.isArray([ 'a', 'b' ]), true);
 });
 
 QUnit.test('is array [ {} ]', (assert) => {
-  assert.strictEqual(utils.is_array([ {} ]), true);
+  assert.strictEqual(utils.isArray([ {} ]), true);
 });
 
 QUnit.test('is array [ {}, {} ]', (assert) => {
-  assert.strictEqual(utils.is_array([ {}, {} ]), true);
+  assert.strictEqual(utils.isArray([ {}, {} ]), true);
 });
 
 QUnit.test('is array {}', (assert) => {
-  assert.strictEqual(utils.is_array({}), false);
+  assert.strictEqual(utils.isArray({}), false);
 });
 
 QUnit.test('is array { Z1K1: Z6, ... }', (assert) => {
-  assert.strictEqual(utils.is_array({ Z1K1: 'Z6', Z6K1: 'a' }), false);
+  assert.strictEqual(utils.isArray({ Z1K1: 'Z6', Z6K1: 'a' }), false);
 });
 
 QUnit.test('is array true', (assert) => {
-  assert.strictEqual(utils.is_array(true), false);
+  assert.strictEqual(utils.isArray(true), false);
 });
 
 QUnit.test('is array 1', (assert) => {
-  assert.strictEqual(utils.is_array(1), false);
+  assert.strictEqual(utils.isArray(1), false);
 });
 
 QUnit.test('is array null', (assert) => {
-  assert.strictEqual(utils.is_array(null), false);
+  assert.strictEqual(utils.isArray(null), false);
 });
 
 QUnit.test('is array undefined', (assert) => {
-  assert.strictEqual(utils.is_array(undefined), false);
+  assert.strictEqual(utils.isArray(undefined), false);
 });
 
 QUnit.test('is array "test"', (assert) => {
-  assert.strictEqual(utils.is_array('test'), false);
+  assert.strictEqual(utils.isArray('test'), false);
 });
 
 QUnit.test('is array ""', (assert) => {
-  assert.strictEqual(utils.is_array(''), false);
+  assert.strictEqual(utils.isArray(''), false);
 });
 
 QUnit.test('is array " "', (assert) => {
-  assert.strictEqual(utils.is_array(' '), false);
+  assert.strictEqual(utils.isArray(' '), false);
 });
 
 QUnit.test('is string []', (assert) => {
-  assert.strictEqual(utils.is_string([]), false);
+  assert.strictEqual(utils.isString([]), false);
 });
 
 QUnit.test('is string [ "a" ]', (assert) => {
-  assert.strictEqual(utils.is_string([ 'a' ]), false);
+  assert.strictEqual(utils.isString([ 'a' ]), false);
 });
 
 QUnit.test('is string [ "a", "b" ]', (assert) => {
-  assert.strictEqual(utils.is_string([ 'a', 'b' ]), false);
+  assert.strictEqual(utils.isString([ 'a', 'b' ]), false);
 });
 
 QUnit.test('is string [ {} ]', (assert) => {
-  assert.strictEqual(utils.is_string([ {} ]), false);
+  assert.strictEqual(utils.isString([ {} ]), false);
 });
 
 QUnit.test('is string [ {}, {} ]', (assert) => {
-  assert.strictEqual(utils.is_string([ {}, {} ]), false);
+  assert.strictEqual(utils.isString([ {}, {} ]), false);
 });
 
 QUnit.test('is string {}', (assert) => {
-  assert.strictEqual(utils.is_string({}), false);
+  assert.strictEqual(utils.isString({}), false);
 });
 
 QUnit.test('is string { Z1K1: Z6, ... }', (assert) => {
-  assert.strictEqual(utils.is_string({ Z1K1: 'Z6', Z6K1: 'a' }), false);
+  assert.strictEqual(utils.isString({ Z1K1: 'Z6', Z6K1: 'a' }), false);
 });
 
 QUnit.test('is string true', (assert) => {
-  assert.strictEqual(utils.is_string(true), false);
+  assert.strictEqual(utils.isString(true), false);
 });
 
 QUnit.test('is string 1', (assert) => {
-  assert.strictEqual(utils.is_string(1), false);
+  assert.strictEqual(utils.isString(1), false);
 });
 
 QUnit.test('is string null', (assert) => {
-  assert.strictEqual(utils.is_string(null), false);
+  assert.strictEqual(utils.isString(null), false);
 });
 
 QUnit.test('is string undefined', (assert) => {
-  assert.strictEqual(utils.is_string(undefined), false);
+  assert.strictEqual(utils.isString(undefined), false);
 });
 
 QUnit.test('is string "test"', (assert) => {
-  assert.strictEqual(utils.is_string('test'), true);
+  assert.strictEqual(utils.isString('test'), true);
 });
 
 QUnit.test('is string ""', (assert) => {
-  assert.strictEqual(utils.is_string(''), true);
+  assert.strictEqual(utils.isString(''), true);
 });
 
 QUnit.test('is string " "', (assert) => {
-  assert.strictEqual(utils.is_string(' '), true);
+  assert.strictEqual(utils.isString(' '), true);
 });
 
 QUnit.test('is id Z1', (assert) => {
-  assert.strictEqual(utils.is_id('Z1'), true);
+  assert.strictEqual(utils.isId('Z1'), true);
 });
 
 QUnit.test('is id Z123', (assert) => {
-  assert.strictEqual(utils.is_id('Z123'), true);
+  assert.strictEqual(utils.isId('Z123'), true);
 });
 
 QUnit.test('is id Z0', (assert) => {
-  assert.strictEqual(utils.is_id('Z0'), false);
+  assert.strictEqual(utils.isId('Z0'), false);
 });
 
 QUnit.test('is id Z1K1', (assert) => {
-  assert.strictEqual(utils.is_id('Z1K1'), true);
+  assert.strictEqual(utils.isId('Z1K1'), true);
 });
 
 QUnit.test('is id Z0K1', (assert) => {
-  assert.strictEqual(utils.is_id('Z0K1'), false);
+  assert.strictEqual(utils.isId('Z0K1'), false);
 });
 
 QUnit.test('is id Q1', (assert) => {
-  assert.strictEqual(utils.is_id('Q1'), false);
+  assert.strictEqual(utils.isId('Q1'), false);
 });
 
 QUnit.test('is id ID', (assert) => {
-  assert.strictEqual(utils.is_id('ID'), false);
+  assert.strictEqual(utils.isId('ID'), false);
 });
 
 QUnit.test('is id Z1230', (assert) => {
-  assert.strictEqual(utils.is_id('Z1230'), true);
+  assert.strictEqual(utils.isId('Z1230'), true);
 });
 
 QUnit.test('is id Z123K', (assert) => {
-  assert.strictEqual(utils.is_id('Z123K'), false);
+  assert.strictEqual(utils.isId('Z123K'), false);
 });
 
 QUnit.test('is id Z123K1', (assert) => {
-  assert.strictEqual(utils.is_id('Z123K1'), true);
+  assert.strictEqual(utils.isId('Z123K1'), true);
 });
 
 QUnit.test('is id Z123K123', (assert) => {
-  assert.strictEqual(utils.is_id('Z123K123'), true);
+  assert.strictEqual(utils.isId('Z123K123'), true);
 });
 
 QUnit.test('is id Z123K0', (assert) => {
-  assert.strictEqual(utils.is_id('Z123K0'), false);
+  assert.strictEqual(utils.isId('Z123K0'), false);
 });
 
 QUnit.test('is id K1', (assert) => {
-  assert.strictEqual(utils.is_id('K1'), true);
+  assert.strictEqual(utils.isId('K1'), true);
 });
 
 QUnit.test('is id K123', (assert) => {
-  assert.strictEqual(utils.is_id('K123'), true);
+  assert.strictEqual(utils.isId('K123'), true);
 });
 
 QUnit.test('is id K0', (assert) => {
-  assert.strictEqual(utils.is_id('K0'), false);
+  assert.strictEqual(utils.isId('K0'), false);
 });
 
 QUnit.test('is id ZK1', (assert) => {
-  assert.strictEqual(utils.is_id('ZK1'), false);
+  assert.strictEqual(utils.isId('ZK1'), false);
 });
 
 QUnit.test('is id ""', (assert) => {
-  assert.strictEqual(utils.is_id(''), false);
+  assert.strictEqual(utils.isId(''), false);
 });
 
 QUnit.test('is zid Z1', (assert) => {
-  assert.strictEqual(utils.is_zid('Z1'), true);
+  assert.strictEqual(utils.isZid('Z1'), true);
 });
 
 QUnit.test('is zid Z123', (assert) => {
-  assert.strictEqual(utils.is_zid('Z123'), true);
+  assert.strictEqual(utils.isZid('Z123'), true);
 });
 
 QUnit.test('is zid Z0', (assert) => {
-  assert.strictEqual(utils.is_zid('Z0'), false);
+  assert.strictEqual(utils.isZid('Z0'), false);
 });
 
 QUnit.test('is zid Z1K1', (assert) => {
-  assert.strictEqual(utils.is_zid('Z1K1'), false);
+  assert.strictEqual(utils.isZid('Z1K1'), false);
 });
 
 QUnit.test('is zid Z0K1', (assert) => {
-  assert.strictEqual(utils.is_zid('Z0K1'), false);
+  assert.strictEqual(utils.isZid('Z0K1'), false);
 });
 
 QUnit.test('is zid Q1', (assert) => {
-  assert.strictEqual(utils.is_zid('Q1'), false);
+  assert.strictEqual(utils.isZid('Q1'), false);
 });
 
 QUnit.test('is zid ID', (assert) => {
-  assert.strictEqual(utils.is_zid('ID'), false);
+  assert.strictEqual(utils.isZid('ID'), false);
 });
 
 QUnit.test('is zid Z1230', (assert) => {
-  assert.strictEqual(utils.is_zid('Z1230'), true);
+  assert.strictEqual(utils.isZid('Z1230'), true);
 });
 
 QUnit.test('is zid Z123K', (assert) => {
-  assert.strictEqual(utils.is_zid('Z123K'), false);
+  assert.strictEqual(utils.isZid('Z123K'), false);
 });
 
 QUnit.test('is zid Z123K1', (assert) => {
-  assert.strictEqual(utils.is_zid('Z123K1'), false);
+  assert.strictEqual(utils.isZid('Z123K1'), false);
 });
 
 QUnit.test('is zid Z123K123', (assert) => {
-  assert.strictEqual(utils.is_zid('Z123K123'), false);
+  assert.strictEqual(utils.isZid('Z123K123'), false);
 });
 
 QUnit.test('is zid Z123K0', (assert) => {
-  assert.strictEqual(utils.is_zid('Z123K0'), false);
+  assert.strictEqual(utils.isZid('Z123K0'), false);
 });
 
 QUnit.test('is zid K1', (assert) => {
-  assert.strictEqual(utils.is_zid('K1'), false);
+  assert.strictEqual(utils.isZid('K1'), false);
 });
 
 QUnit.test('is zid K123', (assert) => {
-  assert.strictEqual(utils.is_zid('K123'), false);
+  assert.strictEqual(utils.isZid('K123'), false);
 });
 
 QUnit.test('is zid K0', (assert) => {
-  assert.strictEqual(utils.is_zid('K0'), false);
+  assert.strictEqual(utils.isZid('K0'), false);
 });
 
 QUnit.test('is zid ZK1', (assert) => {
-  assert.strictEqual(utils.is_zid('ZK1'), false);
+  assert.strictEqual(utils.isZid('ZK1'), false);
 });
 
 QUnit.test('is zid ""', (assert) => {
-  assert.strictEqual(utils.is_zid(''), false);
+  assert.strictEqual(utils.isZid(''), false);
 });
 
 QUnit.test('is zkid Z1', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z1'), false);
+  assert.strictEqual(utils.isZkid('Z1'), false);
 });
 
 QUnit.test('is zkid Z123', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z123'), false);
+  assert.strictEqual(utils.isZkid('Z123'), false);
 });
 
 QUnit.test('is zkid Z0', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z0'), false);
+  assert.strictEqual(utils.isZkid('Z0'), false);
 });
 
 QUnit.test('is zkid Z1K1', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z1K1'), true);
+  assert.strictEqual(utils.isZkid('Z1K1'), true);
 });
 
 QUnit.test('is zkid Z0K1', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z0K1'), false);
+  assert.strictEqual(utils.isZkid('Z0K1'), false);
 });
 
 QUnit.test('is zkid Q1', (assert) => {
-  assert.strictEqual(utils.is_zkid('Q1'), false);
+  assert.strictEqual(utils.isZkid('Q1'), false);
 });
 
 QUnit.test('is zkid ID', (assert) => {
-  assert.strictEqual(utils.is_zkid('ID'), false);
+  assert.strictEqual(utils.isZkid('ID'), false);
 });
 
 QUnit.test('is zkid Z1230', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z1230'), false);
+  assert.strictEqual(utils.isZkid('Z1230'), false);
 });
 
 QUnit.test('is zkid Z123K', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z123K'), false);
+  assert.strictEqual(utils.isZkid('Z123K'), false);
 });
 
 QUnit.test('is zkid Z123K1', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z123K1'), true);
+  assert.strictEqual(utils.isZkid('Z123K1'), true);
 });
 
 QUnit.test('is zkid Z123K123', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z123K123'), true);
+  assert.strictEqual(utils.isZkid('Z123K123'), true);
 });
 
 QUnit.test('is zkid Z123K0', (assert) => {
-  assert.strictEqual(utils.is_zkid('Z123K0'), false);
+  assert.strictEqual(utils.isZkid('Z123K0'), false);
 });
 
 QUnit.test('is zkid K1', (assert) => {
-  assert.strictEqual(utils.is_zkid('K1'), false);
+  assert.strictEqual(utils.isZkid('K1'), false);
 });
 
 QUnit.test('is zkid K123', (assert) => {
-  assert.strictEqual(utils.is_zkid('K123'), false);
+  assert.strictEqual(utils.isZkid('K123'), false);
 });
 
 QUnit.test('is zkid K0', (assert) => {
-  assert.strictEqual(utils.is_zkid('K0'), false);
+  assert.strictEqual(utils.isZkid('K0'), false);
 });
 
 QUnit.test('is zkid ZK1', (assert) => {
-  assert.strictEqual(utils.is_zkid('ZK1'), false);
+  assert.strictEqual(utils.isZkid('ZK1'), false);
 });
 
 QUnit.test('is zkid ""', (assert) => {
-  assert.strictEqual(utils.is_zkid(''), false);
+  assert.strictEqual(utils.isZkid(''), false);
 });
 
 QUnit.test('is zid from zkid Z1K1', (assert) => {
-  assert.strictEqual(utils.zid_from_zkid('Z1K1'), 'Z1');
+  assert.strictEqual(utils.zidFromZkid('Z1K1'), 'Z1');
 });
 
 QUnit.test('is zid from zkid Z123K1', (assert) => {
-  assert.strictEqual(utils.zid_from_zkid('Z123K1'), 'Z123');
+  assert.strictEqual(utils.zidFromZkid('Z123K1'), 'Z123');
 });
 
 QUnit.test('is zid from zkid Z1230K1', (assert) => {
-  assert.strictEqual(utils.zid_from_zkid('Z1230K1'), 'Z1230');
+  assert.strictEqual(utils.zidFromZkid('Z1230K1'), 'Z1230');
 });
 
 QUnit.test('sort zkid Z1 Z2', (assert) => {
-  assert.true(utils.sort_zkids('Z1', 'Z2') < 0);
+  assert.true(utils.sortZkids('Z1', 'Z2') < 0);
 });
 
 QUnit.test('sort zkid Z2 Z1', (assert) => {
-  assert.true(utils.sort_zkids('Z2', 'Z1') > 0);
+  assert.true(utils.sortZkids('Z2', 'Z1') > 0);
 });
 
 QUnit.test('sort zkid Z1 Z1', (assert) => {
-  assert.false(utils.sort_zkids('Z1', 'Z1'));
+  assert.false(utils.sortZkids('Z1', 'Z1'));
 });
 
 QUnit.test('sort zkid Z12 Z1', (assert) => {
-  assert.true(utils.sort_zkids('Z12', 'Z1') > 0);
+  assert.true(utils.sortZkids('Z12', 'Z1') > 0);
 });
 
 QUnit.test('sort zkid Z12 Z2', (assert) => {
-  assert.true(utils.sort_zkids('Z12', 'Z2') > 0);
+  assert.true(utils.sortZkids('Z12', 'Z2') > 0);
 });
 
 QUnit.test('sort zkid Z1K1 Z1K1', (assert) => {
-  assert.false(utils.sort_zkids('Z1K1', 'Z1K1'));
+  assert.false(utils.sortZkids('Z1K1', 'Z1K1'));
 });
 
 QUnit.test('sort zkid Z1K1 Z1K2', (assert) => {
-  assert.true(utils.sort_zkids('Z1K1', 'Z1K2') < 0);
+  assert.true(utils.sortZkids('Z1K1', 'Z1K2') < 0);
 });
 
 QUnit.test('sort zkid Z2K1 Z1K2', (assert) => {
-  assert.true(utils.sort_zkids('Z2K1', 'Z1K2') > 0);
+  assert.true(utils.sortZkids('Z2K1', 'Z1K2') > 0);
 });
 
 QUnit.test('sort zkid Z1K123 Z1K2', (assert) => {
-  assert.true(utils.sort_zkids('Z1K123', 'Z1K2') > 0);
+  assert.true(utils.sortZkids('Z1K123', 'Z1K2') > 0);
 });
 
 QUnit.test('get label [en: yes, de: ja], en', (assert) => {
-  assert.strictEqual(utils.get_label(
+  assert.strictEqual(utils.getLabel(
     {
       [c.ObjectType]: c.Multilingualtext,
       [c.MultilingualtextTexts]: [
@@ -447,7 +447,7 @@ QUnit.test('get label [en: yes, de: ja], en', (assert) => {
 });
 
 QUnit.test('get label [en: yes, de: ja], de', (assert) => {
-  assert.strictEqual(utils.get_label(
+  assert.strictEqual(utils.getLabel(
     {
       [c.ObjectType]: c.Multilingualtext,
       [c.MultilingualtextTexts]: [
@@ -468,7 +468,7 @@ QUnit.test('get label [en: yes, de: ja], de', (assert) => {
 });
 
 QUnit.test('get label [en: yes, de: ja], ar', (assert) => {
-  assert.strictEqual(utils.get_label(
+  assert.strictEqual(utils.getLabel(
     {
       [c.ObjectType]: c.Multilingualtext,
       [c.MultilingualtextTexts]: [
@@ -489,7 +489,7 @@ QUnit.test('get label [en: yes, de: ja], ar', (assert) => {
 });
 
 QUnit.test('get label [], en', (assert) => {
-  assert.strictEqual(utils.get_label(
+  assert.strictEqual(utils.getLabel(
     {
       [c.Object_Type]: c.Multilingualtext,
       [c.MultilingualtextTexts]: []
@@ -499,25 +499,25 @@ QUnit.test('get label [], en', (assert) => {
 });
 
 QUnit.test('string normalize Hello, Welt!', (assert) => {
-  assert.strictEqual(utils.string_normalize('Hello, Welt!'), 'hello,welt!');
+  assert.strictEqual(utils.stringNormalize('Hello, Welt!'), 'hello,welt!');
 });
 
 QUnit.test('string normalize Hello_Welt', (assert) => {
-  assert.strictEqual(utils.string_normalize('Hello_Welt'), 'hellowelt');
+  assert.strictEqual(utils.stringNormalize('Hello_Welt'), 'hellowelt');
 });
 
 QUnit.test('string normalize Hello Welt', (assert) => {
-  assert.strictEqual(utils.string_normalize('Hello Welt'), 'hellowelt');
+  assert.strictEqual(utils.stringNormalize('Hello Welt'), 'hellowelt');
 });
 
 QUnit.test('string normalize Hello-Welt', (assert) => {
-  assert.strictEqual(utils.string_normalize('Hello-Welt'), 'hellowelt');
+  assert.strictEqual(utils.stringNormalize('Hello-Welt'), 'hellowelt');
 });
 
 QUnit.test('string normalize HelloWelt', (assert) => {
-  assert.strictEqual(utils.string_normalize('HelloWelt'), 'hellowelt');
+  assert.strictEqual(utils.stringNormalize('HelloWelt'), 'hellowelt');
 });
 
 QUnit.test('string normalize hellowelt', (assert) => {
-  assert.strictEqual(utils.string_normalize('hellowelt'), 'hellowelt');
+  assert.strictEqual(utils.stringNormalize('hellowelt'), 'hellowelt');
 });

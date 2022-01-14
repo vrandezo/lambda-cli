@@ -19,7 +19,9 @@ try {
 }
 
 const write = (input) => {
-  if (input === null) { return ''; }
+  if (input === null) {
+    return '';
+  }
   return JSON.stringify(input, null, 2);
 };
 
@@ -31,7 +33,7 @@ let command = null;
 let input = null;
 let meta = false;
 
-const settings = ((argv) => {
+((argv) => {
   let i = 1;
 
   while (++i < argv.length) {
@@ -99,7 +101,7 @@ if (command !== null) {
   }
   if ('{"['.includes(input[0])) {
     command(JSON.parse(input)).then(write).then(console.log);
-  } else if (utils.is_zid(input)) {
+  } else if (utils.isZid(input)) {
     if (meta) {
       load.load(input).then(command).then(write).then(console.log);
     } else {

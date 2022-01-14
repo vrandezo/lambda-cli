@@ -2,33 +2,37 @@
 
 const c = require('./constants.js').constants;
 
-const is_object = (zobject) => {
-  if (zobject === null) { return false; }
-  if (zobject === undefined) { return false; }
+const isObject = (zobject) => {
+  if (zobject === null) {
+    return false;
+  }
+  if (zobject === undefined) {
+    return false;
+  }
   return (Object.getPrototypeOf(zobject) === Object.prototype);
 };
 
-const is_array = (zobject) => {
+const isArray = (zobject) => {
   return Array.isArray(zobject);
 };
 
-const is_string = (zobject) => {
+const isString = (zobject) => {
   return (typeof zobject === 'string' || zobject instanceof String);
 };
 
-const is_id = (zid) => {
+const isId = (zid) => {
   return (/^Z[1-9][0-9]*(K[1-9][0-9]*)?$/.test(zid) || /^K[1-9][0-9]*$/.test(zid));
 };
 
-const is_zid = (zid) => {
+const isZid = (zid) => {
   return /^Z[1-9][0-9]*$/.test(zid);
 };
 
-const is_zkid = (zid) => {
+const isZkid = (zid) => {
   return /^Z[1-9][0-9]*K[1-9][0-9]*$/.test(zid);
 };
 
-const zid_from_zkid = (zkid) => {
+const zidFromZkid = (zkid) => {
   return zkid.split('K')[0];
 };
 
@@ -49,7 +53,7 @@ const knumber = (zid) => {
   return parseInt(zid.slice(zid.indexOf('K') + 1));
 };
 
-const sort_zkids = (left, right) => {
+const sortZkids = (left, right) => {
   if (znumber(left) === znumber(right)) {
     if (knumber(left) === knumber(right)) {
       return left < right;
@@ -59,7 +63,7 @@ const sort_zkids = (left, right) => {
   return znumber(left) - znumber(right);
 };
 
-const get_label = (multitext, language) => {
+const getLabel = (multitext, language) => {
   for (const monotext of multitext[c.MultilingualtextTexts]) {
     if (monotext[c.MonolingualtextLanguage] === language) {
       return monotext[c.MonolingualtextText];
@@ -68,15 +72,15 @@ const get_label = (multitext, language) => {
   return null;
 };
 
-const string_normalize = (s) => s.toLowerCase().replaceAll(/[\s\-\_\.\(\)]/g, '');
+const stringNormalize = (s) => s.toLowerCase().replaceAll(/[\s\-_.()]/g, '');
 
-exports.is_object = is_object;
-exports.is_string = is_string;
-exports.is_array = is_array;
-exports.is_id = is_id;
-exports.is_zid = is_zid;
-exports.is_zkid = is_zkid;
-exports.zid_from_zkid = zid_from_zkid;
-exports.sort_zkids = sort_zkids;
-exports.get_label = get_label;
-exports.string_normalize = string_normalize;
+exports.isObject = isObject;
+exports.isString = isString;
+exports.isArray = isArray;
+exports.isId = isId;
+exports.isZid = isZid;
+exports.isZkid = isZkid;
+exports.zidFromZkid = zidFromZkid;
+exports.sortZkids = sortZkids;
+exports.getLabel = getLabel;
+exports.stringNormalize = stringNormalize;
