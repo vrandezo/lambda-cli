@@ -1,16 +1,16 @@
 next steps:
 - fill package.json
 - tests
--- canonicalize
 -- config
+-- load
 -- delabel
+-- parse
+-- canonicalize
 -- evaluate
 -- interactive
 -- labelize
 -- lambda
--- load
 -- normalize
--- parse
 -- prettyprint
 -- wellformed
 - logging or just give much more options on the command line
