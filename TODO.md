@@ -1,5 +1,18 @@
 next steps:
-- tests!
+- tests
+-- canonicalize
+-- config
+-- constants
+-- delabel
+-- evaluate
+-- interactive
+-- labelize
+-- lambda
+-- load
+-- normalize
+-- parse
+-- prettyprint
+-- wellformed
 - fill package.json
 - eslint
 - logging

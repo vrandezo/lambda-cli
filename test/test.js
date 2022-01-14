@@ -496,4 +496,26 @@ QUnit.test('get label [en: yes, de: ja], en', assert => {
   ), null);
 });
 
-// TODO: string normalize
+QUnit.test('string normalize Hello, Welt!', assert => {
+  assert.equal(utils.string_normalize("Hello, Welt!"), "hello,welt!");
+});
+
+QUnit.test('string normalize Hello_Welt', assert => {
+  assert.equal(utils.string_normalize("Hello_Welt"), "hellowelt");
+});
+
+QUnit.test('string normalize Hello Welt', assert => {
+  assert.equal(utils.string_normalize("Hello Welt"), "hellowelt");
+});
+
+QUnit.test('string normalize Hello-Welt', assert => {
+  assert.equal(utils.string_normalize("Hello-Welt"), "hellowelt");
+});
+
+QUnit.test('string normalize HelloWelt', assert => {
+  assert.equal(utils.string_normalize("HelloWelt"), "hellowelt");
+});
+
+QUnit.test('string normalize hellowelt', assert => {
+  assert.equal(utils.string_normalize("hellowelt"), "hellowelt");
+});
