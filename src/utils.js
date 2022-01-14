@@ -1,5 +1,7 @@
 'use strict';
 
+const c = require('./constants.js').constants;
+
 const is_object = (zobject) => {
   if (zobject === null) return false;
   if (zobject === undefined) return false;
@@ -58,9 +60,9 @@ const sort_zkids = (left, right) => {
 }
 
 const get_label = (multitext, language) => {
-  for (let monotext of multitext.Z12K1) {
-    if (monotext.Z11K1 === language) {
-      return monotext.Z11K2;
+  for (let monotext of multitext[c.Multilingualtext_Texts]) {
+    if (monotext[c.Monolingualtext_Language] === language) {
+      return monotext[c.Monolingualtext_Text];
     }
   }
   return null;

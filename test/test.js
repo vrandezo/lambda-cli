@@ -1,4 +1,5 @@
 const utils = require('../src/utils.js');
+const c = require('../src/constants.js').constants;
 
 QUnit.module('utils');
 
@@ -425,22 +426,74 @@ QUnit.test('sort zkid Z1K123 Z1K2', assert => {
 QUnit.test('get label [en: yes, de: ja], en', assert => {
   assert.equal(utils.get_label(
     {
-      "Z1K1": "Z12",
-      "Z12K1": [
+      [c.Object_Type]: c.Multilingualtext,
+      [c.Multilingualtext_Texts]: [
         {
-          "Z1K1": "Z11",
-          "Z11K1": "Z1002",
-          "Z11K2": "yes"
+          [c.Object_Type]: c.Monolingualtext,
+          [c.Monolingualtext_Language]: c.English,
+          [c.Monolingualtext_Text]: "yes"
         },
         {
-          "Z1K1": "Z11",
-          "Z11K1": "Z1430",
-          "Z11K2": "ja"
+          [c.Object_Type]: c.Monolingualtext,
+          [c.Monolingualtext_Language]: c.German,
+          [c.Monolingualtext_Text]: "ja"
         }
       ]
     },
-    "Z1002"
+    c.English
   ), "yes");
 });
-// TODO: more get label
+
+QUnit.test('get label [en: yes, de: ja], de', assert => {
+  assert.equal(utils.get_label(
+    {
+      [c.Object_Type]: c.Multilingualtext,
+      [c.Multilingualtext_Texts]: [
+        {
+          [c.Object_Type]: c.Monolingualtext,
+          [c.Monolingualtext_Language]: c.English,
+          [c.Monolingualtext_Text]: "yes"
+        },
+        {
+          [c.Object_Type]: c.Monolingualtext,
+          [c.Monolingualtext_Language]: c.German,
+          [c.Monolingualtext_Text]: "ja"
+        }
+      ]
+    },
+    c.German
+  ), "ja");
+});
+
+QUnit.test('get label [en: yes, de: ja], de', assert => {
+  assert.equal(utils.get_label(
+    {
+      [c.Object_Type]: c.Multilingualtext,
+      [c.Multilingualtext_Texts]: [
+        {
+          [c.Object_Type]: c.Monolingualtext,
+          [c.Monolingualtext_Language]: c.English,
+          [c.Monolingualtext_Text]: "yes"
+        },
+        {
+          [c.Object_Type]: c.Monolingualtext,
+          [c.Monolingualtext_Language]: c.German,
+          [c.Monolingualtext_Text]: "ja"
+        }
+      ]
+    },
+    c.Arabic
+  ), null);
+});
+
+QUnit.test('get label [en: yes, de: ja], en', assert => {
+  assert.equal(utils.get_label(
+    {
+      [c.Object_Type]: c.Multilingualtext,
+      [c.Multilingualtext_Texts]: []
+    },
+    c.English
+  ), null);
+});
+
 // TODO: string normalize
