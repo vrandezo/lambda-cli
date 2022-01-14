@@ -1,5 +1,11 @@
 {
-  "dependencies": {
-    "function-schemata": "file:function-schemata"
-  }
+	"scripts": {
+		"test": "qunit"
+	},
+	"dependencies": {
+		"function-schemata": "file:function-schemata"
+	},
+	"devDependencies": {
+		"qunit": "^2.17.2"
+	}
 }
