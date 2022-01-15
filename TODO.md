@@ -1,6 +1,10 @@
 next steps:
+- show .ast
+- smaller tokenizer result output
+- .tokens and .ast as config
+- --tokens and --ast as cli command
+
 - tests
--- parse
 -- normalize
 -- canonicalize
 -- labelize

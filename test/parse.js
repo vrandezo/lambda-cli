@@ -408,3 +408,91 @@ QUnit.test('parse "Z4"', async (assert) => {
     }
   );
 });
+
+QUnit.test('parse Z4', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('Z4'),
+    {
+      [c.ObjectType]: c.Reference,
+      [c.ReferenceValue]: 'Z4'
+    }
+  );
+});
+
+QUnit.test('parse Type', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('Type'),
+    {
+      [c.ObjectType]: c.Reference,
+      [c.ReferenceValue]: 'Z4'
+    }
+  );
+});
+
+QUnit.test('parse type', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('type'),
+    {
+      [c.ObjectType]: c.Reference,
+      [c.ReferenceValue]: 'Z4'
+    }
+  );
+});
+
+QUnit.test('parse first element', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('first element'),
+    {
+      [c.ObjectType]: c.Reference,
+      [c.ReferenceValue]: 'Z811'
+    }
+  );
+});
+
+QUnit.test('parse firstelement', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('firstelement'),
+    {
+      [c.ObjectType]: c.Reference,
+      [c.ReferenceValue]: 'Z811'
+    }
+  );
+});
+
+QUnit.test('parse Z811(["string"])', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('Z811(["string"])'),
+    {
+      [c.ObjectType]: c.Functioncall,
+      [c.FunctioncallFunction]: c.FirstElement,
+      [c.FirstElementArg]: [
+        {
+          [c.ObjectType]: c.String,
+          [c.StringValue]: 'string'
+        }
+      ]
+    }
+  );
+});
+
+QUnit.test('parse if(true, false, true)', async (assert) => {
+  assert.deepEqual(
+    await parse.parseAsync('if(true, false, true)'),
+    {
+      [c.ObjectType]: c.Functioncall,
+      [c.FunctioncallFunction]: c.If,
+      [c.IfCondition]: {
+        [c.ObjectType]: c.Reference,
+        [c.ReferenceValue]: c.True
+      },
+      [c.IfThen]: {
+        [c.ObjectType]: c.Reference,
+        [c.ReferenceValue]: c.False
+      },
+      [c.IfElse]: {
+        [c.ObjectType]: c.Reference,
+        [c.ReferenceValue]: c.True
+      }
+    }
+  );
+});
