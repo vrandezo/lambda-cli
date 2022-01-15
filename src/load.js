@@ -117,6 +117,9 @@ const createNewLabelmapLocal = async () => {
   } };
   for (const f of files) {
     const zid = f.slice(0, Math.max(0, f.indexOf('.')));
+    if (!utils.isZid(zid)) {
+      continue;
+    }
     const obj = await load(zid);
     let label = utils.getLabel(obj.Z2K3, config.language());
     label = (label === null) ? zid : label;
@@ -165,7 +168,6 @@ const resetAll = () => {
 };
 
 exports.labelmap = getLabelmap;
-
 exports.load = load;
 exports.loadCache = loadCache;
 exports.saveCache = saveCache;

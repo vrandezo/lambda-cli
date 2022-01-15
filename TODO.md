@@ -1,7 +1,5 @@
 next steps:
 - tests
--- load
--- delabel
 -- parse
 -- normalize
 -- canonicalize
@@ -11,6 +9,9 @@ next steps:
 -- evaluate
 -- lambda
 -- interactive
+-- from here on, for later:
+-- tests for aliases
+-- tests for delabeling other languages but english
 - logging or just give much more options on the command line
 - works a little:
 -- parse / delabel / labelmap in load

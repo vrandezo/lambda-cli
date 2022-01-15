@@ -18,6 +18,8 @@ const constants = {
   MonolingualtextText: 'Z11K2',
   Multilingualtext: 'Z12',
   MultilingualtextTexts: 'Z12K1',
+  If: 'Z802',
+  FirstElement: 'Z811',
   Arabic: 'Z1001',
   English: 'Z1002',
   German: 'Z1430'
