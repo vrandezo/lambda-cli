@@ -46,3 +46,13 @@ QUnit.test('delabel first element', async (assert) => {
     c.FirstElement
   );
 });
+
+QUnit.test('delabel firstelement', async (assert) => {
+  config.reset();
+  config.setWiki('files');
+  load.resetAll();
+  assert.deepEqual(
+    (await delabel.delabel('firstelement'))[0][c.Key1],
+    c.FirstElement
+  );
+});
