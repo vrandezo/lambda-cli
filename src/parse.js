@@ -33,10 +33,10 @@ const tokenize = (input) => {
     token = token.trim();
     if (token) {
       tokens.push({
-        [c.ObjectType]: 'ZToken',
-        [c.Key1]: POTENTIALREFERENCE,
-        [c.Key2]: position.toString(),
-        [c.Key3]: token
+        [c.ObjectType]: c.Token,
+        [c.TokenType]: POTENTIALREFERENCE,
+        [c.TokenPosition]: position.toString(),
+        [c.TokenValue]: token
       });
       position = currentPosition;
       token = '';
@@ -49,9 +49,9 @@ const tokenize = (input) => {
       if (character === match) {
         addPotentialReference();
         tokens.push({
-          [c.ObjectType]: 'ZToken',
-          [c.Key1]: symbol,
-          [c.Key2]: position.toString()
+          [c.ObjectType]: c.Token,
+          [c.TokenType]: symbol,
+          [c.TokenPosition]: position.toString()
         });
         position = currentPosition + 1;
         character = '';
@@ -71,16 +71,16 @@ const tokenize = (input) => {
           insideEscape = false;
         } else {
           tokens.push({
-            [c.ObjectType]: 'ZToken',
-            [c.Key1]: STRING,
-            [c.Key2]: position.toString(),
-            [c.Key3]: token
+            [c.ObjectType]: c.Token,
+            [c.TokenType]: STRING,
+            [c.TokenPosition]: position.toString(),
+            [c.TokenValue]: token
           });
           position = currentPosition - 1;
           tokens.push({
-            [c.ObjectType]: 'ZToken',
-            [c.Key1]: OPENESCAPE,
-            [c.Key2]: position.toString()
+            [c.ObjectType]: c.Token,
+            [c.TokenType]: OPENESCAPE,
+            [c.TokenPosition]: position.toString()
           });
           position = currentPosition;
           token = character;
@@ -88,10 +88,10 @@ const tokenize = (input) => {
       } else {
         if (character === '"') {
           tokens.push({
-            [c.ObjectType]: 'ZToken',
-            [c.Key1]: STRING,
-            [c.Key2]: position.toString(),
-            [c.Key3]: token
+            [c.ObjectType]: c.Token,
+            [c.TokenType]: STRING,
+            [c.TokenPosition]: position.toString(),
+            [c.TokenValue]: token
           });
           position = currentPosition + 1;
           token = '';
@@ -115,9 +115,9 @@ const tokenize = (input) => {
           addPotentialReference();
           position = currentPosition - 1;
           tokens.push({
-            [c.ObjectType]: 'ZToken',
-            [c.Key1]: OPENESCAPE,
-            [c.Key2]: position.toString()
+            [c.ObjectType]: c.Token,
+            [c.TokenType]: OPENESCAPE,
+            [c.TokenPosition]: position.toString()
           });
           position = currentPosition;
           token = character;
@@ -137,10 +137,10 @@ const tokenize = (input) => {
       } else if (character && escapeInSymbolFuture.includes(character)) {
         addPotentialReference();
         tokens.push({
-          [c.ObjectType]: 'ZToken',
-          [c.Key1]: FUTURESYMBOL,
-          [c.Key2]: position.toString(),
-          [c.Key3]: character
+          [c.ObjectType]: c.Token,
+          [c.TokenType]: FUTURESYMBOL,
+          [c.TokenPosition]: position.toString(),
+          [c.TokenValue]: character
         });
         token = '';
         position = currentPosition + 1;
@@ -153,10 +153,10 @@ const tokenize = (input) => {
   }
   if (insideString) {
     tokens.push({
-      [c.ObjectType]: 'ZToken',
-      [c.Key1]: OPENSTRING,
-      [c.Key2]: position.toString(),
-      [c.Key3]: token
+      [c.ObjectType]: c.Token,
+      [c.TokenType]: OPENSTRING,
+      [c.TokenPosition]: position.toString(),
+      [c.TokenValue]: token
     });
     position = currentPosition;
     token = '';
@@ -164,9 +164,9 @@ const tokenize = (input) => {
   if (insideEscape) {
     addPotentialReference();
     tokens.push({
-      [c.ObjectType]: 'ZToken',
-      [c.Key1]: OPENESCAPE,
-      [c.Key2]: position.toString()
+      [c.ObjectType]: c.Token,
+      [c.TokenType]: OPENESCAPE,
+      [c.TokenPosition]: position.toString()
     });
     position = currentPosition;
     token = '';
@@ -187,13 +187,13 @@ const error = (message, tokens) => {
 };
 
 const buildCsv = async (tokens, open, close) => {
-  if (tokens[0][c.Key1] !== open) {
+  if (tokens[0][c.TokenType] !== open) {
     return error('expected opener', tokens);
   }
   if (tokens.length < 2) {
     return error('unclosed', tokens);
   }
-  if (tokens[1][c.Key1] === close) {
+  if (tokens[1][c.TokenType] === close) {
     return {
       value: [],
       rest: tokens.slice(2)
@@ -207,13 +207,13 @@ const buildCsv = async (tokens, open, close) => {
     if (rest.length === 0) {
       return error('expected closing', tokens);
     }
-    if (rest[0][c.Key1] === close) {
+    if (rest[0][c.TokenType] === close) {
       return {
         value: values,
         rest: rest.slice(1)
       };
     }
-    if (rest[0][c.Key1] === SEPERATOR) {
+    if (rest[0][c.TokenType] === SEPERATOR) {
       tokens = rest;
       continue;
     }
@@ -226,17 +226,17 @@ const buildArgs = async (tokens) => {
 };
 
 const buildSymbol = async (tokens) => {
-  if (tokens[0][c.Key1] !== POTENTIALREFERENCE) {
+  if (tokens[0][c.TokenType] !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
   let callZid = '';
   let callType = '';
-  if (utils.isZid(tokens[0][c.Key3])) {
-    callZid = tokens[0][c.Key3];
+  if (utils.isZid(tokens[0][c.TokenValue])) {
+    callZid = tokens[0][c.TokenValue];
     const callObject = await load.load(callZid);
     callType = callObject[c.PersistentobjectValue][c.ObjectType];
   } else {
-    const delabelCallToken = await delabel.delabel(tokens[0][c.Key3], 'en');
+    const delabelCallToken = await delabel.delabel(tokens[0][c.TokenValue], 'en');
     if (delabelCallToken.length !== 1) {
       return error('could not delabel reference', tokens[0]);
     }
@@ -245,7 +245,7 @@ const buildSymbol = async (tokens) => {
   }
   const isType = callType === c.Type;
   const isFunction = callType === c.Function;
-  if (tokens.length === 1 || tokens[1][c.Key1] !== OPENARG || !(isType || isFunction)) {
+  if (tokens.length === 1 || tokens[1][c.TokenType] !== OPENARG || !(isType || isFunction)) {
     return {
       value: {
         [c.ObjectType]: c.Reference,
@@ -280,26 +280,26 @@ const buildList = async (tokens) => {
 };
 
 const buildString = (tokens) => {
-  if (tokens[0][c.Key1] !== STRING) {
+  if (tokens[0][c.TokenType] !== STRING) {
     return error('expected string', tokens);
   }
   return {
     value: {
       [c.ObjectType]: c.String,
-      [c.StringValue]: tokens[0][c.Key3]
+      [c.StringValue]: tokens[0][c.TokenValue]
     },
     rest: tokens.slice(1)
   };
 };
 
 const buildValue = async (tokens) => {
-  if (tokens[0][c.Key1] === POTENTIALREFERENCE) {
+  if (tokens[0][c.TokenType] === POTENTIALREFERENCE) {
     return await buildSymbol(tokens);
   }
-  if (tokens[0][c.Key1] === OPENLIST) {
+  if (tokens[0][c.TokenType] === OPENLIST) {
     return await buildList(tokens);
   }
-  if (tokens[0][c.Key1] === STRING) {
+  if (tokens[0][c.TokenType] === STRING) {
     return buildString(tokens);
   }
   return error('must be a reference, function call, list, or string', tokens);

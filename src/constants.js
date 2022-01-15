@@ -32,6 +32,10 @@ const constants = {
   Arabic: 'Z1001',
   English: 'Z1002',
   German: 'Z1430',
+  Token: 'ZToken',
+  TokenType: 'K1',
+  TokenPosition: 'K2',
+  TokenValue: 'K3',
   Key1: 'K1',
   Key2: 'K2',
   Key3: 'K3'
