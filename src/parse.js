@@ -1,5 +1,6 @@
 'use strict';
 
+const c = require('./constants.js').constants;
 const delabel = require('./delabel.js');
 const load = require('./load.js');
 const utils = require('./utils.js');
@@ -31,7 +32,12 @@ const tokenize = (input) => {
   const addPotentialReference = () => {
     token = token.trim();
     if (token) {
-      tokens.push({ Z1K1: 'ZToken', K1: POTENTIALREFERENCE, K2: position.toString(), K3: token });
+      tokens.push({
+        [c.ObjectType]: 'ZToken',
+        [c.Key1]: POTENTIALREFERENCE,
+        [c.Key2]: position.toString(),
+        [c.Key]: token
+      });
       position = currentPosition;
       token = '';
     }
@@ -42,7 +48,11 @@ const tokenize = (input) => {
     const pickToken = (match, symbol) => {  // eslint-disable-line no-loop-func
       if (character === match) {
         addPotentialReference();
-        tokens.push({ Z1K1: 'ZToken', K1: symbol, K2: position.toString() });
+        tokens.push({
+          [c.ObjectType]: 'ZToken',
+          [c.Key1]: symbol,
+          [c.Key2]: position.toString()
+        });
         position = currentPosition + 1;
         character = '';
       }
@@ -60,15 +70,29 @@ const tokenize = (input) => {
           token += '\\n';
           insideEscape = false;
         } else {
-          tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position.toString(),  K3: token });
+          tokens.push({
+            [c.ObjectType]: 'ZToken',
+            [c.Key1]: STRING,
+            [c.Key2]: position.toString(),
+            [c.Key3]: token
+          });
           position = currentPosition - 1;
-          tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
+          tokens.push({
+            [c.ObjectType]: 'ZToken',
+            [c.Key1]: OPENESCAPE,
+            [c.Key2]: position.toString()
+          });
           position = currentPosition;
           token = character;
         }
       } else {
         if (character === '"') {
-          tokens.push({ Z1K1: 'ZToken', K1: STRING, K2: position.toString(), K3: token });
+          tokens.push({
+            [c.ObjectType]: 'ZToken',
+            [c.Key1]: STRING,
+            [c.Key2]: position.toString(),
+            [c.Key3]: token
+          });
           position = currentPosition + 1;
           token = '';
           insideString = false;
@@ -90,7 +114,11 @@ const tokenize = (input) => {
         } else {
           addPotentialReference();
           position = currentPosition - 1;
-          tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
+          tokens.push({
+            [c.ObjectType]: 'ZToken',
+            [c.Key1]: OPENESCAPE,
+            [c.Key2]: position.toString()
+          });
           position = currentPosition;
           token = character;
         }
@@ -108,7 +136,12 @@ const tokenize = (input) => {
         //   addPotentialReference();
       } else if (character && escapeInSymbolFuture.includes(character)) {
         addPotentialReference();
-        tokens.push({ Z1K1: 'ZToken', K1: FUTURESYMBOL, K2: position.toString(), K3: character });
+        tokens.push({
+          [c.ObjectType]: 'ZToken',
+          [c.Key1]: FUTURESYMBOL,
+          [c.Key2]: position.toString(),
+          [c.Key3]: character
+        });
         token = '';
         position = currentPosition + 1;
       } else if (character === '\\') {
@@ -119,13 +152,22 @@ const tokenize = (input) => {
     }
   }
   if (insideString) {
-    tokens.push({ Z1K1: 'ZToken', K1: OPENSTRING, K2: position.toString(), K3: token });
+    tokens.push({
+      [c.ObjectType]: 'ZToken',
+      [c.Key1]: OPENSTRING,
+      [c.Key2]: position.toString(),
+      [c.Key3]: token
+    });
     position = currentPosition;
     token = '';
   }
   if (insideEscape) {
     addPotentialReference();
-    tokens.push({ Z1K1: 'ZToken', K1: OPENESCAPE, K2: position.toString() });
+    tokens.push({
+      [c.ObjectType]: 'ZToken',
+      [c.Key1]: OPENESCAPE,
+      [c.Key2]: position.toString()
+    });
     position = currentPosition;
     token = '';
   }
@@ -136,22 +178,22 @@ const tokenize = (input) => {
 const error = (message, tokens) => {
   return {
     value: {
-      Z1K1: 'Z5',
-      Z5K1: message,
-      Z5K2: tokens
+      [c.ObjectType]: c.Error,
+      [c.ErrorType]: message,
+      [c.ErrorValue]: tokens
     },
     rest: []
   };
 };
 
 const buildCsv = async (tokens, open, close) => {
-  if (tokens[0].K1 !== open) {
+  if (tokens[0][c.Key1] !== open) {
     return error('expected opener', tokens);
   }
   if (tokens.length < 2) {
     return error('unclosed', tokens);
   }
-  if (tokens[1].K1 === close) {
+  if (tokens[1][c.Key1] === close) {
     return {
       value: [],
       rest: tokens.slice(2)
@@ -165,13 +207,13 @@ const buildCsv = async (tokens, open, close) => {
     if (rest.length === 0) {
       return error('expected closing', tokens);
     }
-    if (rest[0].K1 === close) {
+    if (rest[0][c.Key1] === close) {
       return {
         value: values,
         rest: rest.slice(1)
       };
     }
-    if (rest[0].K1 === SEPERATOR) {
+    if (rest[0][c.Key1] === SEPERATOR) {
       tokens = rest;
       continue;
     }
@@ -184,44 +226,44 @@ const buildArgs = async (tokens) => {
 };
 
 const buildSymbol = async (tokens) => {
-  if (tokens[0].K1 !== POTENTIALREFERENCE) {
+  if (tokens[0][c.Key1] !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
   let callZid = '';
   let callType = '';
-  if (utils.isZid(tokens[0].K3)) {
-    callZid = tokens[0].K3;
+  if (utils.isZid(tokens[0][c.Key3])) {
+    callZid = tokens[0][c.Key3];
     const callObject = await load.load(callZid);
-    callType = callObject.Z2K2.Z1K1;
+    callType = callObject[c.PersistentobjectValue][c.ObjectType];
   } else {
-    const delabelCallToken = await delabel.delabel(tokens[0].K3, 'en');
+    const delabelCallToken = await delabel.delabel(tokens[0][c.Key3], 'en');
     if (delabelCallToken.length !== 1) {
       return error('could not delabel reference', tokens[0]);
     }
-    callZid = delabelCallToken[0].K1;
-    callType = delabelCallToken[0].K2;
+    callZid = delabelCallToken[0][c.Key1];
+    callType = delabelCallToken[0][c.Key2];
   }
-  const isType = callType === 'Z4';
-  const isFunction = callType === 'Z8';
-  if (tokens.length === 1 || tokens[1].K1 !== OPENARG || !(isType || isFunction)) {
+  const isType = callType === c.Type;
+  const isFunction = callType === c.Function;
+  if (tokens.length === 1 || tokens[1][c.Key1] !== OPENARG || !(isType || isFunction)) {
     return {
       value: {
-        Z1K1: 'Z9',
-        Z9K1: callZid
+        [c.ObjectType]: c.Reference,
+        [c.ReferenceValue]: callZid
       },
       rest: tokens.slice(1)
     };
   }
   const call = {};
   if (isType) {
-    call.Z1K1 = callZid;
+    call[c.ObjectType] = callZid;
   }
   if (isFunction) {
-    call.Z1K1 = 'Z7';
-    call.Z7K1 = callZid;
+    call[c.ObjectType] = c.Functioncall;
+    call[c.FunctioncallFunction] = callZid;
   }
   const { value, rest } = await buildArgs(tokens.slice(1));
-  if (value.Z1K1 === 'Z5') {
+  if (value[c.ObjectType] === c.Error) {
     return { value: value, rest: rest };
   }
   for (const v in value) {
@@ -238,26 +280,26 @@ const buildList = async (tokens) => {
 };
 
 const buildString = (tokens) => {
-  if (tokens[0].K1 !== STRING) {
+  if (tokens[0][c.Key1] !== STRING) {
     return error('expected string', tokens);
   }
   return {
     value: {
-      Z1K1: 'Z6',
-      Z6K1: tokens[0].K3
+      [c.ObjectType]: c.String,
+      [c.StringValue]: tokens[0][c.Key3]
     },
     rest: tokens.slice(1)
   };
 };
 
 const buildValue = async (tokens) => {
-  if (tokens[0].K1 === POTENTIALREFERENCE) {
+  if (tokens[0][c.Key1] === POTENTIALREFERENCE) {
     return await buildSymbol(tokens);
   }
-  if (tokens[0].K1 === OPENLIST) {
+  if (tokens[0][c.Key1] === OPENLIST) {
     return await buildList(tokens);
   }
-  if (tokens[0].K1 === STRING) {
+  if (tokens[0][c.Key1] === STRING) {
     return buildString(tokens);
   }
   return error('must be a reference, function call, list, or string', tokens);
