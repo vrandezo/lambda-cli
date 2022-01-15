@@ -4,6 +4,7 @@ const repl = require('repl');
 
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
+const delabel = require('./delabel.js');
 const evaluate = require('./evaluate.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
@@ -205,6 +206,30 @@ const interactive = () => {
           console.log(writeNoRemember(await labelize.labelize(last, false)));
           this.displayPrompt();
         }
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'label', {
+      help: 'if a ZID, returns the label, else returns the ZIDs',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === '') {
+          input = 'Z23';
+        }
+        if (utils.isZid(input)) {
+          const results = await load.load(input);
+          // TODO: do with errors
+          console.log(utils.getLabel(result.Z2K3, config.language()));
+        } else {
+          const results = await delabel.delabel(input);
+          // TODO: do with errors
+          results.forEach((result, i) => {
+            console.log(result.K1);
+          });
+        }
+        this.displayPrompt();
       }
     }
   );

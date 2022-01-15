@@ -77,6 +77,8 @@ The interactive shell has the following magic features:
 - .language: show or set the natural language
 - .wiki: URL of the wiki to connect to, or local path to the data
 - .cache: location of the local directory with the cache
+- .label: if a ZID, returns the label, if a label, returns all matching ZIDs
+  with their types.
 - .reload: reloads a specific ZID. Without arguments, deletes all cache.
 
 ## Configuration

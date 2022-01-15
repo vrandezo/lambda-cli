@@ -22,7 +22,10 @@ const constants = {
   FirstElement: 'Z811',
   Arabic: 'Z1001',
   English: 'Z1002',
-  German: 'Z1430'
+  German: 'Z1430',
+  Key1: 'K1',
+  Key2: 'K2',
+  Key3: 'K4'
 };
 
 exports.constants = constants;

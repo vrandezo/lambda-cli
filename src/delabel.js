@@ -32,9 +32,9 @@ const searchlabel = async (label) => {
 
     req.on('error', (err) => {
       reject({
-        Z1K1: 'Z5',
-        Z5K1: 'HTTP error',
-        Z5K2: err
+        [c.ObjectType]: c.Error,
+        [c.ErrorType]: 'HTTP error',
+        [c.ErrorValue]: err
       });
     });
 
@@ -54,13 +54,13 @@ const delabel = async (label) => {
         continue;
       }
       const result = {
-        Z1K1: 'ZSearchResult',
-        K1: hit.page_title,
-        K2: hit.page_type,
-        K3: [{
-          Z1K1: 'Z11',
-          Z11K1: config.language(),
-          Z11K2: hit.label
+        [c.ObjectType]: 'ZSearchResult',
+        [c.Key1]: hit.page_title,
+        [c.Key2]: hit.page_type,
+        [c.Key3]: [{
+          [c.ObjectType]: c.Monolingualtext,
+          [c.MonolingualtextLanguage]: config.language(),
+          [c.MonolingualtextText]: hit.label
         }]
       };
       results.push(result);
@@ -73,13 +73,13 @@ const delabel = async (label) => {
   const results = [];
   for (const hit of hits) {
     const result = {
-      Z1K1: 'ZSearchResult',
-      K1: hit[0],
-      K2: hit[1],
-      K3: [{
-        Z1K1: 'Z11',
-        Z11K1: config.language(),
-        Z11K2: hit[3]
+      [c.ObjectType]: 'ZSearchResult',
+      [c.Key1]: hit[0],
+      [c.Key2]: hit[1],
+      [c.Key3]: [{
+        [c.ObjectType]: c.Monolingualtext,
+        [c.MonolingualtextLanguage]: config.language(),
+        [c.MonolingualtextText]: hit[3]
       }]
     };
     results.push(result);
