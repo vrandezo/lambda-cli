@@ -1,5 +1,4 @@
 next steps:
-- label command with search against Web throws error?
 - tests
 -- parse
 -- normalize

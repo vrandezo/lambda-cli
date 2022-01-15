@@ -27,12 +27,17 @@ const searchlabel = async (label) => {
 
       res.on('end', () => {
         // TODO: what if not success
-        resolve(JSON.parse(body).query.wikilambdasearch_labels);
+        const answer = JSON.parse(body);
+        if ('query' in answer) {
+          resolve(answer.query.wikilambdasearch_labels);
+        } else {
+          resolve([]);
+        }
       });
     });
 
     req.on('error', (err) => {
-      reject({
+      resolve({
         [c.ObjectType]: c.Error,
         [c.ErrorType]: 'HTTP error',
         [c.ErrorValue]: err
