@@ -5,15 +5,15 @@ const parse = require('../src/parse.js');
 
 QUnit.module('parse');
 
-QUnit.test('tokenize asd', (assert) => {
+QUnit.test('tokenize symbol', (assert) => {
   assert.deepEqual(
-    parse.tokenize('asd'),
+    parse.tokenize('symbol'),
     [
       {
         [c.ObjectType]: 'ZToken',
         [c.Key1]: 'ZSymbol',
         [c.Key2]: '1',
-        [c.Key3]: 'asd'
+        [c.Key3]: 'symbol'
       }
     ]
   );
