@@ -10,20 +10,30 @@ QUnit.test('there is a version', (assert) => {
 });
 
 QUnit.test('there is a language', (assert) => {
+  config.reset();
+  assert.strictEqual(config.language().slice(0, 2), 'Z1');
+});
+
+QUnit.test('language resets', (assert) => {
+  config.setLanguage('Z2000');
+  config.reset();
   assert.strictEqual(config.language().slice(0, 2), 'Z1');
 });
 
 QUnit.test('there is a cache', (assert) => {
+  config.reset();
   assert.strictEqual(typeof config.cache(), 'string');
 });
 
 QUnit.test('there is a wiki', (assert) => {
+  config.reset();
   assert.strictEqual(typeof config.wiki(), 'string');
 });
 
 QUnit.test('set language retains', (assert) => {
   config.setLanguage(c.Arabic);
   assert.strictEqual(config.language(), c.Arabic);
+  config.reset();
 });
 
 QUnit.test('load settings and choose language', (assert) => {
@@ -41,6 +51,7 @@ QUnit.test('load settings and choose language', (assert) => {
   });
   config.setLanguage('hr');
   assert.strictEqual(config.language(), c.Croatian);
+  config.reset();
 });
 
 QUnit.test('load settings and get first language', (assert) => {
@@ -57,6 +68,7 @@ QUnit.test('load settings and get first language', (assert) => {
     }
   });
   assert.strictEqual(config.language(), c.English);
+  config.reset();
 });
 
 QUnit.test('load settings and get first wiki', (assert) => {
@@ -73,6 +85,7 @@ QUnit.test('load settings and get first wiki', (assert) => {
     }
   });
   assert.strictEqual(config.wiki(), 'https://wikifunctions.org');
+  config.reset();
 });
 
 QUnit.test('load settings and choose wiki', (assert) => {
@@ -90,6 +103,7 @@ QUnit.test('load settings and choose wiki', (assert) => {
   });
   config.setWiki('beta');
   assert.strictEqual(config.wiki(), 'https://wikifunctions.beta.wmflabs.org');
+  config.reset();
 });
 
 QUnit.test('load settings and it is not local', (assert) => {
@@ -106,6 +120,7 @@ QUnit.test('load settings and it is not local', (assert) => {
     }
   });
   assert.false(config.isLocal());
+  config.reset();
 });
 
 QUnit.test('load settings and choose local', (assert) => {
@@ -123,4 +138,5 @@ QUnit.test('load settings and choose local', (assert) => {
   });
   config.setWiki('local');
   assert.true(config.isLocal());
+  config.reset();
 });

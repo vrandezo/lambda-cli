@@ -4,6 +4,7 @@ const fs = require('fs');
 const https = require('https');
 const http = require('http');
 
+const c = require('./constants.js').constants;
 const config = require('./config.js');
 const utils = require('./utils.js');
 
@@ -36,9 +37,9 @@ const requestWeb = (zid) => {
 
     req.on('error', (err) => {
       reject({
-        Z1K1: 'Z5',
-        Z5K1: 'HTTP error',
-        Z5K2: err
+        [c.ObjectType]: c.Error,
+        [c.ErrorType]: 'HTTP error',
+        [c.ErrorValue]: err
       });
     });
 
@@ -48,14 +49,13 @@ const requestWeb = (zid) => {
 
 const requestLocal = (zid) => {
   return new Promise((resolve, reject) => {
-    const path = config.data().replace('$1', zid);
+    const path = config.wiki().replace('$1', zid);
     fs.readFile(path, (err, data) => {
       if (err) {
         resolve({
-          Z1K1: 'Z5',
-          Z5K1: 'Could not load file',
-          Z5K2: path,
-          Z5K3: err
+          [c.ObjectType]: c.Error,
+          [c.ErrorType]: 'Could not load file',
+          [c.ErrorValue]: path + ' ' + err
         });
       } else {
         resolve(JSON.parse(data));
@@ -108,7 +108,7 @@ const reset = (zid) => {
 };
 
 const createNewLabelmapLocal = async () => {
-  const directory = config.data().slice(0, Math.max(0, config.data().lastIndexOf('/')));
+  const directory = config.wiki().slice(0, Math.max(0, config.wiki().lastIndexOf('/')));
   const files = await fs.promises.readdir(directory);
   const labelmap = { _: {
     language: config.language,

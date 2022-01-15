@@ -104,6 +104,7 @@ const setWiki = (wiki) => {
 };
 
 exports.load = load;
+exports.reset = reset;
 exports.language = language;
 exports.setLanguage = setLanguage;
 exports.cache = cache;
