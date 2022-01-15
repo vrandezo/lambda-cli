@@ -1,4 +1,5 @@
 next steps:
+- label command with search against Web throws error?
 - tests
 -- parse
 -- normalize
@@ -26,7 +27,6 @@ previous next steps:
 - when switching .wiki, also delete the cache and the labelmap
 
 then:
-- tests
 - log stuff, allow to be chattier on the command line (.details on)
 - eval, search, and load all make calls to the MW API with lots of repeat code
 - checking levels

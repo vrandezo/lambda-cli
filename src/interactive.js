@@ -230,10 +230,13 @@ const interactive = () => {
           }
         } else {
           const results = await delabel.delabel(input);
-          // TODO: do with errors
-          results.forEach((result, i) => {
-            console.log(result[c.Key1]);
-          });
+          if (results.length === 0) {
+            console.log(' Nothing found');
+          } else {
+            results.forEach((result, i) => {
+              console.log(result[c.Key1]);
+            });
+          }
         }
         this.displayPrompt();
       }

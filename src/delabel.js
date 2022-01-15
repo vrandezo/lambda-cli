@@ -48,8 +48,11 @@ const delabel = async (label) => {
   const normal = utils.stringNormalize(label);
 
   if (!(normal in labelmap)) {
-    const hits = await searchlabel(label);
     const results = [];
+    if (config.isLocal()) {
+      return results;
+    }
+    const hits = await searchlabel(label);
     for (const hit of hits) {
       if (utils.stringNormalize(label) !== utils.stringNormalize(hit.label)) {
         continue;
