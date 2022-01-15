@@ -36,7 +36,7 @@ const tokenize = (input) => {
         [c.ObjectType]: 'ZToken',
         [c.Key1]: POTENTIALREFERENCE,
         [c.Key2]: position.toString(),
-        [c.Key]: token
+        [c.Key3]: token
       });
       position = currentPosition;
       token = '';
@@ -319,4 +319,5 @@ const parseAsync = async (input) => {
   return call;
 };
 
+exports.tokenize = tokenize;
 exports.parseAsync = parseAsync;

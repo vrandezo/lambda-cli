@@ -34,7 +34,7 @@ const constants = {
   German: 'Z1430',
   Key1: 'K1',
   Key2: 'K2',
-  Key3: 'K4'
+  Key3: 'K3'
 };
 
 exports.constants = constants;
