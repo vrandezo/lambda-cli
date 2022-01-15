@@ -221,7 +221,7 @@ const interactive = () => {
         if (utils.isZid(input)) {
           const results = await load.load(input);
           // TODO: do with errors
-          console.log(utils.getLabel(result.Z2K3, config.language()));
+          console.log(utils.getLabel(results.Z2K3, config.language()));
         } else {
           const results = await delabel.delabel(input);
           // TODO: do with errors
