@@ -1,8 +1,9 @@
 next steps:
+- .tokens as config
+- --tokens as cli command
 - show .ast
-- smaller tokenizer result output
-- .tokens and .ast as config
-- --tokens and --ast as cli command
+- .ast as config
+- --ast as cli command
 
 - tests
 -- normalize
@@ -13,10 +14,9 @@ next steps:
 -- evaluate
 -- lambda
 -- interactive
--- from here on, for later:
--- tests for aliases
--- tests for delabeling other languages but english
+
 - logging or just give much more options on the command line
+
 - works a little:
 -- parse / delabel / labelmap in load
 -- wellformed
@@ -63,3 +63,7 @@ furthermore:
 - defineCommand set evaluator
 - what about i18n of the commands?
 - check if FUTURE_README and README align
+- tests
+-- tests for aliases
+-- tests for delabeling other languages but english
+-- more tests for tokenizing and parsing

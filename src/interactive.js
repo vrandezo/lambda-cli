@@ -43,6 +43,18 @@ const writeNoRemember = (input) => {
   return JSON.stringify(input, null, 2);
 };
 
+const writeTokens = (tokens) => {
+  let result = '';
+  tokens.forEach((token, i) => {
+    result += token[c.TokenType];
+    if (token[c.TokenValue] !== undefined) {
+      result += '(' + token[c.TokenValue] + ')';
+    }
+    result += ' ';
+  });
+  return result;
+}
+
 const answer = (command, callback) => {
   const data = command.trim();
   const first = data[0];
@@ -54,8 +66,7 @@ const answer = (command, callback) => {
     callback(last);
   } else {
     if (showTokens) {
-      console.log('tokenization');
-      console.log(writeNoRemember(parse.tokenize(data)));
+      console.log('\x1b[2m' + writeTokens(parse.tokenize(data)) + '\x1b[0m');
     }
     parse.parseAsync(
       data
@@ -265,7 +276,7 @@ const interactive = () => {
           } else if (input === 'off') {
             showTokens = false;
           } else {
-            console.log(write(parse.tokenize(input)));
+            console.log(writeTokens(parse.tokenize(input)));
           }
         }
         this.displayPrompt();
