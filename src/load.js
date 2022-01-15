@@ -31,12 +31,20 @@ const requestWeb = (zid) => {
       });
 
       res.on('end', () => {
-        resolve(JSON.parse(JSON.parse(body)[zid].wikilambda_fetch));
+        const answer = JSON.parse(body);
+        if (zid in answer) {
+          resolve(JSON.parse(answer[zid].wikilambda_fetch));
+        }
+        resolve({
+          [c.ObjectType]: c.Error,
+          [c.ErrorType]: 'ZID not found',
+          [c.ErrorValue]: answer.error
+        });
       });
     });
 
     req.on('error', (err) => {
-      reject({
+      resolve({
         [c.ObjectType]: c.Error,
         [c.ErrorType]: 'HTTP error',
         [c.ErrorValue]: err

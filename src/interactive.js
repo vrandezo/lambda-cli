@@ -2,6 +2,7 @@
 
 const repl = require('repl');
 
+const c = require('./constants.js').constants;
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const delabel = require('./delabel.js');
@@ -216,17 +217,22 @@ const interactive = () => {
       async action(input) {
         this.clearBufferedCommand();
         if (input === '') {
-          input = 'Z23';
+          input = c.Nothing;
         }
         if (utils.isZid(input)) {
           const results = await load.load(input);
-          // TODO: do with errors
-          console.log(utils.getLabel(results.Z2K3, config.language()));
+          if (results[c.ObjectType] === c.Error) {
+            console.log(results[c.ErrorType]);
+          } else {
+            console.log(utils.getLabel(
+              results[c.PersistentobjectLabels], config.language()
+            ));
+          }
         } else {
           const results = await delabel.delabel(input);
           // TODO: do with errors
           results.forEach((result, i) => {
-            console.log(result.K1);
+            console.log(result[c.Key1]);
           });
         }
         this.displayPrompt();
