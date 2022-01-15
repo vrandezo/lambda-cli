@@ -1,6 +1,5 @@
 next steps:
 - tests
--- config
 -- load
 -- delabel
 -- parse

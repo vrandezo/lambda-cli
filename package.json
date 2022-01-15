@@ -25,10 +25,13 @@
 		"url": "https://github.com/vrandezo/lambda-cli/issues"
 	},
 	"homepage": "https://github.com/vrandezo/lambda-cli",
+	"main": "src/lambda.js",
 	"scripts": {
+		"start": "src/lambda.js",
 		"lint": "eslint --max-warnings 0 --ext .js --ext .json .",
 		"fix": "eslint --fix --max-warnings 0 --ext .js --ext .json .",
-		"test": "eslint --max-warnings 0 --ext .js --ext .json . && qunit"
+		"unit": "qunit",
+		"test": "npm run lint && npm run unit"
 	},
 	"dependencies": {
 		"function-schemata": "file:function-schemata"

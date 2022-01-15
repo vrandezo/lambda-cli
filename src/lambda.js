@@ -11,13 +11,6 @@ const normalize = require('./normalize.js');
 const prettyprint = require('./prettyprint.js');
 const utils = require('./utils.js');
 
-try {
-  config.load('./config.json');
-} catch (err) {
-  console.log('No config.json exists, using config.default.json instead.');
-  config.load('./config.default.json');
-}
-
 const write = (input) => {
   if (input === null) {
     return '';
