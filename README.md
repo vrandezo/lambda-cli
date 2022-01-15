@@ -80,6 +80,7 @@ The interactive shell has the following magic features:
 - .label: if a ZID, returns the label, if a label, returns all matching ZIDs
   with their types.
 - .reload: reloads a specific ZID. Without arguments, deletes all cache.
+- .tokens: use on and off to show tokenization; any other input gets tokenized
 
 ## Configuration
 

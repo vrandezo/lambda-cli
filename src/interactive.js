@@ -14,6 +14,7 @@ const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
+let showTokens = false;
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
@@ -52,6 +53,10 @@ const answer = (command, callback) => {
   } else if (data === '_') {
     callback(last);
   } else {
+    if (showTokens) {
+      console.log('tokenization');
+      console.log(writeNoRemember(parse.tokenize(data)));
+    }
     parse.parseAsync(
       data
     ).then(
@@ -242,6 +247,32 @@ const interactive = () => {
       }
     }
   );
+
+  cli.defineCommand(
+    'tokens', {
+      help: 'use on and off to show tokenization; any other input gets tokenized',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === '') {
+          if (showTokens) {
+            console.log('on');
+          } else {
+            console.log('off');
+          }
+        } else {
+          if (input === 'on') {
+            showTokens = true;
+          } else if (input === 'off') {
+            showTokens = false;
+          } else {
+            console.log(write(parse.tokenize(input)));
+          }
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
 };
 
 exports.interactive = interactive;
