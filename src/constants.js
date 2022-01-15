@@ -14,6 +14,8 @@ const constants = {
   Error: 'Z5',
   ErrorType: 'Z5K1',
   ErrorValue: 'Z5K2',
+  String: 'Z6',
+  StringValue: 'Z6K1',
   Monolingualtext: 'Z11',
   MonolingualtextLanguage: 'Z11K1',
   MonolingualtextText: 'Z11K2',
