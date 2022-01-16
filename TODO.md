@@ -1,13 +1,20 @@
 next steps:
+- pull answer in its own file, with settings as a parameter, and use that
+  both in interactive and in lambda for command line commands
+- delabeling should happen as a distinct step, before the ast building,
+  and should be called distinctively
+- have a test dataset in test that is used for tests instead of the real
+  data in function-schemata. Use this to also test several languages
+
 - tests
 -- normalize
 -- canonicalize
 -- labelize
--- wellformed
--- prettyprint
 -- evaluate
 -- lambda
 -- interactive
+-- wellformed
+-- prettyprint
 
 - logging or just give much more options on the command line
 
@@ -40,6 +47,7 @@ then:
 furthermore:
 - prettyprint in the REPL (worry about Z2 envelope)
 - full underscore implementation
+- introduce recoverable errors when the line is not complete
 - allow JSON objects in syntax
 - labelmap from website
 - write a help message for --help
