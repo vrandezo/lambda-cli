@@ -63,7 +63,6 @@ const interactive = () => {
   cli.on('exit', () => {
     load.saveCache(config.cache());
     console.log('Have a mindful day.');
-    process.exit(0);  // eslint-disable-line no-process-exit
   });
 
   cli.defineCommand(
