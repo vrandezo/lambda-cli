@@ -112,22 +112,22 @@ const setWiki = (wiki) => {
 const tokens = () => {
   ensureLoaded();
   return config.tokens;
-}
+};
 
 const setTokens = (b) => {
   ensureLoaded();
   config.tokens = b;
-}
+};
 
 const ast = () => {
   ensureLoaded();
   return config.ast;
-}
+};
 
 const setAst = (b) => {
   ensureLoaded();
   config.ast = b;
-}
+};
 
 exports.load = load;
 exports.reset = reset;

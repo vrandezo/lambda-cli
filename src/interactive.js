@@ -52,7 +52,7 @@ const writeTokens = (tokens) => {
     result += ' ';
   });
   return result;
-}
+};
 
 const answer = async (command, callback) => {
   const data = command.trim();
