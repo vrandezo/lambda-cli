@@ -156,15 +156,12 @@ const interactive = () => {
       help: 'returns the canonical version of a ZObject',
       async action(input) {
         this.clearBufferedCommand();
+        let call = last;
         if (input !== '') {
-          const call = await answer.answerAsync(input, (x) => null, last);
-          console.log(write(canonicalize.canonicalize(call)));
-          this.displayPrompt();
-        } else {
-          last = canonicalize.canonicalize(last);
-          console.log(write(last));
-          this.displayPrompt();
+          call = await answer.answerAsync(input, (x) => null, last);
         }
+        console.log(write(canonicalize.canonicalize(call)));
+        this.displayPrompt();
       }
     }
   );
@@ -174,15 +171,12 @@ const interactive = () => {
       help: 'returns the normal version of a ZObject',
       async action(input) {
         this.clearBufferedCommand();
+        let call = last;
         if (input !== '') {
-          const call = await answer.answerAsync(input, (x) => null, last);
-          console.log(write(normalize.normalize(call)));
-          this.displayPrompt();
-        } else {
-          last = normalize.normalize(last);
-          console.log(write(last));
-          this.displayPrompt();
+          call = await answer.answerAsync(input, (x) => null, last);
         }
+        console.log(write(normalize.normalize(call)));
+        this.displayPrompt();
       }
     }
   );
@@ -208,25 +202,26 @@ const interactive = () => {
       async action(input) {
         this.clearBufferedCommand();
         if (input === '') {
-          input = c.Nothing;
-        }
-        if (utils.isZid(input)) {
-          const results = await load.load(input);
-          if (results[c.ObjectType] === c.Error) {
-            console.log(results[c.ErrorType]);
-          } else {
-            console.log(utils.getLabel(
-              results[c.PersistentobjectLabels], config.language()
-            ));
-          }
+          console.log(write(await labelize.labelize(last)));
         } else {
-          const results = await delabel.delabel(input);
-          if (results.length === 0) {
-            console.log(' Nothing found');
+          if (utils.isZid(input)) {
+            const results = await load.load(input);
+            if (results[c.ObjectType] === c.Error) {
+              console.log(results[c.ErrorType]);
+            } else {
+              console.log(utils.getLabel(
+                results[c.PersistentobjectLabels], config.language()
+              ));
+            }
           } else {
-            results.forEach((result, i) => {
-              console.log(result[c.Key1]);
-            });
+            const results = await delabel.delabel(input);
+            if (results.length === 0) {
+              console.log(' Nothing found');
+            } else {
+              results.forEach((result, i) => {
+                console.log(result[c.Key1]);
+              });
+            }
           }
         }
         this.displayPrompt();
