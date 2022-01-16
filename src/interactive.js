@@ -45,18 +45,6 @@ const write = (input) => {
   return JSON.stringify(input, null, 2);
 };
 
-const writeTokens = (tokens) => {
-  let result = '';
-  tokens.forEach((token, i) => {
-    result += token[c.TokenType];
-    if (token[c.TokenValue] !== undefined) {
-      result += '(' + token[c.TokenValue] + ')';
-    }
-    result += ' ';
-  });
-  return result;
-};
-
 const evalinput = async (command, context, file, callback) => {
   last = await answer.answerAsync(command, { last: last });
   callback(null, last);
@@ -67,7 +55,7 @@ const interactive = () => {
   const cli = repl.start({
     prompt: 'λ→ ',
     eval: evalinput,
-    writer: write
+    writer: (x) => ''
   });
 
   cli.setupHistory('./.history', () => null);
@@ -244,7 +232,7 @@ const interactive = () => {
           } else if (input === 'off') {
             config.setTokens(false);
           } else {
-            console.log(writeTokens(parse.tokenize(input)));
+            console.log(answer.formatTokens(parse.tokenize(input)));
           }
         }
         this.displayPrompt();

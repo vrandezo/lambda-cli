@@ -11,7 +11,7 @@ const getPersistentobjectValue = (zobject) => {
   return zobject[c.PersistentobjectValue];
 };
 
-const writeTokens = (tokens) => {
+const formatTokens = (tokens) => {
   let result = '';
   tokens.forEach((token, i) => {
     result += token[c.TokenType];
@@ -45,13 +45,14 @@ const answerAsync = async (input, {
     return last;
   } else {
     if (config.tokens()) {
-      output('\x1b[2m' + writeTokens(parse.tokenize(data)) + '\x1b[0m');
+      output('\x1b[2m' + formatTokens(parse.tokenize(data)) + '\x1b[0m');
     }
     const call = await parse.parseAsync(data);
     if (config.ast()) {
       output('\x1b[2m' + writeNoRemember(call) + '\x1b[0m');
     }
     const result = await evaluate.evaluateAsync(call);
+    output(JSON.stringify(result, null, 2));
     if (config.timer()) {
       output(`\x1b[2m${Date.now() - starttime} ms\x1b[0m`);
     }
@@ -59,4 +60,5 @@ const answerAsync = async (input, {
   }
 };
 
+exports.formatTokens = formatTokens;
 exports.answerAsync = answerAsync;
