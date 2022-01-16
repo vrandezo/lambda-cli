@@ -58,7 +58,7 @@ const writeTokens = (tokens) => {
 };
 
 const evalinput = async (command, context, file, callback) => {
-  last = await answer.answerAsync(command, console.log, last);
+  last = await answer.answerAsync(command, { last: last });
   callback(null, last);
 };
 

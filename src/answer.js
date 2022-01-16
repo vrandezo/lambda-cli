@@ -30,7 +30,10 @@ const writeNoRemember = (input) => {
   return JSON.stringify(input, null, 2);
 };
 
-const answerAsync = async (input, output, last) => {
+const answerAsync = async (input, {
+  output = console.log,
+  last = null
+} = {}) => {
   const starttime = Date.now();
   const data = input.trim();
   const first = data[0];

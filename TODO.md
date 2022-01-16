@@ -1,6 +1,7 @@
 next steps:
 - formatting results
 - settings should be a parameter on answer, not the global config?
+- have something to switch off evaluation
 - prettyprint used to show the whole Persistentobject, not just the value,
   when asked for a ZID, should there be something like that?
 - delabeling should happen as a distinct step, before the ast building,
