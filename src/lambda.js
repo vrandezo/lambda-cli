@@ -58,6 +58,10 @@ let meta = false;
         config.setAst(true);
         continue;
       }
+      if (v === '--timer') {
+        config.setTimer(true);
+        continue;
+      }
       console.log('Unknown argument: ' + v);
       process.exit(1);  // eslint-disable-line no-process-exit
     }

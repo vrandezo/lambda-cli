@@ -38,11 +38,21 @@ const load = (settings) => {
     config.wiki_actually = settings.wiki[Object.keys(settings.wiki)[0]];
   }
   config.cache = settings.cache;
+  settings.tokens = false;
   if ('tokens' in settings) {
     config.tokens = settings.tokens;
   }
+  config.ast = false;
   if ('ast' in settings) {
     config.ast = settings.ast;
+  }
+  config.ast = false;
+  if ('ast' in settings) {
+    config.ast = settings.ast;
+  }
+  config.timer = false;
+  if ('timer' in settings) {
+    config.timer = settings.timer;
   }
   config.loaded = true;
 };
@@ -129,6 +139,16 @@ const setAst = (b) => {
   config.ast = b;
 };
 
+const timer = () => {
+  ensureLoaded();
+  return config.timer;
+};
+
+const setTimer = (b) => {
+  ensureLoaded();
+  config.timer = b;
+};
+
 exports.load = load;
 exports.reset = reset;
 exports.language = language;
@@ -142,4 +162,6 @@ exports.tokens = tokens;
 exports.setTokens = setTokens;
 exports.ast = ast;
 exports.setAst = setAst;
+exports.timer = timer;
+exports.setTimer = setTimer;
 exports.version = version;

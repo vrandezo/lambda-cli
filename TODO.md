@@ -24,6 +24,7 @@ previous next steps:
 - when switching .wiki, also delete the cache and the labelmap
 
 then:
+- the lambda one command thing and the command line interface should behave consistently, right now completely different code
 - log stuff, allow to be chattier on the command line (.details on)
 - eval, search, and load all make calls to the MW API with lots of repeat code
 - checking levels
@@ -45,7 +46,6 @@ furthermore:
 - move repo to gerrit
 - rename master to main (will happen together with all other gerrit repos)
 - allow --config parameter
-- defineCommand timer
 - have a command for ZID to name and vice versa
 - autocomplete (for default parser)
 -- needs labelmap or something to get all labels from .data source

@@ -11,5 +11,6 @@
 		"files": "./function-schemata/data/definitions/$1.json"
 	},
 	"tokens": false,
-	"ast": false
+	"ast": false,
+	"timer": false
 }

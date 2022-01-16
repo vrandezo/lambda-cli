@@ -14,6 +14,7 @@ const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
+let starttime = null;
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
@@ -32,6 +33,11 @@ const write = (input) => {
     return '';
   }
   last = input;
+  if (starttime !== null) {
+    const runtime = Date.now() - starttime;
+    console.log(`\x1b[2m${runtime} ms\x1b[0m`);
+    starttime = null;
+  }
   return JSON.stringify(input, null, 2);
 };
 
@@ -78,6 +84,7 @@ const answer = async (command, callback) => {
 };
 
 const evalinput = (command, context, file, callback) => {
+  starttime = Date.now();
   answer(command, (result) => {
     callback(null, result);
   });
@@ -259,7 +266,7 @@ const interactive = () => {
   cli.defineCommand(
     'tokens', {
       help: 'use on and off to show tokenization; any other input gets tokenized',
-      async action(input) {
+      action(input) {
         this.clearBufferedCommand();
         if (input === '') {
           if (config.tokens()) {
@@ -299,6 +306,31 @@ const interactive = () => {
             config.setAst(false);
           } else {
             console.log(write(await parse.parseAsync(input)));
+          }
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'timer', {
+      help: 'displays how much time passed after each command; set on or off',
+      action(input) {
+        this.clearBufferedCommand();
+        if (input === '') {
+          if (config.timer()) {
+            console.log('on');
+          } else {
+            console.log('off');
+          }
+        } else {
+          if (input === 'on') {
+            config.setTimer(true);
+          } else if (input === 'off') {
+            config.setTimer(false);
+          } else {
+            console.log('unknown value, can only be on or off');
           }
         }
         this.displayPrompt();

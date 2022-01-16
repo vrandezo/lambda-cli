@@ -90,9 +90,14 @@ The config.json file allows to configure the following settings:
   a local directory, the ZID is replaced by $1)
 - cache: path to a local directory for storing the cached files (key "cache")
 
-The values of the configuration parameters are either a single value, or a map
+The values of these configuration parameters are either a single value, or a map
 from a short name to a value. In case of the latter, the first value is taken
 as the default value.
+
+The following configuration settings are booleans:
+- tokens: whether to display the result of the tokenizer
+- ast: whether to display the result of the parse
+- timer: whether to show how long a given command took
 
 ### Command line arguments
 --language followed by a parameter with the ZID of the language
@@ -100,6 +105,7 @@ as the default value.
 --cache path to a local directory
 --tokens display the results of the tokenizing
 --ast display the results of the parsing
+--timer display the time a command takes
 
 The configuration can be overriden through command line arguments which have
 the same name but are prefixed by a --.
