@@ -3,6 +3,7 @@
 const c = require('./constants.js').constants;
 const config = require('./config.js');
 const evaluate = require('./evaluate.js');
+const labelize = require('./labelize.js');
 const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
@@ -15,20 +16,20 @@ const utils = require('./utils.js');
 //  }
 // };
 
-// const format = (output) => {
-//  if (utils.isArray(output)) {
-//    return output.map(format);
-//  }
-//  if (utils.isString(output)) {
-//    return output;
-//  }
-//  if (utils.isObject(output)) {
-//    if (c.Boolean === output[c.ObjectType]) {
-//      return output[c.BooleanValue];
-//    }
-//  }
-//  return output;
-// };
+const format = (output) => {
+  if (utils.isArray(output)) {
+    return output.map(format);
+  }
+  if (utils.isString(output)) {
+    return output;
+  }
+  if (utils.isObject(output)) {
+    if (2 === Object.keys(output).length) {
+      return output[Object.keys(output)[1]];
+    }
+  }
+  return output;
+};
 
 const getPersistentobjectValue = (zobject) => {
   return zobject[c.PersistentobjectValue];
@@ -53,37 +54,50 @@ const writeNoRemember = (input) => {
   return JSON.stringify(input, null, 2);
 };
 
+const dim = (s) => '\x1b[2m' + s + '\x1b[0m';
+
 const answerAsync = async (input, {
   output = console.log,
-  last = null
+  last = null,
+  tokens = false,
+  ast = false,
+  json = false,
+  formatter = true,
+  timer = false
 } = {}) => {
   const starttime = Date.now();
   const data = input.trim();
   const first = data[0];
+  let result = null;
   if (first === '[' || first === '{' || first === '"') {
-    return await evaluate.evaluateAsync(JSON.parse(data));
+    result = await evaluate.evaluateAsync(JSON.parse(data));
   } else if (utils.isZid(data)) {
-    return await load.load(data).then(getPersistentobjectValue);
+    result = await load.load(data).then(getPersistentobjectValue);
   } else if (data === '_') {
     if (last !== null) {
-      output(JSON.stringify(last, null, 2));
+      result = last;
     }
-    return last;
   } else {
-    if (config.tokens()) {
-      output('\x1b[2m' + formatTokens(parse.tokenize(data)) + '\x1b[0m');
+    if (tokens) {
+      output(dim(formatTokens(parse.tokenize(data))));
     }
     const call = await parse.parseAsync(data);
-    if (config.ast()) {
-      output('\x1b[2m' + writeNoRemember(call) + '\x1b[0m');
+    if (ast) {
+      output(dim(writeNoRemember(call)));
     }
-    const result = await evaluate.evaluateAsync(call);
-    output(JSON.stringify(result, null, 2));
-    if (config.timer()) {
-      output(`\x1b[2m${Date.now() - starttime} ms\x1b[0m`);
-    }
-    return result;
+    result = await evaluate.evaluateAsync(call);
   }
+  if (json) {
+    output(dim(JSON.stringify(result, null, 2)));
+  }
+  if (formatter) {
+    const formatted = await labelize.labelize(format(result));
+    output(formatted);
+  }
+  if (config.timer()) {
+    output(dim(`${Date.now() - starttime} ms`));
+  }
+  return result;
 };
 
 exports.formatTokens = formatTokens;

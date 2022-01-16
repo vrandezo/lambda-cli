@@ -25,7 +25,13 @@ const write = (input) => {
 
 const evalinput = async (command, context, file, callback) => {
   lastcommand = command;
-  lastcall = await answer.answerAsync(command, { last: lastcall });
+  lastcall = await answer.answerAsync(command, {
+    last: lastcall,
+    tokens: config.tokens(),
+    ast: config.ast(),
+    json: true,
+    timer: config.timer()
+  });
   callback(null, lastcall);
 };
 
@@ -192,7 +198,7 @@ const interactive = () => {
 
   cli.defineCommand(
     'tokens', {
-      help: 'use on and off to show tokenization; any other input gets tokenized',
+      help: 'use on and off to show tokenization; other input gets tokenized',
       action(input) {
         this.clearBufferedCommand();
         if (input === 'on') {
@@ -213,7 +219,7 @@ const interactive = () => {
 
   cli.defineCommand(
     'ast', {
-      help: 'use on and off to show the parse result; other input gets parsed',
+      help: 'use on and off to show the parse; other input gets parsed',
       async action(input) {
         this.clearBufferedCommand();
         if (input === 'on') {

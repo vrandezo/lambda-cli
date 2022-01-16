@@ -1,6 +1,8 @@
 next steps:
+- Z41 and "Z41" should be different results
 - formatting results
 - settings should be a parameter on answer, not the global config?
+- the commands from lambda should disappear and be replaced with config
 - have something to switch off evaluation
 - prettyprint used to show the whole Persistentobject, not just the value,
   when asked for a ZID, should there be something like that?

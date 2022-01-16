@@ -90,7 +90,13 @@ if (command !== null) {
     console.log('No input given.');
     process.exit(1);  // eslint-disable-line no-process-exit
   }
-  const call = answer.answerAsync(input);
+  const call = answer.answerAsync(input, {
+    tokens: config.tokens(),
+    ast: config.ast(),
+    timer: config.timer(),
+    json: false,
+    formatter: false
+  });
   call.then(command).then(console.log);
 } else {
   interactive.interactive();
