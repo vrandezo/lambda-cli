@@ -3,10 +3,7 @@
 const canonicalize = require('./canonicalize.js');
 
 const prettyprint = (zobject) => {
-  process.stdout.write(
-    JSON.stringify(canonicalize.canonicalize(zobject), null, '\t')
-  );
-  return null;
+  return JSON.stringify(canonicalize.canonicalize(zobject), null, '\t');
 };
 
 const prettyprintAsync = async (zobject) => {

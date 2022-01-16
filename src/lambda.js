@@ -1,30 +1,17 @@
 #!/usr/bin/env node
 'use strict';
 
+const answer = require('./answer.js');
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const evaluate = require('./evaluate.js');
 const interactive = require('./interactive.js');
 const labelize = require('./labelize.js');
-const load = require('./load.js');
 const normalize = require('./normalize.js');
 const prettyprint = require('./prettyprint.js');
-const utils = require('./utils.js');
-
-const write = (input) => {
-  if (input === null) {
-    return '';
-  }
-  return JSON.stringify(input, null, 2);
-};
-
-const getZ2K2 = (zobject) => {
-  return zobject.Z2K2;
-};
 
 let command = null;
 let input = null;
-let meta = false;
 
 ((argv) => {
   let i = 1;
@@ -80,7 +67,6 @@ let meta = false;
       }
       if (v === 'prettyprint' || v === 'p') {
         command = prettyprint.prettyprintAsync;
-        meta = true;
         continue;
       }
       if (v === 'evaluate' || v === 'e') {
@@ -104,20 +90,8 @@ if (command !== null) {
     console.log('No input given.');
     process.exit(1);  // eslint-disable-line no-process-exit
   }
-  if ('{"['.includes(input[0])) {
-    command(JSON.parse(input)).then(write).then(console.log);
-  } else if (utils.isZid(input)) {
-    if (meta) {
-      load.load(input).then(command).then(write).then(console.log);
-    } else {
-      load.load(input).then(getZ2K2).then(command).then(write).then(console.log);
-    }
-  } else {
-    console.log('Input not understood.');
-    process.exit(1);  // eslint-disable-line no-process-exit
-  }
-}
-
-if (command === null) {
+  const call = answer.answerAsync(input, console.log, null);
+  call.then(command).then(console.log);
+} else {
   interactive.interactive();
 }

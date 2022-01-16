@@ -1,8 +1,8 @@
 next steps:
-- pull answer in its own file, and use that
-  both in interactive and in lambda for command line commands
 - formatting results
 - settings should be a parameter on answer, not the global config?
+- prettyprint used to show the whole Persistentobject, not just the value,
+  when asked for a ZID, should there be something like that?
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
 - have a test dataset in test that is used for tests instead of the real
