@@ -3,10 +3,10 @@
 const repl = require('repl');
 
 const c = require('./constants.js').constants;
+const answer = require('./answer.js');
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const delabel = require('./delabel.js');
-const evaluate = require('./evaluate.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 const normalize = require('./normalize.js');
@@ -14,10 +14,6 @@ const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
-
-const getZ2K2 = (zobject) => {
-  return zobject.Z2K2;
-};
 
 // const getZ22K1 = (zobject) => {
 //  if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
@@ -46,14 +42,6 @@ const write = (input) => {
   if (input === null) {
     return '';
   }
-  last = input;
-  return JSON.stringify(input, null, 2);
-};
-
-const writeNoRemember = (input) => {
-  if (input === null) {
-    return '';
-  }
   return JSON.stringify(input, null, 2);
 };
 
@@ -69,36 +57,11 @@ const writeTokens = (tokens) => {
   return result;
 };
 
-const answer = async (command, callback) => {
-  const starttime = Date.now();
-  const data = command.trim();
-  const first = data[0];
-  if (first === '[' || first === '{' || first === '"') {
-    evaluate.evaluateAsync(JSON.parse(data)).then(callback);
-  } else if (utils.isZid(data)) {
-    load.load(data).then(getZ2K2).then(callback);
-  } else if (data === '_') {
-    callback(last);
-  } else {
-    if (config.tokens()) {
-      console.log('\x1b[2m' + writeTokens(parse.tokenize(data)) + '\x1b[0m');
-    }
-    const call = await parse.parseAsync(data);
-    if (config.ast()) {
-      console.log('\x1b[2m' + writeNoRemember(call) + '\x1b[0m');
-    }
-    const result = await evaluate.evaluateAsync(call);
-    if (config.timer()) {
-      console.log(`\x1b[2m${Date.now() - starttime} ms\x1b[0m`);
-    }
-    callback(result);
-  }
-};
-
 const evalinput = (command, context, file, callback) => {
-  answer(command, (result) => {
-    callback(null, result);
-  });
+  (async () => {
+    last = await answer.answerAsync(command, console.log, last);
+    callback(null, last);
+  })();
 };
 
 const interactive = () => {
@@ -191,15 +154,15 @@ const interactive = () => {
   cli.defineCommand(
     'canonicalize', {
       help: 'returns the canonical version of a ZObject',
-      action(input) {
+      async action(input) {
         this.clearBufferedCommand();
         if (input !== '') {
-          answer(input, (x) => {
-            console.log(writeNoRemember(canonicalize.canonicalize(x)));
-            this.displayPrompt();
-          });
+          const call = await answer.answerAsync(input, (x) => null, last);
+          console.log(write(canonicalize.canonicalize(call)));
+          this.displayPrompt();
         } else {
-          console.log(write(canonicalize.canonicalize(last)));
+          last = canonicalize.canonicalize(last);
+          console.log(write(last));
           this.displayPrompt();
         }
       }
@@ -209,15 +172,15 @@ const interactive = () => {
   cli.defineCommand(
     'normalize', {
       help: 'returns the normal version of a ZObject',
-      action(input) {
+      async action(input) {
         this.clearBufferedCommand();
         if (input !== '') {
-          answer(input, (x) => {
-            console.log(writeNoRemember(normalize.normalize(x)));
-            this.displayPrompt();
-          });
+          const call = await answer.answerAsync(input, (x) => null, last);
+          console.log(write(normalize.normalize(call)));
+          this.displayPrompt();
         } else {
-          console.log(write(normalize.normalize(last)));
+          last = normalize.normalize(last);
+          console.log(write(last));
           this.displayPrompt();
         }
       }
@@ -229,15 +192,12 @@ const interactive = () => {
       help: 'prints a version of the ZObject with ZIDs replaced with labels',
       async action(input) {
         this.clearBufferedCommand();
+        let call = last;
         if (input !== '') {
-          answer(input, async (x) => {
-            console.log(writeNoRemember(await labelize.labelize(x, false)));
-            this.displayPrompt();
-          });
-        } else {
-          console.log(writeNoRemember(await labelize.labelize(last, false)));
-          this.displayPrompt();
+          call = await answer.answerAsync(input, (x) => null, last);
         }
+        console.log(write(await labelize.labelize(call)));
+        this.displayPrompt();
       }
     }
   );
@@ -316,7 +276,8 @@ const interactive = () => {
           } else if (input === 'off') {
             config.setAst(false);
           } else {
-            console.log(write(await parse.parseAsync(input)));
+            last = await parse.parseAsync(input);
+            console.log(write(last));
           }
         }
         this.displayPrompt();

@@ -1,6 +1,7 @@
 next steps:
-- pull answer in its own file, with settings as a parameter, and use that
+- pull answer in its own file, and use that
   both in interactive and in lambda for command line commands
+- settings should be a parameter on answer, not the global config?
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
 - have a test dataset in test that is used for tests instead of the real
@@ -69,3 +70,4 @@ furthermore:
 -- tests for aliases
 -- tests for delabeling other languages but english
 -- more tests for tokenizing and parsing
+- have several commands in one line, the last one counts, use of _ might make that interesting and readable
