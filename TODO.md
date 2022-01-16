@@ -1,10 +1,4 @@
 next steps:
-- .tokens as config
-- --tokens as cli command
-- show .ast
-- .ast as config
-- --ast as cli command
-
 - tests
 -- normalize
 -- canonicalize

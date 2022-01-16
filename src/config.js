@@ -38,6 +38,12 @@ const load = (settings) => {
     config.wiki_actually = settings.wiki[Object.keys(settings.wiki)[0]];
   }
   config.cache = settings.cache;
+  if ('tokens' in settings) {
+    config.tokens = settings.tokens;
+  }
+  if ('ast' in settings) {
+    config.ast = settings.ast;
+  }
   config.loaded = true;
 };
 
@@ -103,6 +109,26 @@ const setWiki = (wiki) => {
   }
 };
 
+const tokens = () => {
+  ensureLoaded();
+  return config.tokens;
+}
+
+const setTokens = (b) => {
+  ensureLoaded();
+  config.tokens = b;
+}
+
+const ast = () => {
+  ensureLoaded();
+  return config.ast;
+}
+
+const setAst = (b) => {
+  ensureLoaded();
+  config.ast = b;
+}
+
 exports.load = load;
 exports.reset = reset;
 exports.language = language;
@@ -112,4 +138,8 @@ exports.setCache = setCache;
 exports.isLocal = isLocal;
 exports.wiki = wiki;
 exports.setWiki = setWiki;
+exports.tokens = tokens;
+exports.setTokens = setTokens;
+exports.ast = ast;
+exports.setAst = setAst;
 exports.version = version;

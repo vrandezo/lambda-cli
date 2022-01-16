@@ -50,6 +50,14 @@ let meta = false;
         config.setCache(cache);
         continue;
       }
+      if (v === '--tokens') {
+        config.setTokens(true);
+        continue;
+      }
+      if (v === '--ast') {
+        config.setAst(true);
+        continue;
+      }
       console.log('Unknown argument: ' + v);
       process.exit(1);  // eslint-disable-line no-process-exit
     }

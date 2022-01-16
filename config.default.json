@@ -9,5 +9,7 @@
 		"nwl": "https://notwikilambda.toolforge.org",
 		"local": "http://localhost:8080",
 		"files": "./function-schemata/data/definitions/$1.json"
-	}
+	},
+	"tokens": false,
+	"ast": false
 }

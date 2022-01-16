@@ -85,7 +85,7 @@ The interactive shell has the following magic features:
 ## Configuration
 
 The config.json file allows to configure the following settings:
-- natural language (key "language", value MediaWiki language code)
+- natural language (key "language", value is the ZID of the language)
 - where to load the data from (key "wiki", either the URL or the path to
   a local directory, the ZID is replaced by $1)
 - cache: path to a local directory for storing the cached files (key "cache")
@@ -94,8 +94,16 @@ The values of the configuration parameters are either a single value, or a map
 from a short name to a value. In case of the latter, the first value is taken
 as the default value.
 
+### Command line arguments
+--language followed by a parameter with the ZID of the language
+--wiki URL of the wiki, or a path to a local directory with JSON files
+--cache path to a local directory
+--tokens display the results of the tokenizing
+--ast display the results of the parsing
+
 The configuration can be overriden through command line arguments which have
 the same name but are prefixed by a --.
+
 
 The plans of what this tool should be able to do is described in
 FUTURE_README.md

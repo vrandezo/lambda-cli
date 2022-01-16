@@ -14,7 +14,6 @@ const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
-let showTokens = false;
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
@@ -55,7 +54,7 @@ const writeTokens = (tokens) => {
   return result;
 }
 
-const answer = (command, callback) => {
+const answer = async (command, callback) => {
   const data = command.trim();
   const first = data[0];
   if (first === '[' || first === '{' || first === '"') {
@@ -65,18 +64,16 @@ const answer = (command, callback) => {
   } else if (data === '_') {
     callback(last);
   } else {
-    if (showTokens) {
+    if (config.tokens()) {
       console.log('\x1b[2m' + writeTokens(parse.tokenize(data)) + '\x1b[0m');
     }
-    parse.parseAsync(
-      data
-    ).then(
-      evaluate.evaluateAsync
-//    ).then(
-//      labelize.labelize
-    ).then(
-      callback
-    );
+    const call = await parse.parseAsync(data);
+    if (config.ast()) {
+      console.log('\x1b[2m' + writeNoRemember(call) + '\x1b[0m');
+    }
+    const result = await evaluate.evaluateAsync(call);
+    // const labelized = await labelize.labelize(result);
+    callback(result);
   }
 };
 
@@ -265,16 +262,16 @@ const interactive = () => {
       async action(input) {
         this.clearBufferedCommand();
         if (input === '') {
-          if (showTokens) {
+          if (config.tokens()) {
             console.log('on');
           } else {
             console.log('off');
           }
         } else {
           if (input === 'on') {
-            showTokens = true;
+            config.setTokens(true);
           } else if (input === 'off') {
-            showTokens = false;
+            config.setTokens(false);
           } else {
             console.log(writeTokens(parse.tokenize(input)));
           }
@@ -284,6 +281,30 @@ const interactive = () => {
     }
   );
 
+  cli.defineCommand(
+    'ast', {
+      help: 'use on and off to show the parse result; other input gets parsed',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === '') {
+          if (config.ast()) {
+            console.log('on');
+          } else {
+            console.log('off');
+          }
+        } else {
+          if (input === 'on') {
+            config.setAst(true);
+          } else if (input === 'off') {
+            config.setAst(false);
+          } else {
+            console.log(write(await parse.parseAsync(input)));
+          }
+        }
+        this.displayPrompt();
+      }
+    }
+  );
 };
 
 exports.interactive = interactive;
