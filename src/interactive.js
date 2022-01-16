@@ -13,30 +13,8 @@ const normalize = require('./normalize.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
 
-let last = null;
-
-// const getZ22K1 = (zobject) => {
-//  if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
-//    return zobject.Z22K1;
-//  } else {
-//    return zobject;
-//  }
-// };
-
-// const format = (output) => {
-//  if (utils.isArray(output)) {
-//    return output.map(format);
-//  }
-//  if (utils.isString(output)) {
-//    return output;
-//  }
-//  if (utils.isObject(output)) {
-//    if (c.Boolean === output[c.ObjectType]) {
-//      return output[c.BooleanValue];
-//    }
-//  }
-//  return output;
-// };
+let lastcall = null;
+let lastcommand = null;
 
 const write = (input) => {
   if (input === null) {
@@ -46,8 +24,9 @@ const write = (input) => {
 };
 
 const evalinput = async (command, context, file, callback) => {
-  last = await answer.answerAsync(command, { last: last });
-  callback(null, last);
+  lastcommand = command;
+  lastcall = await answer.answerAsync(command, { last: lastcall });
+  callback(null, lastcall);
 };
 
 const interactive = () => {
@@ -85,7 +64,6 @@ const interactive = () => {
           config.setLanguage(lang);
         }
         console.log(config.language());
-
         this.displayPrompt();
       }
     }
@@ -100,7 +78,6 @@ const interactive = () => {
           config.setWiki(wiki);
         }
         console.log(config.wiki());
-
         this.displayPrompt();
       }
     }
@@ -115,7 +92,6 @@ const interactive = () => {
           config.setCache(cache);
         }
         console.log(config.cache());
-
         this.displayPrompt();
       }
     }
@@ -141,9 +117,9 @@ const interactive = () => {
       help: 'returns the canonical version of a ZObject',
       async action(input) {
         this.clearBufferedCommand();
-        let call = last;
+        let call = lastcall;
         if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, last);
+          call = await answer.answerAsync(input, (x) => null, lastcall);
         }
         console.log(write(canonicalize.canonicalize(call)));
         this.displayPrompt();
@@ -156,9 +132,9 @@ const interactive = () => {
       help: 'returns the normal version of a ZObject',
       async action(input) {
         this.clearBufferedCommand();
-        let call = last;
+        let call = lastcall;
         if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, last);
+          call = await answer.answerAsync(input, (x) => null, lastcall);
         }
         console.log(write(normalize.normalize(call)));
         this.displayPrompt();
@@ -171,9 +147,9 @@ const interactive = () => {
       help: 'prints a version of the ZObject with ZIDs replaced with labels',
       async action(input) {
         this.clearBufferedCommand();
-        let call = last;
+        let call = lastcall;
         if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, last);
+          call = await answer.answerAsync(input, (x) => null, lastcall);
         }
         console.log(write(await labelize.labelize(call)));
         this.displayPrompt();
@@ -187,7 +163,7 @@ const interactive = () => {
       async action(input) {
         this.clearBufferedCommand();
         if (input === '') {
-          console.log(write(await labelize.labelize(last)));
+          console.log(write(await labelize.labelize(lastcall)));
         } else {
           if (utils.isZid(input)) {
             const results = await load.load(input);
@@ -219,20 +195,16 @@ const interactive = () => {
       help: 'use on and off to show tokenization; any other input gets tokenized',
       action(input) {
         this.clearBufferedCommand();
-        if (input === '') {
-          if (config.tokens()) {
-            console.log('on');
-          } else {
-            console.log('off');
-          }
+        if (input === 'on') {
+          config.setTokens(true);
+        } else if (input === 'off') {
+          config.setTokens(false);
         } else {
-          if (input === 'on') {
-            config.setTokens(true);
-          } else if (input === 'off') {
-            config.setTokens(false);
-          } else {
-            console.log(answer.formatTokens(parse.tokenize(input)));
+          let command = lastcommand;
+          if (input !== '') {
+            command = input;
           }
+          console.log(answer.formatTokens(parse.tokenize(command)));
         }
         this.displayPrompt();
       }
@@ -244,21 +216,16 @@ const interactive = () => {
       help: 'use on and off to show the parse result; other input gets parsed',
       async action(input) {
         this.clearBufferedCommand();
-        if (input === '') {
-          if (config.ast()) {
-            console.log('on');
-          } else {
-            console.log('off');
-          }
+        if (input === 'on') {
+          config.setAst(true);
+        } else if (input === 'off') {
+          config.setAst(false);
         } else {
-          if (input === 'on') {
-            config.setAst(true);
-          } else if (input === 'off') {
-            config.setAst(false);
-          } else {
-            last = await parse.parseAsync(input);
-            console.log(write(last));
+          let command = lastcommand;
+          if (input !== '') {
+            command = input;
           }
+          console.log(write(await parse.parseAsync(command)));
         }
         this.displayPrompt();
       }

@@ -7,6 +7,29 @@ const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
 
+// const getZ22K1 = (zobject) => {
+//  if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
+//    return zobject.Z22K1;
+//  } else {
+//    return zobject;
+//  }
+// };
+
+// const format = (output) => {
+//  if (utils.isArray(output)) {
+//    return output.map(format);
+//  }
+//  if (utils.isString(output)) {
+//    return output;
+//  }
+//  if (utils.isObject(output)) {
+//    if (c.Boolean === output[c.ObjectType]) {
+//      return output[c.BooleanValue];
+//    }
+//  }
+//  return output;
+// };
+
 const getPersistentobjectValue = (zobject) => {
   return zobject[c.PersistentobjectValue];
 };
@@ -42,6 +65,9 @@ const answerAsync = async (input, {
   } else if (utils.isZid(data)) {
     return await load.load(data).then(getPersistentobjectValue);
   } else if (data === '_') {
+    if (last !== null) {
+      output(JSON.stringify(last, null, 2));
+    }
     return last;
   } else {
     if (config.tokens()) {
