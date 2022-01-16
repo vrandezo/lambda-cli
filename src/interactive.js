@@ -57,11 +57,9 @@ const writeTokens = (tokens) => {
   return result;
 };
 
-const evalinput = (command, context, file, callback) => {
-  (async () => {
-    last = await answer.answerAsync(command, console.log, last);
-    callback(null, last);
-  })();
+const evalinput = async (command, context, file, callback) => {
+  last = await answer.answerAsync(command, console.log, last);
+  callback(null, last);
 };
 
 const interactive = () => {
