@@ -27,6 +27,8 @@ const constants = {
   Multilingualtext: 'Z12',
   MultilingualtextTexts: 'Z12K1',
   Nothing: 'Z23',
+  Boolean: 'Z40',
+  BooleanValue: 'Z40K1',
   True: 'Z41',
   False: 'Z42',
   If: 'Z802',

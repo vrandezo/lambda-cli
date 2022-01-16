@@ -14,7 +14,6 @@ const parse = require('./parse.js');
 const utils = require('./utils.js');
 
 let last = null;
-let starttime = null;
 
 const getZ2K2 = (zobject) => {
   return zobject.Z2K2;
@@ -28,16 +27,26 @@ const getZ2K2 = (zobject) => {
 //  }
 // };
 
+// const format = (output) => {
+//  if (utils.isArray(output)) {
+//    return output.map(format);
+//  }
+//  if (utils.isString(output)) {
+//    return output;
+//  }
+//  if (utils.isObject(output)) {
+//    if (c.Boolean === output[c.ObjectType]) {
+//      return output[c.BooleanValue];
+//    }
+//  }
+//  return output;
+// };
+
 const write = (input) => {
   if (input === null) {
     return '';
   }
   last = input;
-  if (starttime !== null) {
-    const runtime = Date.now() - starttime;
-    console.log(`\x1b[2m${runtime} ms\x1b[0m`);
-    starttime = null;
-  }
   return JSON.stringify(input, null, 2);
 };
 
@@ -61,6 +70,7 @@ const writeTokens = (tokens) => {
 };
 
 const answer = async (command, callback) => {
+  const starttime = Date.now();
   const data = command.trim();
   const first = data[0];
   if (first === '[' || first === '{' || first === '"') {
@@ -78,13 +88,14 @@ const answer = async (command, callback) => {
       console.log('\x1b[2m' + writeNoRemember(call) + '\x1b[0m');
     }
     const result = await evaluate.evaluateAsync(call);
-    // const labelized = await labelize.labelize(result);
+    if (config.timer()) {
+      console.log(`\x1b[2m${Date.now() - starttime} ms\x1b[0m`);
+    }
     callback(result);
   }
 };
 
 const evalinput = (command, context, file, callback) => {
-  starttime = Date.now();
   answer(command, (result) => {
     callback(null, result);
   });
