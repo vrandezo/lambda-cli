@@ -1,6 +1,7 @@
 next steps:
 - pull answer in its own file, and use that
   both in interactive and in lambda for command line commands
+- formatting results
 - settings should be a parameter on answer, not the global config?
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
