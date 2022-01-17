@@ -43,7 +43,7 @@ const answerAsync = async (input, {
   const data = input.trim();
   const first = data[0];
   let result = null;
-  if (first === '[' || first === '{' || first === '"') {
+  if (first === '[' || first === '{') {
     result = await evaluate.evaluateAsync(JSON.parse(data));
   } else if (utils.isZid(data)) {
     result = await load.load(data).then(getPersistentobjectValue);
@@ -65,7 +65,7 @@ const answerAsync = async (input, {
     output(dim(JSON.stringify(result, null, 2)));
   }
   if (formatter) {
-    const formatted = await labelize.labelize(await format.format(result));
+    const formatted = await format.format(result);
     output(formatted);
   }
   if (config.timer()) {

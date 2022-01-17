@@ -24,6 +24,9 @@ const format = async (output, indent = 0) => {
     return '"' + output + '"';
   }
   if (utils.isObject(output)) {
+    if (output[c.ObjectType] === c.String) {
+      return '"' + output[c.StringValue] + '"';
+    }
     if (Object.keys(output).length === 2) {
       return await format(output[Object.keys(output)[1]], indent);
     }
@@ -41,7 +44,6 @@ const format = async (output, indent = 0) => {
     }
     return result;
   }
-  console.log('FALLBACK');
   return output;
 };
 

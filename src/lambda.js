@@ -95,7 +95,7 @@ if (command !== null) {
     ast: config.ast(),
     timer: config.timer(),
     json: false,
-    formatter: false
+    formatter: true
   });
   call.then(command).then(console.log);
 } else {

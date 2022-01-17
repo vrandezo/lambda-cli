@@ -1,15 +1,18 @@
 next steps:
-- Z41 and "Z41" should be different results
-- formatting results
-- settings should be a parameter on answer, not the global config?
-- the commands from lambda should disappear and be replaced with config
+- the commands from lambda should disappear and be replaced with config,
+  also currently printing the result in the cli mode
 - have something to switch off evaluation
 - prettyprint used to show the whole Persistentobject, not just the value,
   when asked for a ZID, should there be something like that?
+- prettyprint in interactive
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
+- format
+-- function call
+-- function
+-- type
 
 - tests
 -- normalize
@@ -38,6 +41,7 @@ previous next steps:
 - when switching .wiki, also delete the cache and the labelmap
 
 then:
+- lambda from other directories has issues, check config.json starting with ./
 - replace .reload with .clear
 - .language should also use language names, not just codes
 - the lambda one command thing and the command line interface should behave consistently, right now completely different code
