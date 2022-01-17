@@ -3,6 +3,7 @@
 const c = require('./constants.js').constants;
 const labelize = require('./labelize.js');
 const utils = require('./utils.js');
+const config = require('./config.js');
 
 const format = async (output, indent = 0) => {
   if (utils.isArray(output)) {
@@ -27,12 +28,21 @@ const format = async (output, indent = 0) => {
     if (output[c.ObjectType] === c.String) {
       return '"' + output[c.StringValue] + '"';
     }
+    if (output[c.ObjectType] === c.Type) {
+      let result = await labelize.labelizeId(c.Type) + ': ';
+      result += await format(output[c.TypeIdentity], indent + 1);
+      for (const key of output[c.TypeKeys]) {
+        result += '\n' + '  '.repeat(indent + 1);
+        result += await format(key[c.KeyType]) + ': ';
+        result += utils.getLabel(key[c.KeyLabels], config.language());
+      }
+      return result;
+    }
     if (Object.keys(output).length === 2) {
       return await format(output[Object.keys(output)[1]], indent);
     }
     // TODO: is a Function
     // TODO: is a function call
-    // TODO: is a type
     let result = await labelize.labelizeId(output[c.ObjectType]);
     for (const key in output) {
       if (key === c.ObjectType) {
