@@ -3,6 +3,7 @@
 const c = require('./constants.js').constants;
 const config = require('./config.js');
 const evaluate = require('./evaluate.js');
+const format = require('./format.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 const parse = require('./parse.js');
@@ -16,38 +17,11 @@ const utils = require('./utils.js');
 //  }
 // };
 
-const format = (output) => {
-  if (utils.isArray(output)) {
-    return output.map(format);
-  }
-  if (utils.isString(output)) {
-    return output;
-  }
-  if (utils.isObject(output)) {
-    if (2 === Object.keys(output).length) {
-      return output[Object.keys(output)[1]];
-    }
-  }
-  return output;
-};
-
 const getPersistentobjectValue = (zobject) => {
   return zobject[c.PersistentobjectValue];
 };
 
-const formatTokens = (tokens) => {
-  let result = '';
-  tokens.forEach((token, i) => {
-    result += token[c.TokenType];
-    if (token[c.TokenValue] !== undefined) {
-      result += '(' + token[c.TokenValue] + ')';
-    }
-    result += ' ';
-  });
-  return result;
-};
-
-const writeNoRemember = (input) => {
+const write = (input) => {
   if (input === null) {
     return '';
   }
@@ -79,11 +53,11 @@ const answerAsync = async (input, {
     }
   } else {
     if (tokens) {
-      output(dim(formatTokens(parse.tokenize(data))));
+      output(dim(format.formatTokens(parse.tokenize(data))));
     }
     const call = await parse.parseAsync(data);
     if (ast) {
-      output(dim(writeNoRemember(call)));
+      output(dim(write(call)));
     }
     result = await evaluate.evaluateAsync(call);
   }
@@ -91,7 +65,7 @@ const answerAsync = async (input, {
     output(dim(JSON.stringify(result, null, 2)));
   }
   if (formatter) {
-    const formatted = await labelize.labelize(format(result));
+    const formatted = await labelize.labelize(await format.format(result));
     output(formatted);
   }
   if (config.timer()) {
@@ -100,5 +74,4 @@ const answerAsync = async (input, {
   return result;
 };
 
-exports.formatTokens = formatTokens;
 exports.answerAsync = answerAsync;

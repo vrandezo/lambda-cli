@@ -7,6 +7,7 @@ const answer = require('./answer.js');
 const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const delabel = require('./delabel.js');
+const format = require('./format.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
 const normalize = require('./normalize.js');
@@ -29,7 +30,7 @@ const evalinput = async (command, context, file, callback) => {
     last: lastcall,
     tokens: config.tokens(),
     ast: config.ast(),
-    json: true,
+    json: false,
     timer: config.timer()
   });
   callback(null, lastcall);
@@ -171,15 +172,8 @@ const interactive = () => {
         if (input === '') {
           console.log(write(await labelize.labelize(lastcall)));
         } else {
-          if (utils.isZid(input)) {
-            const results = await load.load(input);
-            if (results[c.ObjectType] === c.Error) {
-              console.log(results[c.ErrorType]);
-            } else {
-              console.log(utils.getLabel(
-                results[c.PersistentobjectLabels], config.language()
-              ));
-            }
+          if (utils.isZid(input) || utils.isZkid(input)) {
+            console.log(await labelize.labelizeId(input));
           } else {
             const results = await delabel.delabel(input);
             if (results.length === 0) {
@@ -210,7 +204,7 @@ const interactive = () => {
           if (input !== '') {
             command = input;
           }
-          console.log(answer.formatTokens(parse.tokenize(command)));
+          console.log(format.formatTokens(parse.tokenize(command)));
         }
         this.displayPrompt();
       }

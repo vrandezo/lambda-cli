@@ -15,6 +15,8 @@ next steps:
 -- normalize
 -- canonicalize
 -- labelize
+-- answer
+-- format
 -- evaluate
 -- lambda
 -- interactive

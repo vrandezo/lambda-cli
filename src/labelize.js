@@ -69,4 +69,5 @@ const labelize = async (zobject) => {
   return await labelizeObject(zobject);
 };
 
+exports.labelizeId = labelizeId;
 exports.labelize = labelize;
