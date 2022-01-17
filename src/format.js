@@ -5,6 +5,8 @@ const labelize = require('./labelize.js');
 const utils = require('./utils.js');
 const config = require('./config.js');
 
+// TODO: break into formatArray, formatString, formatType, etc.
+// TODO: do that before writing tests!
 const format = async (output, indent = 0) => {
   if (utils.isArray(output)) {
     if (output.length === 0) {
@@ -38,11 +40,43 @@ const format = async (output, indent = 0) => {
       }
       return result;
     }
+    if (output[c.ObjectType] === c.Function) {
+      let result = await format(output[c.FunctionIdentity], indent + 1);
+      result += ': ';
+      let first = true;
+      for (const key of output[c.FunctionArguments]) {
+        if (!first) {
+          result += ', ';
+        }
+        first = false;
+        result += await format(key[c.ArgumentType]);
+      }
+      result += ' → ';
+      result += await format(output[c.FunctionReturntype]);
+      return result;
+    }
+    if (output[c.ObjectType] === c.Functioncall) {
+      let result = '';
+      let first = true;
+      for (const key in output) {
+        if (key === c.ObjectType) {
+          continue;
+        }
+        if (key === c.FunctioncallFunction) {
+          result += await format(output[c.FunctioncallFunction]) + '(';
+          continue;
+        }
+        if (!first) {
+          result += ', ';
+        }
+        result += await format(output[key]);
+      }
+      result += ')';
+      return result;
+    }
     if (Object.keys(output).length === 2) {
       return await format(output[Object.keys(output)[1]], indent);
     }
-    // TODO: is a Function
-    // TODO: is a function call
     let result = await labelize.labelizeId(output[c.ObjectType]);
     for (const key in output) {
       if (key === c.ObjectType) {

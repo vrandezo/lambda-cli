@@ -11,10 +11,6 @@ next steps:
   and should be called distinctively
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
-- format
--- function call
--- function
--- type
 
 - show errors!!!
 
