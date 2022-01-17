@@ -38,7 +38,7 @@ const constants = {
   Argument: 'Z17',
   ArgumentType: 'Z17K1',
   ArgumentKey: 'Z17K2',
-  ArgumentLabels: 'Z17K3', 
+  ArgumentLabels: 'Z17K3',
   Nothing: 'Z23',
   Boolean: 'Z40',
   BooleanValue: 'Z40K1',

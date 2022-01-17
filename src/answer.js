@@ -4,7 +4,6 @@ const c = require('./constants.js').constants;
 const config = require('./config.js');
 const evaluate = require('./evaluate.js');
 const format = require('./format.js');
-const labelize = require('./labelize.js');
 const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');

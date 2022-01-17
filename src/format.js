@@ -69,6 +69,7 @@ const format = async (output, indent = 0) => {
         if (!first) {
           result += ', ';
         }
+        first = false;
         result += await format(output[key]);
       }
       result += ')';
