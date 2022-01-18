@@ -1,7 +1,5 @@
 next steps:
-- update answer to work with all the new arguments
 - redo the commands in interactive to use new answer
-- have something to switch off evaluation
 - redo README and FUTURE_README
 - prettyprint used to show the whole Persistentobject, not just the value,
   when asked for a ZID, should there be something like that?

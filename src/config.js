@@ -197,16 +197,6 @@ const setRaw = (b) => {
   config.raw = b;
 };
 
-const canonical = () => {
-  ensureLoaded();
-  return config.canonical;
-};
-
-const setCanonical = (b) => {
-  ensureLoaded();
-  config.canonical = b;
-};
-
 const normal = () => {
   ensureLoaded();
   return config.normal;
@@ -215,6 +205,16 @@ const normal = () => {
 const setNormal = (b) => {
   ensureLoaded();
   config.normal = b;
+};
+
+const canonical = () => {
+  ensureLoaded();
+  return config.canonical;
+};
+
+const setCanonical = (b) => {
+  ensureLoaded();
+  config.canonical = b;
 };
 
 const prettyprint = () => {
@@ -276,10 +276,10 @@ exports.evaluate = evaluate;
 exports.setEvaluate = setEvaluate;
 exports.raw = raw;
 exports.setRaw = setRaw;
-exports.canonical = canonical;
-exports.setCanonical = setCanonical;
 exports.normal = normal;
 exports.setNormal = setNormal;
+exports.canonical = canonical;
+exports.setCanonical = setCanonical;
 exports.prettyprint = prettyprint;
 exports.setPrettyprint = setPrettyprint;
 exports.label = label;

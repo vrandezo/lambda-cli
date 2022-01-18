@@ -34,8 +34,8 @@ const evalinput = async (command, context, file, callback) => {
     ast: config.ast(),
     evaluate: config.evaluate(),
     raw: config.raw(),
-    canonical: config.canonical(),
     normal: config.normal(),
+    canonical: config.canonical(),
     prettyprint: config.prettyprint(),
     label: config.label(),
     format: config.format(),
@@ -128,21 +128,6 @@ const interactive = () => {
   );
 
   cli.defineCommand(
-    'canonicalize', {
-      help: 'returns the canonical version of a ZObject',
-      async action(input) {
-        this.clearBufferedCommand();
-        let call = lastcall;
-        if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, lastcall);
-        }
-        console.log(write(canonicalize.canonicalize(call)));
-        this.displayPrompt();
-      }
-    }
-  );
-
-  cli.defineCommand(
     'normalize', {
       help: 'returns the normal version of a ZObject',
       async action(input) {
@@ -152,6 +137,21 @@ const interactive = () => {
           call = await answer.answerAsync(input, (x) => null, lastcall);
         }
         console.log(write(normalize.normalize(call)));
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'canonicalize', {
+      help: 'returns the canonical version of a ZObject',
+      async action(input) {
+        this.clearBufferedCommand();
+        let call = lastcall;
+        if (input !== '') {
+          call = await answer.answerAsync(input, (x) => null, lastcall);
+        }
+        console.log(write(canonicalize.canonicalize(call)));
         this.displayPrompt();
       }
     }

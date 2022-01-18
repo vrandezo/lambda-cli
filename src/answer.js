@@ -3,6 +3,10 @@
 const c = require('./constants.js').constants;
 const config = require('./config.js');
 const evaluator = require('./evaluate.js');
+const normalize = require('./normalize.js');
+const canonicalize = require('./canonicalize.js');
+const prettyprinter = require('./prettyprint.js');
+const labelize = require('./labelize.js');
 const formatter = require('./format.js');
 const load = require('./load.js');
 const parse = require('./parse.js');
@@ -38,8 +42,8 @@ const answerAsync = async (input, {
   ast = false,
   evaluate = true,
   raw = false,
-  canonical = false,
   normal = false,
+  canonical = false,
   prettyprint = false,
   label = false,
   format = true,
@@ -48,27 +52,46 @@ const answerAsync = async (input, {
   const starttime = Date.now();
   const data = input.trim();
   const first = data[0];
+  let call = null;
   let result = null;
   if (first === '[' || first === '{') {
-    result = await evaluate.evaluateAsync(JSON.parse(data));
+    call = JSON.parse(data);
   } else if (utils.isZid(data)) {
-    result = await load.load(data).then(getPersistentobjectValue);
+    call = await load.load(data).then(getPersistentobjectValue);
   } else if (data === '_') {
     if (last !== null) {
-      result = last;
+      call = last;
     }
   } else {
     if (tokens) {
       output(dim(formatter.formatTokens(parse.tokenize(data), language)));
     }
-    const call = await parse.parseAsync(data);
+    call = await parse.parseAsync(data);
     if (ast) {
       output(dim(write(call)));
     }
+  }
+  if (evaluate) {
     result = await evaluator.evaluateAsync(call);
+  } else {
+    result = call;
   }
   if (raw) {
     output(dim(JSON.stringify(result, null, 2)));
+  }
+  if (canonical) {
+    result = canonicalize.canonicalize(result);
+    output(JSON.stringify(result, null, 2));
+  }
+  if (normal) {
+    result = normalize.normalize(result);
+    output(JSON.stringify(result, null, 2));
+  }
+  if (prettyprint) {
+    output(prettyprinter.prettyprint(result));
+  }
+  if (label) {
+    output(await labelize.labelize(result));
   }
   if (format) {
     const formatted = await formatter.format(result, language);

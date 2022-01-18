@@ -71,20 +71,20 @@ let input = null;
         config.setRaw(false);
         continue;
       }
-      if (v === '--canonical') {
-        config.setCanonical(true);
-        continue;
-      }
-      if (v === '--nocanonical') {
-        config.setCanonical(false);
-        continue;
-      }
       if (v === '--normal') {
         config.setNormal(true);
         continue;
       }
       if (v === '--nonormal') {
         config.setNormal(false);
+        continue;
+      }
+      if (v === '--canonical') {
+        config.setCanonical(true);
+        continue;
+      }
+      if (v === '--nocanonical') {
+        config.setCanonical(false);
         continue;
       }
       if (v === '--prettyprint') {
@@ -141,8 +141,8 @@ if (input === null) {
     ast: config.ast(),
     evaluate: config.evaluate(),
     raw: config.raw(),
-    canonical: config.canonical(),
     normal: config.normal(),
+    canonical: config.canonical(),
     prettyprint: config.prettyprint(),
     label: config.label(),
     format: config.format(),
