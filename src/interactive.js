@@ -26,21 +26,7 @@ const write = (input) => {
 
 const evalinput = async (command, context, file, callback) => {
   lastcommand = command;
-  lastcall = await answer.answerAsync(command, {
-    last: lastcall,
-    language: config.language(),
-    tokens: config.tokens(),
-    delabel: config.delabel(),
-    ast: config.ast(),
-    evaluate: config.evaluate(),
-    raw: config.raw(),
-    normal: config.normal(),
-    canonical: config.canonical(),
-    prettyprint: config.prettyprint(),
-    label: config.label(),
-    format: config.format(),
-    timer: config.timer()
-  });
+  lastcall = await answer.answerAsync(command, { last: lastcall });
   callback(null, lastcall);
 };
 
@@ -128,6 +114,91 @@ const interactive = () => {
   );
 
   cli.defineCommand(
+    'tokens', {
+      help: 'use on and off to show tokenization; other input gets tokenized',
+      action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setTokens(true);
+        } else if (input === 'off') {
+          config.setTokens(false);
+        } else {
+          let command = lastcommand;
+          if (input !== '') {
+            command = input;
+          }
+          console.log(format.formatTokens(parse.tokenize(command)));
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'ast', {
+      help: 'use on and off to show the parse; other input gets parsed',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setAst(true);
+        } else if (input === 'off') {
+          config.setAst(false);
+        } else {
+          let command = lastcommand;
+          if (input !== '') {
+            command = input;
+          }
+          console.log(write(await parse.parseAsync(command)));
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'evaluate', {
+      help: 'switches evaluation on or off',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setEvaluate(true);
+        } else if (input === 'off') {
+          config.setEvaluate(false);
+        } else if (input === '') {
+          if (config.evaluate()) {
+            console.log('on');
+          } else {
+            console.log('off');
+          }
+        } else {
+          await answer.answerAsync(input, {
+            last: lastcall,
+            evaluate: true
+          });
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'raw', {
+      help: 'shows the raw answer from the evaluation',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setRaw(true);
+        } else if (input === 'off') {
+          config.setTrue(false);
+        } else {
+          console.log(lastcall);
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
     'normalize', {
       help: 'returns the normal version of a ZObject',
       async action(input) {
@@ -192,48 +263,6 @@ const interactive = () => {
               });
             }
           }
-        }
-        this.displayPrompt();
-      }
-    }
-  );
-
-  cli.defineCommand(
-    'tokens', {
-      help: 'use on and off to show tokenization; other input gets tokenized',
-      action(input) {
-        this.clearBufferedCommand();
-        if (input === 'on') {
-          config.setTokens(true);
-        } else if (input === 'off') {
-          config.setTokens(false);
-        } else {
-          let command = lastcommand;
-          if (input !== '') {
-            command = input;
-          }
-          console.log(format.formatTokens(parse.tokenize(command)));
-        }
-        this.displayPrompt();
-      }
-    }
-  );
-
-  cli.defineCommand(
-    'ast', {
-      help: 'use on and off to show the parse; other input gets parsed',
-      async action(input) {
-        this.clearBufferedCommand();
-        if (input === 'on') {
-          config.setAst(true);
-        } else if (input === 'off') {
-          config.setAst(false);
-        } else {
-          let command = lastcommand;
-          if (input !== '') {
-            command = input;
-          }
-          console.log(write(await parse.parseAsync(command)));
         }
         this.displayPrompt();
       }

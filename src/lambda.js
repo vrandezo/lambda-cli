@@ -134,18 +134,5 @@ let input = null;
 if (input === null) {
   interactive.interactive();
 } else {
-  answer.answerAsync(input, {
-    language: config.language(),
-    tokens: config.tokens(),
-    delabel: config.delabel(),
-    ast: config.ast(),
-    evaluate: config.evaluate(),
-    raw: config.raw(),
-    normal: config.normal(),
-    canonical: config.canonical(),
-    prettyprint: config.prettyprint(),
-    label: config.label(),
-    format: config.format(),
-    timer: config.timer()
-  });
+  answer.answerAsync(input);
 }

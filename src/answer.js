@@ -34,21 +34,60 @@ const write = (input) => {
 const dim = (s) => '\x1b[2m' + s + '\x1b[0m';
 
 const answerAsync = async (input, {
-  output = console.log,
+  output = null,
   last = null,
-  language = config.language(),
-  tokens = false,
-  delabel = false,
-  ast = false,
-  evaluate = true,
-  raw = false,
-  normal = false,
-  canonical = false,
-  prettyprint = false,
-  label = false,
-  format = true,
-  timer = false
+  language = null,
+  tokens = null,
+  delabel = null,
+  ast = null,
+  evaluate = null,
+  raw = null,
+  normal = null,
+  canonical = null,
+  prettyprint = null,
+  label = null,
+  format = null,
+  timer = null
 } = {}) => {
+  if (output === null) {
+    output = console.log;
+  }
+  if (language === null) {
+    language = config.language();
+  }
+  if (tokens === null) {
+    tokens = config.tokens();
+  }
+  if (delabel === null) {
+    delabel = config.delabel();
+  }
+  if (ast === null) {
+    ast = config.ast();
+  }
+  if (evaluate === null) {
+    evaluate = config.evaluate();
+  }
+  if (raw === null) {
+    raw = config.raw();
+  }
+  if (normal === null) {
+    normal = config.normal();
+  }
+  if (canonical === null) {
+    canonical = config.canonical();
+  }
+  if (prettyprint === null) {
+    prettyprint = config.prettyprint();
+  }
+  if (label === null) {
+    label = config.label();
+  }
+  if (format === null) {
+    format = config.format();
+  }
+  if (timer === null) {
+    timer = config.timer();
+  }
   const starttime = Date.now();
   const data = input.trim();
   const first = data[0];
