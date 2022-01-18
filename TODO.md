@@ -1,9 +1,8 @@
 next steps:
-- the commands from lambda should disappear and be replaced with config,
-  also currently printing the result in the cli mode
+- update answer to work with all the new arguments
+- redo the commands in interactive to use new answer
 - have something to switch off evaluation
-- the config file is the standard config, and then the ones in lambda
-  override that, and then the ones in interactive override that
+- redo README and FUTURE_README
 - prettyprint used to show the whole Persistentobject, not just the value,
   when asked for a ZID, should there be something like that?
 - prettyprint in interactive

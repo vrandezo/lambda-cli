@@ -42,13 +42,41 @@ const load = (settings) => {
   if ('tokens' in settings) {
     config.tokens = settings.tokens;
   }
-  config.ast = false;
-  if ('ast' in settings) {
-    config.ast = settings.ast;
+  config.delabel = false;
+  if ('delabel' in settings) {
+    config.delabel = settings.delabel;
   }
   config.ast = false;
   if ('ast' in settings) {
     config.ast = settings.ast;
+  }
+  config.evaluate = true;
+  if ('evaluate' in settings) {
+    config.evaluate = settings.evaluate;
+  }
+  config.raw = false;
+  if ('raw' in settings) {
+    config.raw = settings.raw;
+  }
+  config.canonical = false;
+  if ('canonical' in settings) {
+    config.canonical = settings.canonical;
+  }
+  config.normal = false;
+  if ('normal' in settings) {
+    config.normal = settings.normal;
+  }
+  config.prettyprint = false;
+  if ('prettyprint' in settings) {
+    config.prettyprint = settings.prettyprint;
+  }
+  config.label = false;
+  if ('label' in settings) {
+    config.label = settings.label;
+  }
+  config.format = true;
+  if ('format' in settings) {
+    config.format = settings.format;
   }
   config.timer = false;
   if ('timer' in settings) {
@@ -129,6 +157,16 @@ const setTokens = (b) => {
   config.tokens = b;
 };
 
+const delabel = () => {
+  ensureLoaded();
+  return config.delabel;
+};
+
+const setDelabel = (b) => {
+  ensureLoaded();
+  config.delabel = b;
+};
+
 const ast = () => {
   ensureLoaded();
   return config.ast;
@@ -137,6 +175,76 @@ const ast = () => {
 const setAst = (b) => {
   ensureLoaded();
   config.ast = b;
+};
+
+const evaluate = () => {
+  ensureLoaded();
+  return config.evaluate;
+};
+
+const setEvaluate = (b) => {
+  ensureLoaded();
+  config.evaluate = b;
+};
+
+const raw = () => {
+  ensureLoaded();
+  return config.raw;
+};
+
+const setRaw = (b) => {
+  ensureLoaded();
+  config.raw = b;
+};
+
+const canonical = () => {
+  ensureLoaded();
+  return config.canonical;
+};
+
+const setCanonical = (b) => {
+  ensureLoaded();
+  config.canonical = b;
+};
+
+const normal = () => {
+  ensureLoaded();
+  return config.normal;
+};
+
+const setNormal = (b) => {
+  ensureLoaded();
+  config.normal = b;
+};
+
+const prettyprint = () => {
+  ensureLoaded();
+  return config.prettyprint;
+};
+
+const setPrettyprint = (b) => {
+  ensureLoaded();
+  config.prettyprint = b;
+};
+
+const format = () => {
+  ensureLoaded();
+  return config.format;
+};
+
+const setFormat = (b) => {
+  ensureLoaded();
+  config.format = b;
+};
+
+const label = () => {
+  ensureLoaded();
+  return config.label;
+};
+
+const setLabel = (b) => {
+  ensureLoaded();
+  config.label = b;
 };
 
 const timer = () => {
@@ -160,8 +268,24 @@ exports.wiki = wiki;
 exports.setWiki = setWiki;
 exports.tokens = tokens;
 exports.setTokens = setTokens;
+exports.delabel = delabel;
+exports.setDelabel = setDelabel;
 exports.ast = ast;
 exports.setAst = setAst;
+exports.evaluate = evaluate;
+exports.setEvaluate = setEvaluate;
+exports.raw = raw;
+exports.setRaw = setRaw;
+exports.canonical = canonical;
+exports.setCanonical = setCanonical;
+exports.normal = normal;
+exports.setNormal = setNormal;
+exports.prettyprint = prettyprint;
+exports.setPrettyprint = setPrettyprint;
+exports.label = label;
+exports.setLabel = setLabel;
+exports.format = format;
+exports.setFormat = setFormat;
 exports.timer = timer;
 exports.setTimer = setTimer;
 exports.version = version;

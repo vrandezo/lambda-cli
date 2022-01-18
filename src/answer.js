@@ -2,8 +2,8 @@
 
 const c = require('./constants.js').constants;
 const config = require('./config.js');
-const evaluate = require('./evaluate.js');
-const format = require('./format.js');
+const evaluator = require('./evaluate.js');
+const formatter = require('./format.js');
 const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
@@ -32,10 +32,17 @@ const dim = (s) => '\x1b[2m' + s + '\x1b[0m';
 const answerAsync = async (input, {
   output = console.log,
   last = null,
+  language = config.language(),
   tokens = false,
+  delabel = false,
   ast = false,
-  json = false,
-  formatter = true,
+  evaluate = true,
+  raw = false,
+  canonical = false,
+  normal = false,
+  prettyprint = false,
+  label = false,
+  format = true,
   timer = false
 } = {}) => {
   const starttime = Date.now();
@@ -52,19 +59,19 @@ const answerAsync = async (input, {
     }
   } else {
     if (tokens) {
-      output(dim(format.formatTokens(parse.tokenize(data))));
+      output(dim(formatter.formatTokens(parse.tokenize(data), language)));
     }
     const call = await parse.parseAsync(data);
     if (ast) {
       output(dim(write(call)));
     }
-    result = await evaluate.evaluateAsync(call);
+    result = await evaluator.evaluateAsync(call);
   }
-  if (json) {
+  if (raw) {
     output(dim(JSON.stringify(result, null, 2)));
   }
-  if (formatter) {
-    const formatted = await format.format(result);
+  if (format) {
+    const formatted = await formatter.format(result, language);
     output(formatted);
   }
   if (config.timer()) {

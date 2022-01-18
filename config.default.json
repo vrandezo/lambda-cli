@@ -11,6 +11,14 @@
 		"files": "./function-schemata/data/definitions/$1.json"
 	},
 	"tokens": false,
+	"delabel": false,
 	"ast": false,
+	"evaluate": true,
+	"raw": false,
+	"canonical": false,
+	"normal": false,
+	"prettyprint": false,
+	"label": false,
+	"format": true,
 	"timer": false
 }

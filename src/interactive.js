@@ -28,9 +28,17 @@ const evalinput = async (command, context, file, callback) => {
   lastcommand = command;
   lastcall = await answer.answerAsync(command, {
     last: lastcall,
+    language: config.language(),
     tokens: config.tokens(),
+    delabel: config.delabel(),
     ast: config.ast(),
-    json: false,
+    evaluate: config.evaluate(),
+    raw: config.raw(),
+    canonical: config.canonical(),
+    normal: config.normal(),
+    prettyprint: config.prettyprint(),
+    label: config.label(),
+    format: config.format(),
     timer: config.timer()
   });
   callback(null, lastcall);

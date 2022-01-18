@@ -3,11 +3,10 @@
 const c = require('./constants.js').constants;
 const labelize = require('./labelize.js');
 const utils = require('./utils.js');
-const config = require('./config.js');
 
 // TODO: break into formatArray, formatString, formatType, etc.
 // TODO: do that before writing tests!
-const format = async (output, indent = 0) => {
+const format = async (output, lang, indent = 0) => {
   if (utils.isArray(output)) {
     if (output.length === 0) {
       return '[]';
@@ -36,7 +35,7 @@ const format = async (output, indent = 0) => {
       for (const key of output[c.TypeKeys]) {
         result += '\n' + '  '.repeat(indent + 1);
         result += await format(key[c.KeyType]) + ': ';
-        result += utils.getLabel(key[c.KeyLabels], config.language());
+        result += utils.getLabel(key[c.KeyLabels], lang);
       }
       return result;
     }
@@ -92,7 +91,7 @@ const format = async (output, indent = 0) => {
   return output;
 };
 
-const formatTokens = (tokens) => {
+const formatTokens = (tokens, lang) => {
   let result = '';
   tokens.forEach((token, i) => {
     result += token[c.TokenType];
