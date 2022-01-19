@@ -1,13 +1,10 @@
 next steps:
-- redo the commands in interactive to use new answer
 - redo README and FUTURE_README
-- prettyprint used to show the whole Persistentobject, not just the value,
-  when asked for a ZID, should there be something like that?
-- prettyprint in interactive
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
+- full underscore implementation
 
 - show errors!!!
 
@@ -38,6 +35,8 @@ previous next steps:
 - when switching .wiki, also delete the cache and the labelmap
 
 then:
+- prettyprint used to show the whole Persistentobject, not just the value,
+  when asked for a ZID, should there be something like that?
 - lambda from other directories has issues, check config.json starting with ./
 - replace .reload with .clear
 - .language should also use language names, not just codes
@@ -56,7 +55,6 @@ then:
 
 furthermore:
 - prettyprint in the REPL (worry about Z2 envelope)
-- full underscore implementation
 - introduce recoverable errors when the line is not complete
 - allow JSON objects in syntax
 - labelmap from website

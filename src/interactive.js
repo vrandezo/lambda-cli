@@ -4,13 +4,11 @@ const repl = require('repl');
 
 const c = require('./constants.js').constants;
 const answer = require('./answer.js');
-const canonicalize = require('./canonicalize.js');
 const config = require('./config.js');
 const delabel = require('./delabel.js');
 const format = require('./format.js');
 const labelize = require('./labelize.js');
 const load = require('./load.js');
-const normalize = require('./normalize.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
 
@@ -114,8 +112,34 @@ const interactive = () => {
   );
 
   cli.defineCommand(
+    'label', {
+      help: 'if a ZID, returns the label, else returns the ZIDs',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === '') {
+          console.log(write(await labelize.labelize(lastcall)));
+        } else {
+          if (utils.isZid(input) || utils.isZkid(input)) {
+            console.log(await labelize.labelizeId(input));
+          } else {
+            const results = await delabel.delabel(input);
+            if (results.length === 0) {
+              console.log(' Nothing found');
+            } else {
+              results.forEach((result, i) => {
+                console.log(result[c.Key1]);
+              });
+            }
+          }
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
     'tokens', {
-      help: 'use on and off to show tokenization; other input gets tokenized',
+      help: 'displays the tokens from the input',
       action(input) {
         this.clearBufferedCommand();
         if (input === 'on') {
@@ -136,7 +160,7 @@ const interactive = () => {
 
   cli.defineCommand(
     'ast', {
-      help: 'use on and off to show the parse; other input gets parsed',
+      help: 'displays the parse tree from the input',
       async action(input) {
         this.clearBufferedCommand();
         if (input === 'on') {
@@ -183,15 +207,27 @@ const interactive = () => {
 
   cli.defineCommand(
     'raw', {
-      help: 'shows the raw answer from the evaluation',
+      help: 'displays the raw answer from the evaluation',
       async action(input) {
         this.clearBufferedCommand();
         if (input === 'on') {
           config.setRaw(true);
         } else if (input === 'off') {
-          config.setTrue(false);
+          config.setRaw(false);
         } else {
-          console.log(lastcall);
+          console.log(await answer.answerAsync(lastcall, {
+            last: lastcall,
+            tokens: false,
+            delabel: false,
+            ast: false,
+            raw: true,
+            normal: false,
+            canonical: false,
+            prettyprint: false,
+            label: false,
+            format: false,
+            focus: 'raw'
+          }));
         }
         this.displayPrompt();
       }
@@ -200,14 +236,32 @@ const interactive = () => {
 
   cli.defineCommand(
     'normalize', {
-      help: 'returns the normal version of a ZObject',
+      help: 'displays the normal version of a ZObject',
       async action(input) {
         this.clearBufferedCommand();
-        let call = lastcall;
-        if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, lastcall);
+        if (input === 'on') {
+          config.setNormal(true);
+        } else if (input === 'off') {
+          config.setNormal(false);
+        } else {
+          let call = lastcall;
+          if (input !== '') {
+            call = input;
+          }
+          console.log(await answer.answerAsync(call, {
+            last: lastcall,
+            tokens: false,
+            delabel: false,
+            ast: false,
+            raw: false,
+            normal: true,
+            canonical: false,
+            prettyprint: false,
+            label: false,
+            format: false,
+            focus: 'normal'
+          }));
         }
-        console.log(write(normalize.normalize(call)));
         this.displayPrompt();
       }
     }
@@ -215,14 +269,63 @@ const interactive = () => {
 
   cli.defineCommand(
     'canonicalize', {
-      help: 'returns the canonical version of a ZObject',
+      help: 'displays the canonical version of a ZObject',
       async action(input) {
         this.clearBufferedCommand();
-        let call = lastcall;
-        if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, lastcall);
+        if (input === 'on') {
+          config.setCanonical(true);
+        } else if (input === 'off') {
+          config.setCanonical(false);
+        } else {
+          let call = lastcall;
+          if (input !== '') {
+            call = input;
+          }
+          console.log(await answer.answerAsync(call, {
+            last: lastcall,
+            tokens: false,
+            delabel: false,
+            ast: false,
+            raw: false,
+            normal: false,
+            canonical: true,
+            prettyprint: false,
+            label: false,
+            format: false,
+            focus: 'canonical'
+          }));
         }
-        console.log(write(canonicalize.canonicalize(call)));
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
+    'prettyprint', {
+      help: 'displays the version formatted for the JSON files',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setPrettyprint(true);
+        } else if (input === 'off') {
+          config.setPrettyprint(false);
+        } else {
+          let call = lastcall;
+          if (input !== '') {
+            call = input;
+          }
+          console.log(await answer.answerAsync(call, {
+            last: lastcall,
+            tokens: false,
+            delabel: false,
+            ast: false,
+            raw: false,
+            prettyprint: true,
+            label: false,
+            format: false,
+            focus: 'prettyprint'
+          }));
+        }
         this.displayPrompt();
       }
     }
@@ -230,39 +333,60 @@ const interactive = () => {
 
   cli.defineCommand(
     'labelize', {
-      help: 'prints a version of the ZObject with ZIDs replaced with labels',
+      help: 'displays a version of the ZObject with ZIDs replaced with labels',
       async action(input) {
         this.clearBufferedCommand();
-        let call = lastcall;
-        if (input !== '') {
-          call = await answer.answerAsync(input, (x) => null, lastcall);
+        if (input === 'on') {
+          config.setLabel(true);
+        } else if (input === 'off') {
+          config.setLabel(false);
+        } else {
+          let call = lastcall;
+          if (input !== '') {
+            call = input;
+          }
+          console.log(await answer.answerAsync(call, {
+            last: lastcall,
+            tokens: false,
+            delabel: false,
+            ast: false,
+            raw: false,
+            prettyprint: false,
+            label: true,
+            format: false,
+            focus: 'label'
+          }));
         }
-        console.log(write(await labelize.labelize(call)));
         this.displayPrompt();
       }
     }
   );
 
   cli.defineCommand(
-    'label', {
-      help: 'if a ZID, returns the label, else returns the ZIDs',
+    'format', {
+      help: 'displays the formatted version for easier readability',
       async action(input) {
         this.clearBufferedCommand();
-        if (input === '') {
-          console.log(write(await labelize.labelize(lastcall)));
+        if (input === 'on') {
+          config.setFormat(true);
+        } else if (input === 'off') {
+          config.setFormat(false);
         } else {
-          if (utils.isZid(input) || utils.isZkid(input)) {
-            console.log(await labelize.labelizeId(input));
-          } else {
-            const results = await delabel.delabel(input);
-            if (results.length === 0) {
-              console.log(' Nothing found');
-            } else {
-              results.forEach((result, i) => {
-                console.log(result[c.Key1]);
-              });
-            }
+          let call = lastcall;
+          if (input !== '') {
+            call = input;
           }
+          console.log(await answer.answerAsync(call, {
+            last: lastcall,
+            tokens: false,
+            delabel: false,
+            ast: false,
+            raw: false,
+            prettyprint: false,
+            label: false,
+            format: true,
+            focus: 'format'
+          }));
         }
         this.displayPrompt();
       }

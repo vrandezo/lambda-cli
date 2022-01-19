@@ -33,6 +33,8 @@ const write = (input) => {
 
 const dim = (s) => '\x1b[2m' + s + '\x1b[0m';
 
+const id = (s) => s;
+
 const answerAsync = async (input, {
   output = null,
   last = null,
@@ -47,6 +49,7 @@ const answerAsync = async (input, {
   prettyprint = null,
   label = null,
   format = null,
+  focus = null,
   timer = null
 } = {}) => {
   if (output === null) {
@@ -93,6 +96,33 @@ const answerAsync = async (input, {
   const first = data[0];
   let call = null;
   let result = null;
+
+  if (focus === null) {
+    if (format) {
+      focus = 'format';
+    } else {
+      if (label) {
+        focus = 'label';
+      } else {
+        if (prettyprint) {
+          focus = 'prettyprint';
+        } else {
+          if (canonical) {
+            focus = 'canonical';
+          } else {
+            if (normal) {
+              focus = 'normal';
+            } else {
+              if (raw) {
+                focus = 'raw';
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   if (first === '[' || first === '{') {
     call = JSON.parse(data);
   } else if (utils.isZid(data)) {
@@ -103,11 +133,13 @@ const answerAsync = async (input, {
     }
   } else {
     if (tokens) {
-      output(dim(formatter.formatTokens(parse.tokenize(data), language)));
+      const f = (focus === 'tokens') ? id : dim;
+      output(f(formatter.formatTokens(parse.tokenize(data), language)));
     }
     call = await parse.parseAsync(data);
     if (ast) {
-      output(dim(write(call)));
+      const f = (focus === 'ast') ? id : dim;
+      output(f(write(call)));
     }
   }
   if (evaluate) {
@@ -116,25 +148,31 @@ const answerAsync = async (input, {
     result = call;
   }
   if (raw) {
-    output(dim(JSON.stringify(result, null, 2)));
+    const f = (focus === 'raw') ? id : dim;
+    output(f(JSON.stringify(result, null, 2)));
   }
   if (canonical) {
     result = canonicalize.canonicalize(result);
-    output(JSON.stringify(result, null, 2));
+    const f = (focus === 'canonical') ? id : dim;
+    output(f(JSON.stringify(result, null, 2)));
   }
   if (normal) {
     result = normalize.normalize(result);
-    output(JSON.stringify(result, null, 2));
+    const f = (focus === 'normal') ? id : dim;
+    output(f(JSON.stringify(result, null, 2)));
   }
   if (prettyprint) {
-    output(prettyprinter.prettyprint(result));
+    const f = (focus === 'prettyprint') ? id : dim;
+    output(f(prettyprinter.prettyprint(result)));
   }
   if (label) {
-    output(await labelize.labelize(result));
+    const f = (focus === 'label') ? id : dim;
+    output(f(await labelize.labelize(result)));
   }
   if (format) {
     const formatted = await formatter.format(result, language);
-    output(formatted);
+    const f = (focus === 'format') ? id : dim;
+    output(f(formatted));
   }
   if (config.timer()) {
     output(dim(`${Date.now() - starttime} ms`));
