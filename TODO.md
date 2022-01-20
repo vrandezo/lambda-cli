@@ -1,9 +1,9 @@
 next steps:
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
+- full underscore implementation
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
-- full underscore implementation
 
 - show errors!!!
 
@@ -19,18 +19,15 @@ next steps:
 -- wellformed
 -- prettyprint
 
-- logging or just give much more options on the command line
-
 - works a little:
--- parse / delabel / labelmap in load
 -- wellformed
 
 previous next steps:
+-- parse / delabel / labelmap in load
 - how to manage labelmap state in different languages and endpoints
 - use search instead of labelmap for remote endpoints
 - how to deal with caches against different endpoints
 - what to do when more than one hit
-
 - when switching .wiki, also delete the cache and the labelmap
 
 then:
@@ -38,9 +35,7 @@ then:
   when asked for a ZID, should there be something like that?
 - lambda from other directories has issues, check config.json starting with ./
 - replace .reload with .clear
-- .language should also use language names, not just codes
-- the lambda one command thing and the command line interface should behave consistently, right now completely different code
-- log stuff, allow to be chattier on the command line (.details on)
+- .language should also use language codes, not just ZIDs
 - eval, search, and load all make calls to the MW API with lots of repeat code
 - checking levels
 -- parses (JSON)
@@ -53,7 +48,6 @@ then:
 - deal with errors in many places
 
 furthermore:
-- prettyprint in the REPL (worry about Z2 envelope)
 - introduce recoverable errors when the line is not complete
 - allow JSON objects in syntax
 - labelmap from website
@@ -61,7 +55,6 @@ furthermore:
 - move repo to gerrit
 - rename master to main (will happen together with all other gerrit repos)
 - allow --config parameter
-- have a command for ZID to name and vice versa
 - autocomplete (for default parser)
 -- needs labelmap or something to get all labels from .data source
 - result preview (for default parser)
@@ -72,9 +65,9 @@ furthermore:
 - defineCommand set evaluator
 - what about i18n of the commands?
 - check if FUTURE_README and README align
+- have several commands in one line, the last one counts,
+  use of _ might make that interesting and readable
 - tests
 -- tests for aliases
 -- tests for delabeling other languages but english
 -- more tests for tokenizing and parsing
-- have several commands in one line, the last one counts,
-  use of _ might make that interesting and readable
