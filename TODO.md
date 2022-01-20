@@ -1,5 +1,4 @@
 next steps:
-- redo README and FUTURE_README
 - delabeling should happen as a distinct step, before the ast building,
   and should be called distinctively
 - have a test dataset in test that is used for tests instead of the real

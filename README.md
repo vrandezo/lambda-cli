@@ -21,47 +21,69 @@ npm install
 
 The command line works in the following way:
 
-```src/lambda.js <command> <input>```
+```src/lambda.js <parameters> <input>```
 
 Examples:
 
 ```
-lambda --language fr l Z6
-lambda canonicalize '{ "Z1K1": "Z6", "Z6K1": "Hello" }'
+lambda --label --language Z1004 Z4
+lambda --normal '"Hello"'
+lambda --canonical '{ "Z1K1": "Z6", "Z6K1": "Hello" }'
+lambda --evaluate 'and(true, false)'
+lambda --noevaluate 'head(string to list("abc"))'
 ```
 
-The input may need to be escaped from the shell, e.g. if it includes a space or
-quote or other special character.
+The input may need to be escaped from the shell, e.g. if it includes
+parentheses or quotes or other special character.
 
-The following commands are available (the letter is a one letter shorcut,
-used in the third example above):
-- labelize (l): replace all keys with labels (use language from config or
-  the --language parameter).
-- normalize (n): return the fully normalized version of the input. In this
-  case, the writer is being omitted.
-- canonicalize (c): returns the canonicalized version of the input. In this
-  case, the writer is being omitted.
-- prettyprint (p): return the exact format as used for the data directory in
-  the WikiLambda repository
+The following parameters are available:
+--[no]tokens: shows the results of the tokenizer
+--[no]ast: shows the results of the parser
+--[no]eval[uate]: performs an evaluation or not. The evaluation is
+  done on the wiki, not locally
+--[no]raw: displays the raw result from the evaluation call
+--[no]normal: normalizes the result
+--[no]canonical: canonicalizes the result
+--[no]prettyprint: prints the result in the format used in the data directory
+--[no]label: replaces all ZIDs with labels
+--[no]format: uses a formatter to show the result in an easier to read way
+--[no]timer: displays how much time the call took
+--file: followed by a path to a file to be loaded by the tool
+--config: followed by a path to a config file (see below)
+--language: followed by the language to use. Can be a ZID or a language code
+--wiki: URL to a wiki, or a path to a local directory
+--cache: path to a local directory
 
 The input can be given in the following ways:
 - in JSON: whenever it starts with ", {, or [
 - as a ZID, and then it will be loaded from the configured wiki or local path
+- in functional syntax, i.e. the name of a type or function, followed by
+  comma-separated arguments in parentheses
 
 ## Interactive
 
-You can call the interactive mode by starting lambda without a command or
-input data. You can still use command line arguments, e.g.
+You can call the interactive mode by starting lambda without input data.
+You can use the parameters given above, and they overwrite whatever is in
+the config file, e.g.
 
 ```src/lambda.js --language en```
 
-The command line interface per default runs the labelizer.
+The command line interface per default runs:
+- the standard parser. If parsing fails, respective errors are displayed and
+  we stop.
+- full validation. If validation fails, respective errors are displayed and
+  we stop.
+- evaluation, if it is a function call.
+- the writer on what we received so far.
 
 In the standard setting, you can start typing.
 If you start with a {, " or [, the interactive shell assumes that you are
 entering a JSON file.
 If you type in the label or ZID of an existing ZObject that object will be
 displayed.
+If you type in a function name or a type followed by a the values for the
+keys in a comma separated list enclosed in (), this will be understood as
+a function call or an instance construction.
 
 The interactive shell has the following magic features:
 - you can go up and down in a history, also across sessions
@@ -75,41 +97,56 @@ The interactive shell has the following magic features:
 - .save: Save all evaluated commands in this REPL session to a file
 - .version: Version number of the lambda CLI
 - .language: show or set the natural language
-- .wiki: URL of the wiki to connect to, or local path to the data
-- .cache: location of the local directory with the cache
+- .tokens: tokenizes the input
+- .ast: shows the parsed call
+- .evaluate: switches the evaluator on or off
+- .raw: displays the raw result from the evaluator
+- .normal: shows the normalizad version
+- .canonical: shows the canonicalized version
+- .prettyprint: return the exact format as used for the data directory in
+  the WikiLambda repository
+- .labelize: use a writer that shows the canonical version but labelized
+- .timer: switch the timer on or off
+- .wiki: URL of the wiki, or a local path to the data
 - .label: if a ZID, returns the label, if a label, returns all matching ZIDs
   with their types.
 - .reload: reloads a specific ZID. Without arguments, deletes all cache.
-- .tokens: use on and off to show tokenization; any other input gets tokenized
+
+Many of the commands take either an argument or, if none is given, assume
+the result from the previous command as the argument.
 
 ## Configuration
 
-The config.json file allows to configure the following settings:
-- natural language (key "language", value is the ZID of the language)
-- where to load the data from (key "wiki", either the URL or the path to
-  a local directory, the ZID is replaced by $1)
-- cache: path to a local directory for storing the cached files (key "cache")
+The config.json file allows to configure all the settings given above.
+- language: natural language
+- parser
+- writer
+- wiki: where to load the data from (a local directory or via http)
+- which evaluator to run (local one or via http)
+- cache: local file with cache
 
-The values of these configuration parameters are either a single value, or a map
+The values of the configuration parameters are either a single value, or a map
 from a short name to a value. In case of the latter, the first value is taken
 as the default value.
 
-The following configuration settings are booleans:
-- tokens: whether to display the result of the tokenizer
-- ast: whether to display the result of the parse
-- timer: whether to show how long a given command took
-
-### Command line arguments
---language followed by a parameter with the ZID of the language
---wiki URL of the wiki, or a path to a local directory with JSON files
---cache path to a local directory
---tokens display the results of the tokenizing
---ast display the results of the parsing
---timer display the time a command takes
+The following configuration keys are just booleans, either true or false.
+- tokens: shows the results of the tokenizer
+- ast: shows the results of the parser
+- evaluate: performs an evaluation or not. The evaluation is
+  done on the wiki, not locally
+- raw: displays the raw result from the evaluation call
+- normal: normalizes the result
+- canonical: canonicalizes the result
+- prettyprint: prints the result in the format used in the data directory
+- label: replaces all ZIDs with labels
+- format: uses a formatter to show the result in an easier to read way
+- timer: displays how much time the call took
 
 The configuration can be overriden through command line arguments which have
-the same name but are prefixed by a --.
+the same name but are prefixed by a -- and preceded by a "no" if meant
+to be switched off.
 
+lambda --labelize --language Z1002 --timer Z4
 
 The plans of what this tool should be able to do is described in
 FUTURE_README.md
