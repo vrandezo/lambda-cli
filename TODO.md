@@ -1,6 +1,4 @@
 next steps:
-- delabeling should happen as a distinct step, before the ast building,
-  and should be called distinctively
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages

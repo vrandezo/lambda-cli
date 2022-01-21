@@ -159,6 +159,29 @@ const interactive = () => {
   );
 
   cli.defineCommand(
+    'delabel', {
+      help: 'displays the delabeled tokens from the input',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setDelabel(true);
+        } else if (input === 'off') {
+          config.setDelabel(false);
+        } else {
+          let command = lastcommand;
+          if (input !== '') {
+            command = input;
+          }
+          console.log(format.formatTokens(
+            await parse.delabelAsync(parse.tokenize(command))
+          ));
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
     'ast', {
       help: 'displays the parse tree from the input',
       async action(input) {

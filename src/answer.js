@@ -115,6 +115,18 @@ const answerAsync = async (input, {
             } else {
               if (raw) {
                 focus = 'raw';
+              } else {
+                if (ast) {
+                  focus = 'ast';
+                } else {
+                  if (delabel) {
+                    focus = 'delabel';
+                  } else {
+                    if (tokens) {
+                      focus = 'tokens';
+                    }
+                  }
+                }
               }
             }
           }
@@ -135,6 +147,13 @@ const answerAsync = async (input, {
     if (tokens) {
       const f = (focus === 'tokens') ? id : dim;
       output(f(formatter.formatTokens(parse.tokenize(data), language)));
+    }
+    if (delabel) {
+      const f = (focus === 'delabel') ? id : dim;
+      output(f(formatter.formatTokens(
+        await parse.delabelAsync(parse.tokenize(data)),
+        language
+      )));
     }
     call = await parse.parseAsync(data);
     if (ast) {

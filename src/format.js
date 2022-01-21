@@ -96,7 +96,11 @@ const formatTokens = (tokens, lang) => {
   tokens.forEach((token, i) => {
     result += token[c.TokenType];
     if (token[c.TokenValue] !== undefined) {
-      result += '(' + token[c.TokenValue] + ')';
+      if (token[c.TokenZid] !== undefined) {
+        result += '(' + token[c.TokenZid] + ')';
+      } else {
+        result += '(' + token[c.TokenValue] + ')';
+      }
     }
     result += ' ';
   });

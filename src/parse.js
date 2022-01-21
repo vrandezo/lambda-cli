@@ -186,6 +186,36 @@ const error = (message, tokens) => {
   };
 };
 
+const delabelAsync = async (tokens) => {
+  const result = [];
+  for (const token of tokens) {
+    if (token[c.TokenType] !== POTENTIALREFERENCE) {
+      result.push(token);
+      continue;
+    }
+    if (utils.isZid(token[c.TokenValue])) {
+      const callZid = token[c.TokenValue];
+      const callObject = await load.load(callZid);
+      const callType = callObject[c.PersistentobjectValue][c.ObjectType];
+      token[c.TokenZid] = callZid;
+      token[c.TokenZidType] = callType;
+      result.push(token);
+      continue;
+    }
+    const delabelCallToken = await delabel.delabel(token[c.TokenValue], 'en');
+    if (delabelCallToken.length !== 1) {
+      result.push(token);
+      continue;
+    }
+    const callZid = delabelCallToken[0][c.Key1];
+    const callType = delabelCallToken[0][c.Key2];
+    token[c.TokenZid] = callZid;
+    token[c.TokenZidType] = callType;
+    result.push(token);
+  }
+  return result;
+};
+
 const buildCsv = async (tokens, open, close) => {
   if (tokens[0][c.TokenType] !== open) {
     return error('expected opener', tokens);
@@ -229,20 +259,11 @@ const buildSymbol = async (tokens) => {
   if (tokens[0][c.TokenType] !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
   }
-  let callZid = '';
-  let callType = '';
-  if (utils.isZid(tokens[0][c.TokenValue])) {
-    callZid = tokens[0][c.TokenValue];
-    const callObject = await load.load(callZid);
-    callType = callObject[c.PersistentobjectValue][c.ObjectType];
-  } else {
-    const delabelCallToken = await delabel.delabel(tokens[0][c.TokenValue], 'en');
-    if (delabelCallToken.length !== 1) {
-      return error('could not delabel reference', tokens[0]);
-    }
-    callZid = delabelCallToken[0][c.Key1];
-    callType = delabelCallToken[0][c.Key2];
+  if (tokens[0][c.TokenZid] === undefined) {
+    return error('could not delabel reference', tokens[0]);
   }
+  const callZid = tokens[0][c.TokenZid];
+  const callType = tokens[0][c.TokenZidType];
   const isType = callType === c.Type;
   const isFunction = callType === c.Function;
   if (tokens.length === 1 || tokens[1][c.TokenType] !== OPENARG || !(isType || isFunction)) {
@@ -315,9 +336,11 @@ const buildSingleValue = async (tokens) => {
 
 const parseAsync = async (input) => {
   const tokens = tokenize(input);
-  const call = await buildSingleValue(tokens);
+  const delabeled = await delabelAsync(tokens);
+  const call = await buildSingleValue(delabeled);
   return call;
 };
 
 exports.tokenize = tokenize;
+exports.delabelAsync = delabelAsync;
 exports.parseAsync = parseAsync;

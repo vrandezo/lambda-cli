@@ -57,6 +57,8 @@ const constants = {
   TokenType: 'K1',
   TokenPosition: 'K2',
   TokenValue: 'K3',
+  TokenZid: 'K4',
+  TokenZidType: 'K5',
   Key1: 'K1',
   Key2: 'K2',
   Key3: 'K3'

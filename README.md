@@ -38,6 +38,7 @@ parentheses or quotes or other special character.
 
 The following parameters are available:
 --[no]tokens: shows the results of the tokenizer
+--[no]delabel: shows the results of the delabeler
 --[no]ast: shows the results of the parser
 --[no]eval[uate]: performs an evaluation or not. The evaluation is
   done on the wiki, not locally
@@ -98,6 +99,7 @@ The interactive shell has the following magic features:
 - .version: Version number of the lambda CLI
 - .language: show or set the natural language
 - .tokens: tokenizes the input
+- .delabel: turns the input labels into ZIDs
 - .ast: shows the parsed call
 - .evaluate: switches the evaluator on or off
 - .raw: displays the raw result from the evaluator
@@ -131,6 +133,7 @@ as the default value.
 
 The following configuration keys are just booleans, either true or false.
 - tokens: shows the results of the tokenizer
+- delabel: shows the results of the delabeler
 - ast: shows the results of the parser
 - evaluate: performs an evaluation or not. The evaluation is
   done on the wiki, not locally
