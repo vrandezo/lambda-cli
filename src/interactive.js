@@ -264,7 +264,7 @@ const interactive = () => {
         } else if (input === 'off') {
           config.setRaw(false);
         } else {
-          console.log(await answer.answerAsync(lastcall, {
+          await answer.answerAsync(lastcall, {
             last: lastcall,
             tokens: false,
             delabel: false,
@@ -277,7 +277,7 @@ const interactive = () => {
             label: false,
             format: false,
             focus: 'raw'
-          }));
+          });
         }
         this.displayPrompt();
       }
@@ -298,7 +298,7 @@ const interactive = () => {
           if (input !== '') {
             call = input;
           }
-          console.log(await answer.answerAsync(call, {
+          await answer.answerAsync(call, {
             last: lastcall,
             tokens: false,
             delabel: false,
@@ -310,7 +310,7 @@ const interactive = () => {
             label: false,
             format: false,
             focus: 'normal'
-          }));
+          });
         }
         this.displayPrompt();
       }
@@ -331,7 +331,7 @@ const interactive = () => {
           if (input !== '') {
             call = input;
           }
-          console.log(await answer.answerAsync(call, {
+          await answer.answerAsync(call, {
             last: lastcall,
             tokens: false,
             delabel: false,
@@ -343,7 +343,7 @@ const interactive = () => {
             label: false,
             format: false,
             focus: 'canonical'
-          }));
+          });
         }
         this.displayPrompt();
       }
@@ -364,7 +364,7 @@ const interactive = () => {
           if (input !== '') {
             call = input;
           }
-          console.log(await answer.answerAsync(call, {
+          await answer.answerAsync(call, {
             last: lastcall,
             tokens: false,
             delabel: false,
@@ -374,7 +374,7 @@ const interactive = () => {
             label: false,
             format: false,
             focus: 'prettyprint'
-          }));
+          });
         }
         this.displayPrompt();
       }
@@ -395,7 +395,7 @@ const interactive = () => {
           if (input !== '') {
             call = input;
           }
-          console.log(await answer.answerAsync(call, {
+          await answer.answerAsync(call, {
             last: lastcall,
             tokens: false,
             delabel: false,
@@ -405,7 +405,7 @@ const interactive = () => {
             label: true,
             format: false,
             focus: 'label'
-          }));
+          });
         }
         this.displayPrompt();
       }
@@ -426,7 +426,7 @@ const interactive = () => {
           if (input !== '') {
             call = input;
           }
-          console.log(await answer.answerAsync(call, {
+          await answer.answerAsync(call, {
             last: lastcall,
             tokens: false,
             delabel: false,
@@ -436,7 +436,7 @@ const interactive = () => {
             label: false,
             format: true,
             focus: 'format'
-          }));
+          });
         }
         this.displayPrompt();
       }

@@ -1,5 +1,6 @@
 next steps:
-- canonicalize duplciates output?
+- extra empty line on normal evaluation
+- labelize doesn't show the whole object (check with Z4)
 - replace literals from () to <>
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real
