@@ -218,7 +218,7 @@ const interactive = () => {
           if (input !== '') {
             command = input;
           }
-          await answer.answerAsync(input, {
+          await answer.answerAsync(command, {
             last: lastcall,
             meta: true
           });
