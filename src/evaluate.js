@@ -29,7 +29,7 @@ const evaluateAsync = async (zobject) => {
         // TODO: what if not success
         resolve(JSON.parse(
           JSON.parse(body).query.wikilambda_function_call.Orchestrated.data
-        ).Z22K1);
+        ));
       });
     });
 
