@@ -1,5 +1,9 @@
 next steps:
+- why is boolean equality not defined on two booleans? (bug in wikilamda)
+- typed list(string) - result looks wrong (bug in Wikilambda)
+- typed pair(string, boolean)<"a", true> - works! but result looks wrong
 - add tests for literal notation
+- add documentation for literal notation
 - check if generics work, re parsing, both functions and types
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real

@@ -74,10 +74,22 @@ const format = async (output, lang, indent = 0) => {
       result += ')';
       return result;
     }
-    if (Object.keys(output).length === 2) {
-      return await format(output[Object.keys(output)[1]], indent);
+    if (output[c.ObjectType] === c.Reference) {
+      return await format(output[c.ReferenceValue], indent);
     }
-    let result = await labelize.labelizeId(output[c.ObjectType]);
+    if (output[c.ObjectType] === c.Boolean) {
+      return await format(output[c.BooleanValue], indent);
+    }
+    //if (Object.keys(output).length === 2) {
+    //  return await format(output[Object.keys(output)[1]], indent);
+    //}
+    let typeid = '';
+    if (utils.isZid(output[c.ObjectType])) {
+      typeid = output[c.ObjectType];
+    } else {
+      typeid = output[c.ObjectType][c.TypeIdentity];
+    }
+    let result = await labelize.labelizeId(typeid);
     for (const key in output) {
       if (key === c.ObjectType) {
         continue;
