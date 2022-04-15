@@ -464,7 +464,10 @@ QUnit.test('parse Z811(["string"])', async (assert) => {
     await parse.parseAsync('Z811(["string"])'),
     {
       [c.ObjectType]: c.Functioncall,
-      [c.FunctioncallFunction]: c.FirstElement,
+      [c.FunctioncallFunction]: {
+        [c.ObjectType]: c.Reference,
+        [c.ReferenceValue]: c.FirstElement
+      },
       [c.FirstElementArg]: [
         {
           [c.ObjectType]: c.String,
@@ -480,7 +483,10 @@ QUnit.test('parse if(true, false, true)', async (assert) => {
     await parse.parseAsync('if(true, false, true)'),
     {
       [c.ObjectType]: c.Functioncall,
-      [c.FunctioncallFunction]: c.If,
+      [c.FunctioncallFunction]: {
+        [c.ObjectType]: c.Reference,
+        [c.ReferenceValue]: c.If
+      },
       [c.IfCondition]: {
         [c.ObjectType]: c.Reference,
         [c.ReferenceValue]: c.True

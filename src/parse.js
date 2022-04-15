@@ -12,11 +12,13 @@ const OPENARG = 'ZOpenArg';
 const CLOSEARG = 'ZCloseArg';
 const OPENLIST = 'ZOpenList';
 const CLOSELIST = 'ZCloseList';
+const OPENLITERAL = 'ZOpenLiteral';
+const CLOSELITERAL = 'ZCloseLiteral';
 const SEPERATOR = 'ZSeparator';
 const OPENESCAPE = 'ZEscape';
 const FUTURESYMBOL = 'ZFuture';
 
-const escapeInSymbol = '"()[],_\\';
+const escapeInSymbol = '"()<>[],_\\';
 // const escapeInString = '"n\\';
 // a few extra symbols that are not used for now but may in the future
 const escapeInSymbolFuture = '{}@!&^?#;:';
@@ -125,6 +127,8 @@ const tokenize = (input) => {
       }
       pickToken('(', OPENARG);
       pickToken(')', CLOSEARG);
+      pickToken('<', OPENLITERAL);
+      pickToken('>', CLOSELITERAL);
       pickToken('[', OPENLIST);
       pickToken(']', CLOSELIST);
       pickToken(',', SEPERATOR);
@@ -255,6 +259,10 @@ const buildArgs = async (tokens) => {
   return await buildCsv(tokens, OPENARG, CLOSEARG);
 };
 
+const buildLiteral = async (tokens) => {
+  return await buildCsv(tokens, OPENLITERAL, CLOSELITERAL);
+};
+
 const buildSymbol = async (tokens) => {
   if (tokens[0][c.TokenType] !== POTENTIALREFERENCE) {
     return error('expected reference', tokens);
@@ -263,37 +271,65 @@ const buildSymbol = async (tokens) => {
     return error('could not delabel reference', tokens[0]);
   }
   const callZid = tokens[0][c.TokenZid];
-  const callType = tokens[0][c.TokenZidType];
-  const isType = callType === c.Type;
-  const isFunction = callType === c.Function;
-  if (tokens.length === 1 || tokens[1][c.TokenType] !== OPENARG || !(isType || isFunction)) {
+  let head = {
+    [c.ObjectType]: c.Reference,
+    [c.ReferenceValue]: callZid
+  };
+  let rest = tokens.slice(1);
+  if ((rest.length === 0) || (
+    rest[0][c.TokenType] !== OPENARG) && (
+      rest[0][c.TokenType] !== OPENLITERAL)) {
     return {
-      value: {
-        [c.ObjectType]: c.Reference,
-        [c.ReferenceValue]: callZid
-      },
-      rest: tokens.slice(1)
+      value: head,
+      rest: rest
     };
   }
-  const call = {};
-  if (isType) {
-    call[c.ObjectType] = callZid;
+  let value = null;
+  while (true) {
+    const call = {};
+    if (rest[0][c.TokenType] === OPENARG) {
+      const x = await buildArgs(rest);
+      value = x.value;
+      rest = x.rest;
+      call[c.ObjectType] = c.Functioncall;
+      call[c.FunctioncallFunction] = head;
+    } else if (rest[0][c.TokenType] === OPENLITERAL) {
+      const x = await buildLiteral(rest);
+      value = x.value;
+      rest = x.rest;
+      call[c.ObjectType] = head;
+    } else {
+      return {
+        value: head,
+        rest: rest
+      };
+    }
+    if (value[c.ObjectType] === c.Error) {
+      return { value: value, rest: rest };
+    }
+    let k = 'K';
+    if (head[c.ObjectType] === c.Reference) {
+      k = head[c.ReferenceValue] + k;
+    }
+    for (const v in value) {
+      call[k + (parseInt(v) + 1).toString()] = value[v];
+    }
+    if (rest.length === 0) {
+      return {
+        value: call,
+        rest: rest
+      };
+    }
+    if ((rest.length === 0) || (
+      rest[0][c.TokenType] !== OPENARG) && (
+        rest[0][c.TokenType] !== OPENLITERAL)) {
+      return {
+        value: call,
+        rest: rest
+      };
+    }
+    head = call;
   }
-  if (isFunction) {
-    call[c.ObjectType] = c.Functioncall;
-    call[c.FunctioncallFunction] = callZid;
-  }
-  const { value, rest } = await buildArgs(tokens.slice(1));
-  if (value[c.ObjectType] === c.Error) {
-    return { value: value, rest: rest };
-  }
-  for (const v in value) {
-    call[callZid + 'K' + (parseInt(v) + 1).toString()] = value[v];
-  }
-  return {
-    value: call,
-    rest: rest
-  };
 };
 
 const buildList = async (tokens) => {

@@ -1,5 +1,6 @@
 next steps:
-- replace literals from () to <>
+- add tests for literal notation
+- check if generics work, re parsing, both functions and types
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
