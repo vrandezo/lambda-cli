@@ -1,5 +1,4 @@
 next steps:
-- meta keyword
 - replace literals from () to <>
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real

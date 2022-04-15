@@ -1,9 +1,9 @@
 'use strict';
 
 const utils = require('./utils.js');
-const meta = require('./../package.json');
+const packagedata = require('./../package.json');
 
-const v = 'lambda v' + meta.version;
+const v = 'lambda v' + packagedata.version;
 
 const version = () => {
   return v;
@@ -49,6 +49,10 @@ const load = (settings) => {
   config.ast = false;
   if ('ast' in settings) {
     config.ast = settings.ast;
+  }
+  config.meta = false;
+  if ('meta' in settings) {
+    config.meta = settings.meta;
   }
   config.evaluate = true;
   if ('evaluate' in settings) {
@@ -177,6 +181,16 @@ const setAst = (b) => {
   config.ast = b;
 };
 
+const meta = () => {
+  ensureLoaded();
+  return config.meta;
+};
+
+const setMeta = (b) => {
+  ensureLoaded();
+  config.meta = b;
+};
+
 const evaluate = () => {
   ensureLoaded();
   return config.evaluate;
@@ -272,6 +286,8 @@ exports.delabel = delabel;
 exports.setDelabel = setDelabel;
 exports.ast = ast;
 exports.setAst = setAst;
+exports.meta = meta;
+exports.setMeta = setMeta;
 exports.evaluate = evaluate;
 exports.setEvaluate = setEvaluate;
 exports.raw = raw;

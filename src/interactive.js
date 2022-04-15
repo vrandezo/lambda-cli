@@ -203,6 +203,30 @@ const interactive = () => {
   );
 
   cli.defineCommand(
+    'meta', {
+      help: 'shows the metadata in the result, or just the value',
+      async action(input) {
+        this.clearBufferedCommand();
+        if (input === 'on') {
+          config.setMeta(true);
+        } else if (input === 'off') {
+          config.setMeta(false);
+        } else {
+          let command = lastcommand;
+          if (input !== '') {
+            command = input;
+          }
+          await answer.answerAsync(input, {
+            last: lastcall,
+            meta: true
+          });
+        }
+        this.displayPrompt();
+      }
+    }
+  );
+
+  cli.defineCommand(
     'evaluate', {
       help: 'switches evaluation on or off',
       async action(input) {

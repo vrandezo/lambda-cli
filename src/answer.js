@@ -46,6 +46,7 @@ const answerAsync = async (input, {
   tokens = null,
   delabel = null,
   ast = null,
+  meta = null,
   evaluate = null,
   raw = null,
   normal = null,
@@ -70,6 +71,9 @@ const answerAsync = async (input, {
   }
   if (ast === null) {
     ast = config.ast();
+  }
+  if (meta === null) {
+    meta = config.meta();
   }
   if (evaluate === null) {
     evaluate = config.evaluate();
@@ -174,7 +178,9 @@ const answerAsync = async (input, {
     const f = (focus === 'raw') ? id : dim;
     output(f(JSON.stringify(result, null, 2)));
   }
-  result = getResultValue(result);
+  if (!meta) {
+    result = getResultValue(result);
+  }
   if (canonical) {
     result = canonicalize.canonicalize(result);
     const f = (focus === 'canonical') ? id : dim;

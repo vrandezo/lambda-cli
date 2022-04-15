@@ -55,6 +55,14 @@ let input = null;
         config.setAst(false);
         continue;
       }
+      if (v === '--meta') {
+        config.setMeta(true);
+        continue;
+      }
+      if (v === '--nometa') {
+        config.setMeta(false);
+        continue;
+      }
       if ((v === '--eval') || (v === '--evaluate')) {
         config.setEvaluate(true);
         continue;
