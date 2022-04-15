@@ -24,7 +24,9 @@ const write = (input) => {
 
 const evalinput = async (command, context, file, callback) => {
   lastcommand = command;
-  lastcall = await answer.answerAsync(command, { last: lastcall });
+  lastcall = JSON.stringify(
+    await answer.answerAsync(command, { last: lastcall }),
+    null, 2);
   callback(null, lastcall);
 };
 
