@@ -5,8 +5,6 @@ next steps:
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
 
-- show errors!!!
-
 - tests
 -- normalize
 -- canonicalize

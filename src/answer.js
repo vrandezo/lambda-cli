@@ -12,9 +12,13 @@ const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
 
-const getZ22K1 = (zobject) => {
+const getResultValue = (zobject) => {
   if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
-    return zobject.Z22K1;
+    if ((zobject.Z22K2 === 'Z23') || (zobject.Z1K1.Z9K1 === 'Z23')) {
+      return zobject.Z22K1;
+    } else {
+      return zobject.Z22K2;
+    }
   } else {
     return zobject;
   }
@@ -170,7 +174,7 @@ const answerAsync = async (input, {
     const f = (focus === 'raw') ? id : dim;
     output(f(JSON.stringify(result, null, 2)));
   }
-  result = getZ22K1(result);
+  result = getResultValue(result);
   if (canonical) {
     result = canonicalize.canonicalize(result);
     const f = (focus === 'canonical') ? id : dim;
