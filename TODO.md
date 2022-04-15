@@ -1,4 +1,5 @@
 next steps:
+- many of the commands die if they are run immeadiately, like .ast or .raw
 - replace literals from () to <>
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real

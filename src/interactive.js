@@ -12,8 +12,8 @@ const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
 
-let lastcall = null;
-let lastcommand = null;
+let lastcall = 'Z23';
+let lastcommand = 'Z23';
 
 const write = (input) => {
   if (input === null) {
@@ -267,6 +267,7 @@ const interactive = () => {
             tokens: false,
             delabel: false,
             ast: false,
+            meta: true,
             raw: true,
             normal: false,
             canonical: false,
