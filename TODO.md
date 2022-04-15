@@ -1,6 +1,4 @@
 next steps:
-- extra empty line on normal evaluation
-- labelize doesn't show the whole object (check with Z4)
 - replace literals from () to <>
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real
@@ -70,3 +68,5 @@ furthermore:
 -- tests for aliases
 -- tests for delabeling other languages but english
 -- more tests for tokenizing and parsing
+- dont show timer on command line usage
+- extra empty line on normal evaluation

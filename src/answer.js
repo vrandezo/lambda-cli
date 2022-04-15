@@ -176,7 +176,7 @@ const answerAsync = async (input, {
   }
   if (raw) {
     const f = (focus === 'raw') ? id : dim;
-    output(f(JSON.stringify(result, null, 2)));
+    output(f(write(result)));
   }
   if (!meta) {
     result = getResultValue(result);
@@ -184,12 +184,12 @@ const answerAsync = async (input, {
   if (canonical) {
     result = canonicalize.canonicalize(result);
     const f = (focus === 'canonical') ? id : dim;
-    output(f(JSON.stringify(result, null, 2)));
+    output(f(write(result)));
   }
   if (normal) {
     result = normalize.normalize(result);
     const f = (focus === 'normal') ? id : dim;
-    output(f(JSON.stringify(result, null, 2)));
+    output(f(write(result)));
   }
   if (prettyprint) {
     const f = (focus === 'prettyprint') ? id : dim;
@@ -197,7 +197,7 @@ const answerAsync = async (input, {
   }
   if (label) {
     const f = (focus === 'label') ? id : dim;
-    output(f(await labelize.labelize(result)));
+    output(f(write(await labelize.labelize(result))));
   }
   if (format) {
     const formatted = await formatter.format(result, language);
