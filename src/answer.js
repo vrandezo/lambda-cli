@@ -14,7 +14,7 @@ const utils = require('./utils.js');
 
 const getResultValue = (zobject) => {
   if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
-    if ((zobject.Z22K2 === 'Z23') || (zobject.Z1K1.Z9K1 === 'Z23')) {
+    if ((zobject.Z22K2 === 'Z24') || (zobject.Z1K1.Z9K1 === 'Z24')) {
       return zobject.Z22K1;
     } else {
       return zobject.Z22K2;
