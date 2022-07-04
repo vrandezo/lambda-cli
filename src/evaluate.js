@@ -28,7 +28,7 @@ const evaluateAsync = async (zobject) => {
       res.on('end', () => {
         // TODO: what if not success
         resolve(JSON.parse(
-          JSON.parse(body).query.wikilambda_function_call.Orchestrated.data
+          JSON.parse(body).query.wikilambda_function_call.data
         ));
       });
     });
