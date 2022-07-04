@@ -12,12 +12,18 @@ const load = require('./load.js');
 const parse = require('./parse.js');
 const utils = require('./utils.js');
 
+// The result of an evaluation consists of a pair (Z22) of the real result and
+// some metadata. This functions returns the first element of the pair, except
+// when that element is void (Z24), indicating an error, in which case
+// it returns just the metadata.
 const getResultValue = (zobject) => {
+  // The first disjunct in each condition handles cannonical representation,
+  // the second normal representation.
   if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
-    if ((zobject.Z22K2 === 'Z24') || (zobject.Z1K1.Z9K1 === 'Z24')) {
-      return zobject.Z22K1;
-    } else {
+    if ((zobject.Z22K1 === 'Z24') || (zobject.Z22K1.Z9K1 === 'Z24')) {
       return zobject.Z22K2;
+    } else {
+      return zobject.Z22K1;
     }
   } else {
     return zobject;
