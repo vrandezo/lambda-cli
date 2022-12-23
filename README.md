@@ -37,23 +37,23 @@ The input may need to be escaped from the shell, e.g. if it includes
 parentheses or quotes or other special character.
 
 The following parameters are available:
---[no]tokens: shows the results of the tokenizer
---[no]delabel: shows the results of the delabeler
---[no]ast: shows the results of the parser
---[no]eval[uate]: performs an evaluation or not. The evaluation is
-  done on the wiki, not locally
---[no]raw: displays the raw result from the evaluation call
---[no]normal: normalizes the result
---[no]canonical: canonicalizes the result
---[no]prettyprint: prints the result in the format used in the data directory
---[no]label: replaces all ZIDs with labels
---[no]format: uses a formatter to show the result in an easier to read way
---[no]timer: displays how much time the call took
---file: followed by a path to a file to be loaded by the tool
---config: followed by a path to a config file (see below)
---language: followed by the language to use. Can be a ZID or a language code
---wiki: URL to a wiki, or a path to a local directory
---cache: path to a local directory
+- --[no]tokens: shows the results of the tokenizer
+- --[no]delabel: shows the results of the delabeler
+- --[no]ast: shows the results of the parser
+- --[no]eval[uate]: performs an evaluation or not. The evaluation is
+    done on the wiki, not locally
+- --[no]raw: displays the raw result from the evaluation call
+- --[no]normal: normalizes the result
+- --[no]canonical: canonicalizes the result
+- --[no]prettyprint: prints the result in the format used in the data directory
+- --[no]label: replaces all ZIDs with labels
+- --[no]format: uses a formatter to show the result in an easier to read way
+- --[no]timer: displays how much time the call took
+- --file: followed by a path to a file to be loaded by the tool
+- --config: followed by a path to a config file (see below)
+- --language: followed by the language to use. Can be a ZID or a language code
+- --wiki: URL to a wiki, or a path to a local directory
+- --cache: path to a local directory
 
 The input can be given in the following ways:
 - in JSON: whenever it starts with ", {, or [

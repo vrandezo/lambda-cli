@@ -1,6 +1,9 @@
 next steps:
 - figure out the current state as the code has moved on
+- run tests
 - the following things throw errors:
+lambda --label --language Z1004 Z4
+  and(true, false)
   string to list("abc")
   []
   Z6
