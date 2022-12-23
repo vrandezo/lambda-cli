@@ -63,7 +63,9 @@ const delabel = async (label) => {
       if (utils.stringNormalize(label) !== utils.stringNormalize(hit.label)) {
         continue;
       }
-      if (zids.includes(hit.page_title)) continue;
+      if (zids.includes(hit.page_title)) {
+        continue;
+      }
       zids.push(hit.page_title);
       const result = {
         [c.ObjectType]: 'ZSearchResult',

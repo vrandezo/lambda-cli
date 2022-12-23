@@ -12,7 +12,7 @@ QUnit.test('delabel English', async (assert) => {
   config.setWiki('files');
   load.resetAll();
   assert.deepEqual(
-    (await delabel.delabel('English'))[0][c.Key1],
+    (await delabel.delabel('English'))[1][c.Key1],
     c.English
   );
 });
@@ -22,7 +22,7 @@ QUnit.test('delabel english', async (assert) => {
   config.setWiki('files');
   load.resetAll();
   assert.deepEqual(
-    (await delabel.delabel('english'))[0][c.Key1],
+    (await delabel.delabel('english'))[1][c.Key1],
     c.English
   );
 });
@@ -32,7 +32,7 @@ QUnit.test('delabel IF', async (assert) => {
   config.setWiki('files');
   load.resetAll();
   assert.deepEqual(
-    (await delabel.delabel('IF'))[0][c.Key1],
+    (await delabel.delabel('IF'))[1][c.Key1],
     c.If
   );
 });
@@ -42,7 +42,7 @@ QUnit.test('delabel first element', async (assert) => {
   config.setWiki('files');
   load.resetAll();
   assert.deepEqual(
-    (await delabel.delabel('first element'))[0][c.Key1],
+    (await delabel.delabel('first element'))[1][c.Key1],
     c.FirstElement
   );
 });
@@ -52,7 +52,7 @@ QUnit.test('delabel firstelement', async (assert) => {
   config.setWiki('files');
   load.resetAll();
   assert.deepEqual(
-    (await delabel.delabel('firstelement'))[0][c.Key1],
+    (await delabel.delabel('firstelement'))[1][c.Key1],
     c.FirstElement
   );
 });

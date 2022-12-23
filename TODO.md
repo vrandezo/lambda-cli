@@ -1,6 +1,9 @@
 next steps:
 - the following things throw errors:
   [] (should be an error, it should be [ Z1 ])
+  [ Z6 ] (should not be an error)
+  [ Z10015, five ]
+  [ positive integer, zero, five ]
   [ Italian, "b" ] (should be an error, should be [ Z1, Italian, "b" ])
   [ Z6, "a", "b" ]
 
