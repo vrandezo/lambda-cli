@@ -1,5 +1,5 @@
 next steps:
-- why is boolean equality not defined on two booleans? (bug in wikilamda)
+- why is boolean equality not defined on two booleans? (bug in wikilambda)
 - typed list(string) - result looks wrong (bug in Wikilambda)
 - typed pair(string, boolean)<"a", true> - works! but result looks wrong
 - add tests for literal notation
