@@ -6,7 +6,7 @@ installation).
 lambda is usable as a CLI tool in two ways: either calling it for a specific
 command or in interactive mode.
 
-## installation
+## Installation
 
 Clone the lambda CLI and set up the dependencies:
 ```
