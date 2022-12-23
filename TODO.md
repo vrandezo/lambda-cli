@@ -1,12 +1,5 @@
 next steps:
 - figure out the current state as the code has moved on
-  Positive integer
-returns
-Type: PosInt
-  String: value
-should be
-Type: Positive integer
-  String: value
 
 - the following things throw errors:
 lambda --label --language Z1004 Z4
@@ -17,6 +10,14 @@ lambda --label --language Z1004 Z4
   [ Z6, "a", "b" ]
   add
   Typed list(string)
+
+  Positive integer
+returns
+Type: PosInt
+  String: value
+should be
+Type: Positive integer
+  String: value
 
 - formatter should be Positive integer<"2"> not Positive integer / value: "2"
 

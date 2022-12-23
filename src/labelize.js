@@ -20,7 +20,12 @@ const labelizeId = async (id) => {
       return id;
     }
     if (zobject.Z2K2.Z1K1 === 'Z4') {
+      let benjamin = true;
       for (const key of zobject.Z2K2.Z4K2) {
+        if (benjamin) {
+          benjamin = false;
+          continue;
+        }
         if (key.Z3K2 === id) {
           const label = utils.getLabel(key.Z3K3, config.language());
           return (label === null) ? id : label;
@@ -28,7 +33,12 @@ const labelizeId = async (id) => {
       }
     }
     if (zobject.Z2K2.Z1K1 === 'Z8') {
+      let benjamin = true;
       for (const key of zobject.Z2K2.Z8K1) {
+        if (benjamin) {
+          benjamin = false;
+          continue;
+        }
         if (key.Z17K2 === id) {
           const label = utils.getLabel(key.Z17K3, config.language());
           return (label === null) ? id : label;

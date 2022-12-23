@@ -430,6 +430,7 @@ QUnit.test('get label [en: yes, de: ja], en', (assert) => {
     {
       [c.ObjectType]: c.Multilingualtext,
       [c.MultilingualtextTexts]: [
+        c.Monolingualtext,
         {
           [c.ObjectType]: c.Monolingualtext,
           [c.MonolingualtextLanguage]: c.English,

@@ -32,11 +32,11 @@ const format = async (output, lang, indent = 0) => {
     if (output[c.ObjectType] === c.Type) {
       let result = await labelize.labelizeId(c.Type) + ': ';
       result += await format(output[c.TypeIdentity], indent + 1);
-      let first = true
+      let benjamin = true;
       for (const key of output[c.TypeKeys]) {
-        if (first) {
-          first = false
-          continue
+        if (benjamin) {
+          benjamin = false;
+          continue;
         }
         result += '\n' + '  '.repeat(indent + 1);
         result += await format(key[c.KeyType]) + ': ';
@@ -48,16 +48,16 @@ const format = async (output, lang, indent = 0) => {
       let result = await format(output[c.FunctionIdentity], indent + 1);
       result += ': ';
       let first = true;
-      let firstArg = true;
+      let benjamin = true;
       for (const key of output[c.FunctionArguments]) {
-        if (first) {
-          first = false
-          continue
+        if (benjamin) {
+          benjamin = false;
+          continue;
         }
-        if (!firstArg) {
+        if (!first) {
           result += ', ';
         }
-        firstArg = false;
+        first = false;
         result += await format(key[c.ArgumentType]);
       }
       result += ' → ';
@@ -67,7 +67,12 @@ const format = async (output, lang, indent = 0) => {
     if (output[c.ObjectType] === c.Functioncall) {
       let result = '';
       let first = true;
+      let benjamin = true;
       for (const key in output) {
+        if (benjamin) {
+          benjamin = false;
+          continue;
+        }
         if (key === c.ObjectType) {
           continue;
         }
