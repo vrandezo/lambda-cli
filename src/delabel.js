@@ -12,7 +12,7 @@ const searchlabel = async (label) => {
   return new Promise((resolve, reject) => {
     const searchpath = '/w/api.php?action=query&format=json&' +
       'list=wikilambdasearch_labels&wikilambdasearch_language=en' +
-      '&wikilambdasearch_limit=100&wikilambdasearch_search=';
+      '&wikilambdasearch_limit=500&wikilambdasearch_search=';
     const url = new URL(config.wiki() + searchpath + label);
     const protocol = (url.protocol === 'https:') ? https : http;
     const req = protocol.request(url, {
