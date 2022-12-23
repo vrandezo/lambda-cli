@@ -452,6 +452,7 @@ QUnit.test('get label [en: yes, de: ja], de', (assert) => {
     {
       [c.ObjectType]: c.Multilingualtext,
       [c.MultilingualtextTexts]: [
+        c.Monolingualtext,
         {
           [c.ObjectType]: c.Monolingualtext,
           [c.MonolingualtextLanguage]: c.English,
@@ -473,6 +474,7 @@ QUnit.test('get label [en: yes, de: ja], ar', (assert) => {
     {
       [c.ObjectType]: c.Multilingualtext,
       [c.MultilingualtextTexts]: [
+        c.Monolingualtext,
         {
           [c.ObjectType]: c.Monolingualtext,
           [c.MonolingualtextLanguage]: c.English,
@@ -493,7 +495,9 @@ QUnit.test('get label [], en', (assert) => {
   assert.strictEqual(utils.getLabel(
     {
       [c.Object_Type]: c.Multilingualtext,
-      [c.MultilingualtextTexts]: []
+      [c.MultilingualtextTexts]: [
+        c.Monolingualtext
+      ]
     },
     c.English
   ), null);
