@@ -149,7 +149,7 @@ const answerAsync = async (input, {
     }
   }
 
-  if (first === '[' || first === '{') {
+  if (first === '{') {
     call = JSON.parse(data);
   } else if (utils.isZid(data)) {
     call = await load.load(data).then(getPersistentobjectValue);

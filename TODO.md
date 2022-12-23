@@ -1,13 +1,184 @@
 next steps:
 - the following things throw errors:
-  [ Z6 ] (should not be an error)
-  throws Uncaught
-
   [ Z10015, five ]
   [] (should be an error, it should be [ Z1 ])
   [ positive integer, zero, five ]
   [ Italian, "b" ] (should be an error, should be [ Z1, Italian, "b" ])
   [ Z6, "a", "b" ]
+
+length of list([Z1, "a", "b"])
+length of list([Z6, "a", "b"])
+
+λ→ .canonicalize [Z6, "a"]
+[
+  {
+    "Z1K1": "Z4",
+    "Z4K1": "Z6",
+    "Z4K2": [
+      "Z3",
+      {
+        "Z1K1": "Z3",
+        "Z3K1": "Z6",
+        "Z3K2": "Z6K1",
+        "Z3K3": {
+          "Z1K1": "Z12",
+          "Z12K1": [
+            "Z11",
+            {
+              "Z1K1": "Z11",
+              "Z11K1": "Z1002",
+              "Z11K2": "value"
+            }
+          ]
+        }
+      }
+    ],
+    "Z4K3": "Z106"
+  },
+  "a"
+]
+658 ms
+λ→ .normalize [Z6, "a"]
+{
+  "Z1K1": {
+    "Z1K1": "Z9",
+    "Z9K1": "Z10"
+  },
+  "Z10K1": {
+    "Z1K1": {
+      "Z1K1": "Z9",
+      "Z9K1": "Z4"
+    },
+    "Z4K1": {
+      "Z1K1": "Z9",
+      "Z9K1": "Z6"
+    },
+    "Z4K2": {
+      "Z1K1": {
+        "Z1K1": "Z9",
+        "Z9K1": "Z10"
+      },
+      "Z10K1": {
+        "Z1K1": "Z9",
+        "Z9K1": "Z3"
+      },
+      "Z10K2": {
+        "Z1K1": {
+          "Z1K1": "Z9",
+          "Z9K1": "Z10"
+        },
+        "Z10K1": {
+          "Z1K1": {
+            "Z1K1": "Z9",
+            "Z9K1": "Z3"
+          },
+          "Z3K1": {
+            "Z1K1": "Z9",
+            "Z9K1": "Z6"
+          },
+          "Z3K2": {
+            "Z1K1": "Z6",
+            "Z6K1": "Z6K1"
+          },
+          "Z3K3": {
+            "Z1K1": {
+              "Z1K1": "Z9",
+              "Z9K1": "Z12"
+            },
+            "Z12K1": {
+              "Z1K1": {
+                "Z1K1": "Z9",
+                "Z9K1": "Z10"
+              },
+              "Z10K1": {
+                "Z1K1": "Z9",
+                "Z9K1": "Z11"
+              },
+              "Z10K2": {
+                "Z1K1": {
+                  "Z1K1": "Z9",
+                  "Z9K1": "Z10"
+                },
+                "Z10K1": {
+                  "Z1K1": {
+                    "Z1K1": "Z9",
+                    "Z9K1": "Z11"
+                  },
+                  "Z11K1": {
+                    "Z1K1": "Z9",
+                    "Z9K1": "Z1002"
+                  },
+                  "Z11K2": {
+                    "Z1K1": "Z6",
+                    "Z6K1": "value"
+                  }
+                },
+                "Z10K2": {
+                  "Z1K1": {
+                    "Z1K1": "Z9",
+                    "Z9K1": "Z10"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Z10K2": {
+          "Z1K1": {
+            "Z1K1": "Z9",
+            "Z9K1": "Z10"
+          }
+        }
+      }
+    },
+    "Z4K3": {
+      "Z1K1": "Z9",
+      "Z9K1": "Z106"
+    }
+  },
+  "Z10K2": {
+    "Z1K1": {
+      "Z1K1": "Z9",
+      "Z9K1": "Z10"
+    },
+    "Z10K1": {
+      "Z1K1": "Z6",
+      "Z6K1": "a"
+    },
+    "Z10K2": {
+      "Z1K1": {
+        "Z1K1": "Z9",
+        "Z9K1": "Z10"
+      }
+    }
+  }
+}
+669 ms
+λ→ [Z6, "a"]
+[
+  Type: String
+  String: null
+  "a"
+]
+680 ms
+
+λ→ .ast
+[
+  {
+    "Z1K1": "Z9",
+    "Z9K1": "Z6"
+  },
+  {
+    "Z1K1": "Z6",
+    "Z6K1": "a"
+  }
+]
+
+That is wrong. My guess is that the parsin of lists is wrong: [Z6, "a"] is read as given directly above, but it should be
+
+Typed list(Z6)<["a"]>
+
+That is probably an error in the list parser in the CLI.
 
 - formatter should be Positive integer<"2"> not Positive integer / value: "2"
 
