@@ -64,7 +64,12 @@ const sortZkids = (left, right) => {
 };
 
 const getLabel = (multitext, language) => {
+  let first = true
   for (const monotext of multitext[c.MultilingualtextTexts]) {
+    if (first) {
+      first = false
+      continue
+    }
     if (monotext[c.MonolingualtextLanguage] === language) {
       return monotext[c.MonolingualtextText];
     }

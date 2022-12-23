@@ -1,12 +1,20 @@
 next steps:
 - figure out the current state as the code has moved on
+  Positive integer
+returns
+Type: PosInt
+  String: value
+should be
+Type: Positive integer
+  String: value
+
 - the following things throw errors:
 lambda --label --language Z1004 Z4
   and(true, false)
   string to list("abc")
-  []
-  Z6
-  Positive integer
+  [] (should be an error, it should be [ Z1 ])
+  [ Italian, "b" ] (should be an error, should be [ Z1, Italian, "b" ])
+  [ Z6, "a", "b" ]
   add
   Typed list(string)
 
