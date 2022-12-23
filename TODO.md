@@ -1,4 +1,8 @@
 next steps:
+- figure out the current state as the code has moved on
+- remove notwikilambda and add wikifunctions beta
+
+next steps:
 - why is boolean equality not defined on two booleans? (bug in wikilambda)
 - typed list(string) - result looks wrong (bug in Wikilambda)
 - typed pair(string, boolean)<"a", true> - works! but result looks wrong
