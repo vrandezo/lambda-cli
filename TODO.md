@@ -1,19 +1,15 @@
 next steps:
-- figure out the current state as the code has moved on
-
 - the following things throw errors:
-lambda --label --language Z1004 Z4
-  and(true, false)
   [] (should be an error, it should be [ Z1 ])
   [ Italian, "b" ] (should be an error, should be [ Z1, Italian, "b" ])
   [ Z6, "a", "b" ]
-  add
-  Typed list(string)
 
 - formatter should be Positive integer<"2"> not Positive integer / value: "2"
 
-  string to list("abc")
   funny formatting
+
+  string to list("abc")
+  Typed list(string)
 
 
 next steps:
