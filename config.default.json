@@ -5,8 +5,6 @@
 	"cache": "./cache/",
 	"wiki": {
 		"beta": "https://wikifunctions.beta.wmflabs.org",
-		"notwikilambda": "https://notwikilambda.toolforge.org",
-		"nwl": "https://notwikilambda.toolforge.org",
 		"local": "http://localhost:8080",
 		"files": "./function-schemata/data/definitions/$1.json"
 	},

@@ -1,6 +1,14 @@
 next steps:
 - figure out the current state as the code has moved on
-- remove notwikilambda and add wikifunctions beta
+- the following things throw errors:
+  string to list("abc")
+  []
+  Z6
+  Positive integer
+  add
+  Typed list(string)
+
+- formatter should be Positive integer<"2"> not Positive integer / value: "2"
 
 next steps:
 - why is boolean equality not defined on two booleans? (bug in wikilambda)
