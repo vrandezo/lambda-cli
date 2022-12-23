@@ -80,9 +80,9 @@ const format = async (output, lang, indent = 0) => {
     if (output[c.ObjectType] === c.Boolean) {
       return await format(output[c.BooleanValue], indent);
     }
-    //if (Object.keys(output).length === 2) {
-    //  return await format(output[Object.keys(output)[1]], indent);
-    //}
+    // if (Object.keys(output).length === 2) {
+    //   return await format(output[Object.keys(output)[1]], indent);
+    // }
     let typeid = '';
     if (utils.isZid(output[c.ObjectType])) {
       typeid = output[c.ObjectType];
