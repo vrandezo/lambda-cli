@@ -1,8 +1,10 @@
 next steps:
 - the following things throw errors:
-  [] (should be an error, it should be [ Z1 ])
   [ Z6 ] (should not be an error)
+  throws Uncaught
+  
   [ Z10015, five ]
+  [] (should be an error, it should be [ Z1 ])
   [ positive integer, zero, five ]
   [ Italian, "b" ] (should be an error, should be [ Z1, Italian, "b" ])
   [ Z6, "a", "b" ]

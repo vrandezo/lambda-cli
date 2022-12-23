@@ -459,9 +459,9 @@ QUnit.test('parse firstelement', async (assert) => {
   );
 });
 
-QUnit.test('parse Z811(["string"])', async (assert) => {
+QUnit.test('parse Z811([Z6, "string"])', async (assert) => {
   assert.deepEqual(
-    await parse.parseAsync('Z811(["string"])'),
+    await parse.parseAsync('Z811([Z6, "string"])'),
     {
       [c.ObjectType]: c.Functioncall,
       [c.FunctioncallFunction]: {
@@ -469,6 +469,10 @@ QUnit.test('parse Z811(["string"])', async (assert) => {
         [c.ReferenceValue]: c.FirstElement
       },
       [c.FirstElementArg]: [
+        {
+          [c.ObjectType]: c.Reference,
+          [c.ReferenceValue]: c.String
+        },
         {
           [c.ObjectType]: c.String,
           [c.StringValue]: 'string'
