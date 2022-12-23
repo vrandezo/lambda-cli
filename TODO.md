@@ -2,7 +2,7 @@ next steps:
 - the following things throw errors:
   [ Z6 ] (should not be an error)
   throws Uncaught
-  
+
   [ Z10015, five ]
   [] (should be an error, it should be [ Z1 ])
   [ positive integer, zero, five ]

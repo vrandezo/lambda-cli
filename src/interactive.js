@@ -23,11 +23,17 @@ const write = (input) => {
 };
 
 const evalinput = async (command, context, file, callback) => {
-  lastcommand = command;
-  lastcall = JSON.stringify(
-    await answer.answerAsync(command, { last: lastcall }),
-    null, 2);
-  callback(null, lastcall);
+  try {
+    lastcommand = command;
+    lastcall = JSON.stringify(
+      await answer.answerAsync(command, { last: lastcall }),
+      null, 2);
+    callback(null, lastcall);
+  } catch (error) {
+    console.log('Error in the lambda CLI');
+    console.log(error);
+    callback(null, lastcall);
+  }
 };
 
 const interactive = () => {
