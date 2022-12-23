@@ -207,12 +207,12 @@ const delabelAsync = async (tokens) => {
       continue;
     }
     const delabelCallToken = await delabel.delabel(token[c.TokenValue], 'en');
-    if (delabelCallToken.length !== 1) {
+    if (delabelCallToken.length !== 2) {
       result.push(token);
       continue;
     }
-    const callZid = delabelCallToken[0][c.Key1];
-    const callType = delabelCallToken[0][c.Key2];
+    const callZid = delabelCallToken[1][c.Key1];
+    const callType = delabelCallToken[1][c.Key2];
     token[c.TokenZid] = callZid;
     token[c.TokenZidType] = callType;
     result.push(token);

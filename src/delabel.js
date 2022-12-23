@@ -53,24 +53,30 @@ const delabel = async (label) => {
   const normal = utils.stringNormalize(label);
 
   if (!(normal in labelmap)) {
-    const results = [];
+    const results = [ 'ZSearchResult' ];
     if (config.isLocal()) {
       return results;
     }
     const hits = await searchlabel(label);
+    const zids = [];
     for (const hit of hits) {
       if (utils.stringNormalize(label) !== utils.stringNormalize(hit.label)) {
         continue;
       }
+      if (zids.includes(hit.page_title)) continue;
+      zids.push(hit.page_title);
       const result = {
         [c.ObjectType]: 'ZSearchResult',
         [c.Key1]: hit.page_title,
         [c.Key2]: hit.page_type,
-        [c.Key3]: [{
-          [c.ObjectType]: c.Monolingualtext,
-          [c.MonolingualtextLanguage]: config.language(),
-          [c.MonolingualtextText]: hit.label
-        }]
+        [c.Key3]: [
+          c.Monolingualtext,
+          {
+            [c.ObjectType]: c.Monolingualtext,
+            [c.MonolingualtextLanguage]: config.language(),
+            [c.MonolingualtextText]: hit.label
+          }
+        ]
       };
       results.push(result);
     }
@@ -79,17 +85,20 @@ const delabel = async (label) => {
 
   const hits = labelmap[normal];
 
-  const results = [];
+  const results = [ 'ZSearchResult' ];
   for (const hit of hits) {
     const result = {
       [c.ObjectType]: 'ZSearchResult',
       [c.Key1]: hit[0],
       [c.Key2]: hit[1],
-      [c.Key3]: [{
-        [c.ObjectType]: c.Monolingualtext,
-        [c.MonolingualtextLanguage]: config.language(),
-        [c.MonolingualtextText]: hit[3]
-      }]
+      [c.Key3]: [
+        c.Monolingualtext,
+        {
+          [c.ObjectType]: c.Monolingualtext,
+          [c.MonolingualtextLanguage]: config.language(),
+          [c.MonolingualtextText]: hit[3]
+        }
+      ]
     };
     results.push(result);
   }

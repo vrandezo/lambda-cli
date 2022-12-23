@@ -4,22 +4,17 @@ next steps:
 - the following things throw errors:
 lambda --label --language Z1004 Z4
   and(true, false)
-  string to list("abc")
   [] (should be an error, it should be [ Z1 ])
   [ Italian, "b" ] (should be an error, should be [ Z1, Italian, "b" ])
   [ Z6, "a", "b" ]
   add
   Typed list(string)
 
-  Positive integer
-returns
-Type: PosInt
-  String: value
-should be
-Type: Positive integer
-  String: value
-
 - formatter should be Positive integer<"2"> not Positive integer / value: "2"
+
+  string to list("abc")
+  funny formatting
+
 
 next steps:
 - why is boolean equality not defined on two booleans? (bug in wikilambda)
