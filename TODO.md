@@ -1,16 +1,30 @@
-- the following things throw errors:
+== bugs in Wikifunctions that need to be filed ==
+the following things throw errors:
   [ Z10015, five ]
   [ positive integer, five ]
   [ positive integer, zero, five ]
   [ positive integer, add( positive integer<"2">, positive integer<"2"> ) ]
 this works, though:
   [ positive integer, positive integer<"5"> ]
+  [ positive integer ]
+  [ string ]
+  [ string, "a" ]
+  [ string, "a", "b" ]
+  [ string, "a", "b", concatenate("c", "d") ]
+  [ string, "a", "b", concatenate("c", "d"), gello string ]
 
-length of list([Z1, "a", "b"])
-length of list([Z6, "a", "b"])
+the following throws errors:
+  length of list([Z1, "a", "b"])
+  length of list([Z6, "a", "b"])
+this works though:
+  length of list([string ])
+  length of list(string to list ("abc"))
+  length of list([ Z1 ])
+  length of list([ ])
 
 - the following should have been a "cannot delabel reference 'one'"
 λ→ Z10058(zero, one)
+instead I get
 Error
   error type: "expected closing"
   error value: [
@@ -27,9 +41,19 @@ Error
 ]
 330 ms
 
-next steps:
-- typed list(string) - result looks wrong (bug in Wikilambda)
-- typed pair(string, boolean)<"a", true> - works! but result looks wrong
+== minor fixes ==
+λ→ Z13
+[Object
+]
+should be
+[Object]
+
+λ→ typed pair(string, boolean)<"a", true>
+[object Object]<"a", true>
+should be
+Typed pair(String, Boolean)<"a", true>
+
+== next steps ==
 - add tests for literal notation
 - add documentation for literal notation
 - check if generics work, re parsing, both functions and types
@@ -53,7 +77,7 @@ next steps:
 - works a little:
 -- wellformed
 
-previous next steps:
+== previous next steps ==
 -- parse / delabel / labelmap in load
 - how to manage labelmap state in different languages and endpoints
 - use search instead of labelmap for remote endpoints
