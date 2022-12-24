@@ -9,16 +9,25 @@ this works, though:
 length of list([Z1, "a", "b"])
 length of list([Z6, "a", "b"])
 
-- formatter should be Positive integer<"2"> not Positive integer / value: "2"
-
-  funny formatting
-
-  string to list("abc")
-  Typed list(string)
-- formatter for string should just be string, not the whole type declaration
+- the following should have been a "cannot delabel reference 'one'"
+λ→ Z10058(zero, one)
+Error
+  error type: "expected closing"
+  error value: [
+  undefined
+  K1: "ZSeparator"
+  K2: "12"
+  undefined
+  K1: "ZSymbol"
+  K2: "13"
+  K3: "one"
+  undefined
+  K1: "ZCloseArg"
+  K2: "17"
+]
+330 ms
 
 next steps:
-- why is boolean equality not defined on two booleans? (bug in wikilambda)
 - typed list(string) - result looks wrong (bug in Wikilambda)
 - typed pair(string, boolean)<"a", true> - works! but result looks wrong
 - add tests for literal notation
@@ -27,6 +36,7 @@ next steps:
 - full underscore implementation
 - have a test dataset in test that is used for tests instead of the real
   data in function-schemata. Use this to also test several languages
+- some way to show type declaration?
 
 - tests
 -- normalize
