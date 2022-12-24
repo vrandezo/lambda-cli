@@ -17,6 +17,12 @@ const utils = require('./utils.js');
 // when that element is void (Z24), indicating an error, in which case
 // it returns just the metadata.
 const getResultValue = (zobject) => {
+  if (utils.isArray(zobject)) {
+    return zobject;
+  }
+  if (utils.isString(zobject)) {
+    return zobject;
+  }
   // The first disjunct in each condition handles cannonical representation,
   // the second normal representation.
   if ((zobject.Z1K1 === 'Z22') || (zobject.Z1K1.Z9K1 === 'Z22')) {
