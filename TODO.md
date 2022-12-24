@@ -1,4 +1,4 @@
-== bugs in Wikifunctions that need to be filed ==
+# bugs in Wikifunctions that need to be filed
 the following things throw errors:
   [ Z10015, five ]
   [ positive integer, five ]
@@ -41,7 +41,7 @@ Error
 ]
 330 ms
 
-== minor fixes ==
+# minor fixes
 λ→ Z13
 [Object
 ]
@@ -53,7 +53,7 @@ should be
 should be
 Typed pair(String, Boolean)<"a", true>
 
-== next steps ==
+# next steps
 - add tests for literal notation
 - add documentation for literal notation
 - check if generics work, re parsing, both functions and types
@@ -77,7 +77,7 @@ Typed pair(String, Boolean)<"a", true>
 - works a little:
 -- wellformed
 
-== previous next steps ==
+# previous next steps
 -- parse / delabel / labelmap in load
 - how to manage labelmap state in different languages and endpoints
 - use search instead of labelmap for remote endpoints
