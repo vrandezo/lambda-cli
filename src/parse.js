@@ -25,7 +25,7 @@ const escapeInSymbolFuture = '{}@!&^?#;:';
 
 const tokenize = (input) => {
   let token = '';
-  const tokens = [];
+  const tokens = [ c.Token ];
   let currentPosition = 0;
   let position = 1;
   let insideString = false;
@@ -192,7 +192,12 @@ const error = (message, tokens) => {
 
 const delabelAsync = async (tokens) => {
   const result = [];
+  let benjamin = true;
   for (const token of tokens) {
+    if (benjamin) {
+      benjamin = false;
+      continue;
+    }
     if (token[c.TokenType] !== POTENTIALREFERENCE) {
       result.push(token);
       continue;

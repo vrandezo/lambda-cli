@@ -9,6 +9,7 @@ QUnit.test('tokenize symbol', (assert) => {
   assert.deepEqual(
     parse.tokenize('symbol'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -23,6 +24,7 @@ QUnit.test('tokenize   symbol', (assert) => {
   assert.deepEqual(
     parse.tokenize('  symbol'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -37,6 +39,7 @@ QUnit.test('tokenize symbol ', (assert) => {
   assert.deepEqual(
     parse.tokenize('symbol '),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -51,6 +54,7 @@ QUnit.test('tokenize "string""', (assert) => {
   assert.deepEqual(
     parse.tokenize('"string"'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZString',
@@ -65,6 +69,7 @@ QUnit.test('tokenize "st ring""', (assert) => {
   assert.deepEqual(
     parse.tokenize('"st ring"'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZString',
@@ -79,6 +84,7 @@ QUnit.test('tokenize Z4', (assert) => {
   assert.deepEqual(
     parse.tokenize('Z4'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -93,6 +99,7 @@ QUnit.test('tokenize Z801("string")', (assert) => {
   assert.deepEqual(
     parse.tokenize('Z801("string")'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -123,6 +130,7 @@ QUnit.test('tokenize if(true, false, true)', (assert) => {
   assert.deepEqual(
     parse.tokenize('if(true, false, true)'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -175,6 +183,7 @@ QUnit.test('tokenize if(true ,false, true )', (assert) => {
   assert.deepEqual(
     parse.tokenize('if(true ,false, true )'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
@@ -227,6 +236,7 @@ QUnit.test('tokenize []', (assert) => {
   assert.deepEqual(
     parse.tokenize('[]'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZOpenList',
@@ -245,6 +255,7 @@ QUnit.test('tokenize [one]', (assert) => {
   assert.deepEqual(
     parse.tokenize('[one]'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZOpenList',
@@ -269,6 +280,7 @@ QUnit.test('tokenize [one, two]', (assert) => {
   assert.deepEqual(
     parse.tokenize('[one, two]'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZOpenList',
@@ -304,6 +316,7 @@ QUnit.test('tokenize Z801(one, [two, "string"], f(Z42))', (assert) => {
   assert.deepEqual(
     parse.tokenize('Z801(one, [two, "string"], f(Z42))'),
     [
+      c.Token,
       {
         [c.ObjectType]: c.Token,
         [c.TokenType]: 'ZSymbol',
