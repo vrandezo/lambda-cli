@@ -86,6 +86,10 @@ const load = (settings) => {
   if ('timer' in settings) {
     config.timer = settings.timer;
   }
+  config.metadata = false;
+  if ('metadata' in settings) {
+    config.metadata = settings.metadata;
+  }
   config.loaded = true;
 };
 
@@ -271,6 +275,16 @@ const setTimer = (b) => {
   config.timer = b;
 };
 
+const metadata = () => {
+  ensureLoaded();
+  return config.metadata;
+};
+
+const setMetadata = (b) => {
+  ensureLoaded();
+  config.metadata = b;
+};
+
 exports.load = load;
 exports.reset = reset;
 exports.language = language;
@@ -304,4 +318,6 @@ exports.format = format;
 exports.setFormat = setFormat;
 exports.timer = timer;
 exports.setTimer = setTimer;
+exports.metadata = metadata;
+exports.setMetadata = setMetadata;
 exports.version = version;

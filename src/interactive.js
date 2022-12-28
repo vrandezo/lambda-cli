@@ -473,6 +473,31 @@ const interactive = () => {
       }
     }
   );
+
+  cli.defineCommand(
+    'metadata', {
+      help: 'displays metadata from orchestrator after each command; set on or off',
+      action(input) {
+        this.clearBufferedCommand();
+        if (input === '') {
+          if (config.metadata()) {
+            console.log('on');
+          } else {
+            console.log('off');
+          }
+        } else {
+          if (input === 'on') {
+            config.setMetadata(true);
+          } else if (input === 'off') {
+            config.setMetadata(false);
+          } else {
+            console.log('unknown value, can only be on or off');
+          }
+        }
+        this.displayPrompt();
+      }
+    }
+  );
 };
 
 exports.interactive = interactive;

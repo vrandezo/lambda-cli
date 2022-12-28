@@ -18,5 +18,6 @@
 	"prettyprint": false,
 	"label": false,
 	"format": true,
-	"timer": false
+	"timer": false,
+	"metadata": false
 }

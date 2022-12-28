@@ -49,6 +49,7 @@ The following parameters are available:
 - --[no]label: replaces all ZIDs with labels
 - --[no]format: uses a formatter to show the result in an easier to read way
 - --[no]timer: displays how much time the call took
+- --[no]metadata: displays the metadata from the call
 - --file: followed by a path to a file to be loaded by the tool
 - --config: followed by a path to a config file (see below)
 - --language: followed by the language to use. Can be a ZID or a language code
@@ -109,6 +110,7 @@ The interactive shell has the following magic features:
   the WikiLambda repository
 - .labelize: use a writer that shows the canonical version but labelized
 - .timer: switch the timer on or off
+- .metadata: switch the metadata on or off
 - .wiki: URL of the wiki, or a local path to the data
 - .label: if a ZID, returns the label, if a label, returns all matching ZIDs
   with their types.
@@ -144,6 +146,7 @@ The following configuration keys are just booleans, either true or false.
 - label: replaces all ZIDs with labels
 - format: uses a formatter to show the result in an easier to read way
 - timer: displays how much time the call took
+- metadata: displays the metadata from the function call
 
 The configuration can be overriden through command line arguments which have
 the same name but are prefixed by a -- and preceded by a "no" if meant

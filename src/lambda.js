@@ -127,6 +127,14 @@ let input = null;
         config.setTimer(false);
         continue;
       }
+      if (v === '--metadata') {
+        config.setMetadata(true);
+        continue;
+      }
+      if (v === '--nometadata') {
+        config.setMetadata(false);
+        continue;
+      }
       console.log('Unknown argument: ' + v);
       process.exit(1);  // eslint-disable-line no-process-exit
     }

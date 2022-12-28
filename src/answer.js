@@ -67,7 +67,8 @@ const answerAsync = async (input, {
   label = null,
   format = null,
   focus = null,
-  timer = null
+  timer = null,
+  metadata = null
 } = {}) => {
   if (output === null) {
     output = console.log;
@@ -110,6 +111,9 @@ const answerAsync = async (input, {
   }
   if (timer === null) {
     timer = config.timer();
+  }
+  if (metadata === null) {
+    metadata = config.metadata();
   }
   const starttime = Date.now();
   const data = input.trim();
@@ -190,6 +194,7 @@ const answerAsync = async (input, {
     const f = (focus === 'raw') ? id : dim;
     output(f(write(result)));
   }
+  const fullresult = result;
   if (!meta) {
     result = getResultValue(result);
   }
@@ -218,6 +223,18 @@ const answerAsync = async (input, {
   }
   if (config.timer()) {
     output(dim(`${Date.now() - starttime} ms`));
+  }
+  if (config.metadata()) {
+    if ('Z22K2' in fullresult) {
+      let first = true;
+      for (const datum of fullresult.Z22K2.K1) {
+        if (first) {
+          first = false;
+          continue;
+        }
+        output(dim(datum.K1 + ': ' + datum.K2));
+      }
+    }
   }
   return result;
 };
