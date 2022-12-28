@@ -27,7 +27,7 @@ const evaluateAsync = async (zobject) => {
 
       res.on('end', () => {
         // TODO: what if not success
-        const obj = JSON.parse(body)
+        const obj = JSON.parse(body);
         if ('query' in obj) {
           resolve(JSON.parse(obj.query.wikilambda_function_call.data));
         } else {
