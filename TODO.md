@@ -1,4 +1,7 @@
 # bugs in Wikifunctions that need to be filed
+editing the label of Z10376 seems to take down stuff???
+-- probably because the resursive test is very heavy and takes the orchestrator down
+
 the following things throw errors:
   [ Z10015, five ]
   [ positive integer, five ]

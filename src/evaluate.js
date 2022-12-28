@@ -27,9 +27,16 @@ const evaluateAsync = async (zobject) => {
 
       res.on('end', () => {
         // TODO: what if not success
-        resolve(JSON.parse(
-          JSON.parse(body).query.wikilambda_function_call.data
-        ));
+        const obj = JSON.parse(body)
+        if ('query' in obj) {
+          resolve(JSON.parse(obj.query.wikilambda_function_call.data));
+        } else {
+          reject({
+            Z1K1: 'Z5',
+            Z5K1: 'API error',
+            Z5K2: obj
+          });
+        }
       });
     });
 
